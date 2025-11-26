@@ -1,0 +1,25 @@
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 19px;
+    width: 100%;
+    text-align: left;
+}
+
+button {
+    width: 100%;
+}
+
+a {
+    color: #2A73B7;
+    font-weight: bold;
+}
+
+#forgotpass {
+    align-self: flex-end;
+    color: #8E8E93;
+}
+
+#passreq {
+    align-self: flex-start;
+}

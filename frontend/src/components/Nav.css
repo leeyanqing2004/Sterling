@@ -1,18 +1,27 @@
 .nav {
+    /* Decorations */
     background-color: white;
 }
 
 .nav-list {
+    /* Spacing */
+    margin: 0px;
+
+    /* Layout */
     display: flex;
     justify-content: center;
+
+    /* Decorations */
     list-style: none;
 }
 
 .nav-list-item {
+    /* Spacing */
     padding: 20px 30px;
 }
 
 .nav-list-item-link {
+    /* Decorations */
     color: black;
     text-decoration: none;
 }

@@ -1,3 +1,56 @@
+.menu {
+    /* Layout */
+    display: flex;
+    flex-direction: column;
+
+    /* Spacing */
+    padding: 0.25em;
+    gap: 0.25em;
+
+    /* Decorations */
+    border: none;
+    background: none;
+}
+
+.menu-bar {
+    /* Sizes */
+    width: 16px;
+    height: 2px;
+
+    /* Decorations */
+    background: #7d7d7d;
+    border-radius: 3px;
+}
+
+.left-top {
+    /* Layout */
+    display: flex;
+    flex-direction: column;
+
+    /* Spacing */
+    padding: 30px;
+}
+
+.left-middle {
+    /* Layout */
+    display: flex;
+    flex-direction: column;
+}
+
+.left-bottom {
+    /* Layout */
+    display: flex;
+    flex-direction: column;
+}
+
+.logout-button {
+    /* Decorations */
+    color: #2A73B7;
+    background: none;
+    border: none;
+}
+
 .left-nav {
+    /* Decorations */
     background-color: white;
 }

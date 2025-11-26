@@ -1,33 +1,43 @@
 #nav {
+    /* Layout */
     grid-area: nav;
 }
 
 #left-nav {
+    /* Layout */
     grid-area: left-nav;
 }
 
 #account-info {
+    /* Layout */
     display: grid;
     grid-template-columns: 1fr auto;
     grid-template-areas: "profile-section account-section";
 }
 
 #profile-section {
+    /* Layout */
     grid-area: profile-section;
 }
 
 #account-section {
+    /* Layout */
     grid-area: account-section;
 }
 
 #grid-container {
+    /* Layout */
     display: grid;
-    width: 100vw;
-    height: 100vh;
     grid-template-columns: auto 1fr;
     grid-template-rows: auto 1fr;
     grid-template-areas: 
         "nav  nav"
         "left-nav account-info";
+
+    /* Sizes */
+    width: 100vw;
+    height: 100vh;
+
+    /* Decorations */
     background-color: #f7f7f7;
 }

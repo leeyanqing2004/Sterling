@@ -1,0 +1,11 @@
+.page-button {
+    /* Spacing */
+    padding: 1em;
+
+    /* Text */
+    font-weight: bold;
+
+    /* Decoration */
+    border: none;
+    background: none;
+}

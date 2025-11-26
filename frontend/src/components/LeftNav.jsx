@@ -1,6 +1,14 @@
 import PageButton from "./PageButton.jsx";
 import './LeftNav.css';
 
+function Menu() {
+    return  <button className="menu">
+                <span className="menu-bar"></span>
+                <span className="menu-bar"></span>
+                <span className="menu-bar"></span>
+            </button>
+}
+
 function LeftTop() {
     const profilePicture = <img src="/profile.png" alt="Profile Picture" />;
     const userInfo = <div className="user-info">
@@ -57,6 +65,7 @@ function LeftBottom() {
 
 function LeftNav({ id }) {
     return <div id={id} className="left-nav">
+        {Menu()}
         {LeftTop()}
         {LeftMiddle()}
         {LeftBottom()}

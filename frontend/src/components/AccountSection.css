@@ -1,8 +1,12 @@
 .account-section {
-    background-color: white;
-    margin: 20px;
+    /* Spacing */
+    margin: 20px 20px 20px 0px;
 }
 
-.account-details {
-    margin: 30px;
+.account-container {
+    /* Decorations */
+    background-color: white;
+    
+    /* Spacing */
+    padding: 30px;
 }

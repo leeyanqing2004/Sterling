@@ -1,8 +1,71 @@
-.profile-section {
-    background-color: white;
-    margin: 20px 20px 180px 20px;
+.profile-field {
+    /* Layout */
+    display: flex;
+    flex-direction: column;
+
+    /* Spacing */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    gap: 0.5em;
 }
 
-.profile-details {
-    margin: 30px;
+.profile-field-input {
+    /* Spacing */
+    padding: 1em;
+
+    /* Decorations */
+    color: #e5e5ea;
+    background-color: #fafafa;
+    border-color: #e5e5ea;
+    border-radius: 0.5em;
+    opacity: 1;
+}
+
+.image-settings {
+    /* Layout */
+    display: flex;
+
+    /* Spacing */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+.new-image-button, .remove-image-button {
+    /* Spacing */
+    padding: 1em;
+
+    /* Decorations */
+    border-radius: 0.5em;
+    opacity: 1;
+    color: #e5e5ea;
+    background-color: #fafafa;
+    border-color: #e5e5ea;
+}
+
+.public-settings {
+    /* Layout */
+    display: flex;
+
+    /* Spacing */
+    gap: 20px;
+}
+
+.profile-section {
+    /* Spacing */
+    margin: 20px;
+}
+
+.account-security {
+    /* Spacing */
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.profile-container {
+    /* Decorations */
+    background-color: white;
+
+    /* Spacing */
+    padding: 30px;
 }

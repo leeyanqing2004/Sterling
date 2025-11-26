@@ -1,3 +1,7 @@
+body {
+    font-family: system-ui;
+}
+
 /* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

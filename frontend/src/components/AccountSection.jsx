@@ -1,5 +1,7 @@
-function AccountSection() {
-    return <div className="account-section">
+import "./AccountSection.css";
+
+function AccountSection({ id }) {
+    return <div id={id} className="account-section">
                 <div className="account-details">
                     <div className="profile-settings">
                         <h2>Account Details</h2>
@@ -20,7 +22,7 @@ function AccountSection() {
                             <p>Not Verified</p>
                         </div>
                     </div>
-                </div>;
+                </div>
     </div>;
 }
 

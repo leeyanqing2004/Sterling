@@ -1,3 +1,33 @@
-div {
+#nav {
+    grid-area: nav;
+}
+
+#left-nav {
+    grid-area: left-nav;
+}
+
+#account-info {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "profile-section account-section";
+}
+
+#profile-section {
+    grid-area: profile-section;
+}
+
+#account-section {
+    grid-area: account-section;
+}
+
+#grid-container {
+    display: grid;
+    width: 100vw;
+    height: 100vh;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas: 
+        "nav  nav"
+        "left-nav account-info";
     background-color: #f7f7f7;
 }

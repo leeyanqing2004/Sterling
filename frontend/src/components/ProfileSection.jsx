@@ -1,3 +1,5 @@
+import "./ProfileSection.css";
+
 function ProfileField({ type, label }) {
     return  <div className="profile-field">
                 <label htmlFor={label}>{label}</label>
@@ -5,8 +7,8 @@ function ProfileField({ type, label }) {
             </div>;
 }
 
-function ProfileSection() {
-    return  <div className="profile-section">
+function ProfileSection({ id }) {
+    return  <div id={id} className="profile-section">
                 <div className="profile-details">
                     <div className="public-settings">
                         <h2>My Profile</h2>
@@ -22,8 +24,8 @@ function ProfileSection() {
                         <ProfileField type="password" label="Password" />
                         <button className="change-password-button">Change Password</button>
                     </div>
+                    <button className="button-edit">Edit</button>
                 </div>
-                <button className="button-edit">Edit</button>
             </div>;
 }
 

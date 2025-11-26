@@ -9,7 +9,7 @@ function LeftTop() {
             <p className="UTORid">1234567890</p>
             <p className="user-role">Regular User</p>
         </div>
-    </div>
+    </div>;
 
     return <div className="left-top">
         {profilePicture}
@@ -51,12 +51,12 @@ function LeftBottom() {
     return <div className="left-bottom">
         <button className="logout-button">
             Logout
-        </button>;
-    </div>
+        </button>
+    </div>;
 }
 
-function LeftNav() {
-    return <div className="left-nav">
+function LeftNav({ id }) {
+    return <div id={id} className="left-nav">
         {LeftTop()}
         {LeftMiddle()}
         {LeftBottom()}

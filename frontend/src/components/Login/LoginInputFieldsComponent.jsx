@@ -1,6 +1,7 @@
 import OneInputComponent from "../InputForm/OneInputComponent.jsx";
 import PrimaryButtonComponent from "../Buttons/PrimaryButtonComponent.jsx";
-import PasswordRequirements from "../PasswordRequirements/PasswordRequirements.jsx";
+import PasswordRequirements from "../PasswordRequirements/PasswordRequirements.jsx"
+import Error from "../ErrorMessage/ErrorMessage.jsx"
 import styles from './LoginInputFieldsComponent.module.css';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
@@ -45,6 +46,7 @@ export default function InputFields({ pageType, setPageType }){
                     <form onSubmit={handleLogin}>
                         <OneInputComponent inputName="Utorid" inputType="text" required={true} onChange={(e) => setInputUtorid(e.target.value)}/>
                         <OneInputComponent inputName="Password" inputType="password" required={true} onChange={(e) => setInputPassword(e.target.value)}/>
+                        {error && Error(error)}
                         <a id={styles.forgotpass} href="#" onClick={() => setPageType("forgotPassword")}>Forgot Password?</a>
                         <PrimaryButtonComponent type="submit">Sign In</PrimaryButtonComponent>
                         <p>Don't have an account?{" "} <a href="#" onClick={() => setPageType("createAccount")}>Register</a></p>
@@ -62,6 +64,7 @@ export default function InputFields({ pageType, setPageType }){
                 <>
                     <form onSubmit={handleForgotPassword}>
                         <OneInputComponent inputName="Utorid" inputType="text" required={true} onChange={(e) => setInputUtorid(e.target.value)}/>
+                        {error && Error(error)}
                         <PrimaryButtonComponent type="submit">Get Code</PrimaryButtonComponent>
                     </form>
                 </>
@@ -114,6 +117,7 @@ export default function InputFields({ pageType, setPageType }){
                         <OneInputComponent inputName="Name" inputType="text" required={true} onChange={(e) => setInputName(e.target.value)}/>
                         <OneInputComponent inputName="Utorid" inputType="text" required={true} onChange={(e) => setInputUtorid(e.target.value)}/>
                         <OneInputComponent inputName="Email" inputType="email" required={true} onChange={(e) => setInputEmail(e.target.value)}/>
+                        {error && Error(error)}
                         <PrimaryButtonComponent type="submit">Create Account</PrimaryButtonComponent>
                     </form>
                 </>

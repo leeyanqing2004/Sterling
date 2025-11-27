@@ -106,7 +106,7 @@ export const AuthProvider = ({ children }) => {
             const data = await response.json();
 
             if (!response.ok) {
-                return data.message || "Login failed"
+                return data.error || "Login failed."
             }
 
             const token = data.token;
@@ -148,7 +148,7 @@ export const AuthProvider = ({ children }) => {
             const data = await response.json();
 
             if (!response.ok) {
-                return data.message || "No account exists with this Utorid."
+                return data.error || "No account exists with this Utorid."
             }
 
             navigate("/login", { state: { pageType: "emailSent" } });
@@ -174,7 +174,7 @@ export const AuthProvider = ({ children }) => {
             const data = await response.json();
 
             if (!response.ok) {
-                return data.message || "Reset password failed."
+                return data.error || "Reset password failed."
             }
 
             navigate("/login", { state: { pageType: "passwordChanged" } });
@@ -207,7 +207,7 @@ export const AuthProvider = ({ children }) => {
             const newUserData = await newUserRes.json()
 
             if (!newUserRes.ok) {
-                return newUserData.message || "Utorid or email already in use."
+                return newUserData.error || "Utorid or email already in use."
             }
 
             setUser(newUserData);
@@ -224,7 +224,7 @@ export const AuthProvider = ({ children }) => {
             const resetToken = data.resetToken;
 
             if (!response.ok) {
-                return data.message || "No account exists with this Utorid."
+                return data.error || "No account exists with this Utorid."
             }
 
             navigate(`/set-password?token=${resetToken}`);

@@ -27,16 +27,16 @@ router.post('/new', async (req, res) => {
         return res.status(400).json({ error: `Unknown field(s): ${unknownKeys.join(', ')}` });
     }
     if (!utorid || !name || !email) {
-        return res.status(400).json({ error: "Missing required field(s)" });
+        return res.status(400).json({ error: "Missing required field(s)." });
     }
     if (typeof utorid !== 'string' || utorid.length < 7 || utorid.length > 8) {
-        return res.status(400).json({ error: "utorid must be an alphanumeric string of 7-8 characters" });
+        return res.status(400).json({ error: "Utorid must contain 7-8 characters." });
     }
     if (typeof name !== 'string' || name.length < 1 || name.length > 50) {
-        return res.status(400).json({ error: "name must be a string of 1-50 characters" });
+        return res.status(400).json({ error: "Name must contain 1-50 characters." });
     }
     if (typeof email !== 'string' || !email.endsWith('mail.utoronto.ca')) {
-        return res.status(400).json({ error: "A valid University of Toronto email is required" });
+        return res.status(400).json({ error: "Please enter a valid University of Toronto email." });
     }
 
     const resetToken = uuidv4();
@@ -46,7 +46,12 @@ router.post('/new', async (req, res) => {
 
     const existingUser = await prisma.user.findUnique({ where: { utorid } });
     if (existingUser) {
-        return res.status(409).json({ error: "Utorid already in use" });
+        return res.status(409).json({ error: "Utorid already in use." });
+    }
+
+    const existingUser1 = await prisma.user.findUnique({ where: { email } });
+    if (existingUser1) {
+        return res.status(409).json({ error: "Email already in use." });
     }
 
     const newUser = await prisma.user.create({
@@ -95,7 +100,7 @@ router.post('/', clearanceRequired('cashier'), async (req, res) => {
         return res.status(400).json({ error: "Missing required field(s)" });
     }
     if (typeof utorid !== 'string' || utorid.length < 7 || utorid.length > 8) {
-        return res.status(400).json({ error: "utorid must be an alphanumeric string of 7-8 characters" });
+        return res.status(400).json({ error: "Utorid must be an alphanumeric string of 7-8 characters" });
     }
     if (typeof name !== 'string' || name.length < 1 || name.length > 50) {
         return res.status(400).json({ error: "name must be a string of 1-50 characters" });
@@ -112,6 +117,11 @@ router.post('/', clearanceRequired('cashier'), async (req, res) => {
     const existingUser = await prisma.user.findUnique({ where: { utorid } });
     if (existingUser) {
         return res.status(409).json({ error: "Utorid already in use" });
+    }
+
+    const existingUser1 = await prisma.user.findUnique({ where: { email } });
+    if (existingUser1) {
+        return res.status(409).json({ error: "Email already in use." });
     }
 
     const newUser = await prisma.user.create({

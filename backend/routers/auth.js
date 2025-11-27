@@ -44,7 +44,7 @@ router.all('/tokens', async (req, res) => {
 
     // 404 Not Found 
     if (!user || user.password !== password) {
-        return res.status(401).json({ error: 'Incorrect password' });
+        return res.status(401).json({ error: 'Your Utorid or password is wrong.' });
     }
 
     // Create JWT payload

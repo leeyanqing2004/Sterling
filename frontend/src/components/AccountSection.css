@@ -3,10 +3,32 @@
     margin: 20px 20px 20px 0px;
 }
 
-.account-container {
+.account-section-details {
     /* Decorations */
     background-color: white;
     
     /* Spacing */
     padding: 30px;
+}
+
+.account-section-settings {
+    /* Layout */
+    display: flex;
+    flex-direction: column;
+
+    /* Spacing */
+    gap: 20px;
+}
+
+.account-section-account-info {
+    /* Layout */
+    display: flex;
+    flex-direction: column;
+
+    /* Spacing */
+    gap: 0.5em;
+}
+
+.account-section-account-info-label {
+    color: gray;
 }

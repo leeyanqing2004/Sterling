@@ -1,4 +1,4 @@
-.menu {
+.left-nav-menu {
     /* Layout */
     display: flex;
     flex-direction: column;
@@ -12,7 +12,7 @@
     background: none;
 }
 
-.menu-bar {
+.left-nav-menu-bar {
     /* Sizes */
     width: 16px;
     height: 2px;
@@ -22,7 +22,7 @@
     border-radius: 3px;
 }
 
-.left-top {
+.left-nav-left-top {
     /* Layout */
     display: flex;
     flex-direction: column;
@@ -31,19 +31,19 @@
     padding: 30px;
 }
 
-.left-middle {
+.left-nav-left-middle {
     /* Layout */
     display: flex;
     flex-direction: column;
 }
 
-.left-bottom {
+.left-nav-left-bottom {
     /* Layout */
     display: flex;
     flex-direction: column;
 }
 
-.logout-button {
+.left-nav-logout-button {
     /* Decorations */
     color: #2A73B7;
     background: none;

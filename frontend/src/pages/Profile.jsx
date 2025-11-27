@@ -4,14 +4,18 @@ import ProfileSection from "../components/ProfileSection";
 import AccountSection from "../components/AccountSection";
 import "./Profile.css";
 
+function RightSide() {
+    return <div id="profile-right-side">
+        <ProfileSection id="profile-profile-section"/>
+        <AccountSection id="profile-account-section"/>
+    </div>
+}
+
 function Profile() {
-    return <div id="grid-container">
-        <Nav id="nav"/>
-        <LeftNav id="left-nav"/>
-        <div id="account-info">
-            <ProfileSection id="profile-section"/>
-            <AccountSection id="account-section"/>
-        </div>
+    return <div id="profile-grid-container">
+        <Nav id="profile-nav"/>
+        <LeftNav id="profile-left-nav"/>
+        <RightSide />
     </div>;
 }
 

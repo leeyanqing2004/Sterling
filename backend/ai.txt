@@ -1,0 +1,1 @@
+I used AI to help me with understanding some high level concepts (i.e. what Node.js, middleware, REST APIs are, and how they all fit together in a picture), and also used AI to help me understand some other concepts like JWT. I also used it to help with decoding, to understand errors in the code I wrote. 

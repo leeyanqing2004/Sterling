@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import LoginMainComponent from "../components/Login/LoginMainComponent.jsx";
 import styles from "./Login.module.css"
+import { useAuth } from '../contexts/AuthContext';
 
 function Login() {
 
-    const [pageType, setPageType] = useState("defaultLogin");
+    const location = useLocation();
+	const [pageType, setPageType] = useState(location.state?.pageType ?? "defaultLogin");
 
     return (
         <>

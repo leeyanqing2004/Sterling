@@ -1,0 +1,112 @@
+.redeem-points-redemption-popup {
+    /* Layout */
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Spacing */
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    /* Decorations */
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.redeem-points-content {
+    /* Layout */
+    position: relative;
+    width: auto;
+
+    /* Spacing */
+    padding: 2em;
+
+    /* Decorations */
+    background-color: white;
+    border-radius: 1em;
+}
+
+.redeem-points-close-button {
+    /* Layout */
+    position: absolute;
+    width: auto;
+    
+    /* Spacing */
+    top: 1em;
+    right: 1em;
+    padding: 0.5em;
+    line-height: 1em;
+    
+    /* Decorations */
+    color: black;
+    background: none;
+    border: none;
+}
+
+.redeem-points-title {
+    /* Spacing */
+    margin: 10px 0px;
+
+    /* Decorations */
+    color: black;
+}
+
+.redeem-points-amount-of-points-label {
+    /* Layout */
+    display: block;
+    color: black;
+    
+    /* Spacing */
+    margin: 10px 0px;
+}
+
+#redeem-points-amount-of-points-input {
+    /* Layout */
+    display: block;
+
+    /* Spacing */
+    margin: 10px 0px;
+    padding: 1em;
+
+    /* Decorations */
+    border: 1px solid #ccc;
+    border-radius: 1em !important;
+
+}
+
+.redeem-points-remarks-label { 
+    /* Layout */
+    display: block;
+    color: black;
+
+    /* Spacing */
+    margin: 10px 0px;
+}
+
+#redeem-points-remarks-input {
+    /* Layout */
+    display: block;
+
+    /* Spacing */
+    margin: 10px 0px;
+    padding: 1em;
+
+    /* Decorations */
+    border: 1px solid #ccc;
+    border-radius: 1em !important;
+}
+
+.redeem-points-submit-button {
+    padding: 1em;
+    margin: 1em 0em;
+    border: none;
+    border-radius: 0.5em;
+    color: white;
+    background-color: #2A73B7;
+}
+
+button {
+    cursor: pointer;
+}

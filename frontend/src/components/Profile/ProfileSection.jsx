@@ -1,6 +1,35 @@
 import { useState } from "react";
 import api from "../../api/api";
+import RedeemPointsPopup from "../RedeemPoints";
 import "./ProfileSection.css";
+
+function isValidName(name) {
+    return name && 1 <= name.length && name.length <= 50;
+}
+
+function isValidEmail(email) {
+    return email && email.endsWith("mail.utoronto.ca");
+}
+
+function isValidBirthday(birthday) {
+    if (!birthday) {
+        return false;
+    }
+
+    const regex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!regex.test(birthday)) {
+        return false;
+    }
+
+    const [year, month, day] = birthday.split("-").map(Number);
+    const date = new Date(year, month, day);
+    const today = new Date();
+    if (date > today) {
+        return false;
+    }
+
+    return date.getFullYear() === year && (date.getMonth()) === month && date.getDate() === day;
+}
 
 function ProfileField({ type, label, field, setField, error }) {
     return  <div className="profile-section-profile-field">
@@ -62,17 +91,43 @@ function ProfileSection({ id }) {
     }
 
     const handleSaveChanges = async () => {
+        setNameError("");
+        setBirthdayError("");
+        setEmailError("");
+
+        let containsErrors = false;
+        if (name && !isValidName(name)) {
+            setNameError("Name must be between 1 and 50 characters.");
+            containsErrors = true;
+        }
+
+        console.log("Birthday:", birthday);
+        console.log("Is valid birthday:", isValidBirthday(birthday));
+        if (birthday && !isValidBirthday(birthday)) {
+            setBirthdayError("Birthday must be a valid date in the format YYYY-MM-DD.");
+            containsErrors = true;
+        }
+
+        if (email && !isValidEmail(email)) {
+            setEmailError("Email must be a valid University of Toronto email address.");
+            containsErrors = true;
+        }
+
+        if (containsErrors) {
+            return;
+        }
+
         try {
-            const update = {};
-            if (name !== "") {
+            let update = {};
+            if (name) {
                 update.name = name;
             }
 
-            if (birthday !== "") {
+            if (birthday) {
                 update.birthday = birthday;
             }
 
-            if (email !== "") {
+            if (email) {
                 update.email = email;
             }
 
@@ -148,6 +203,7 @@ function ProfileSection({ id }) {
                 </div>
             </div>
             {getEditingFields(locked, setLocked, handleCancelChanges, handleSaveChanges)}
+            <RedeemPointsPopup />
         </div>
     </div>;
 }

@@ -1,0 +1,136 @@
+.transfer-points-redemption-popup {
+    /* Layout */
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Spacing */
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    /* Decorations */
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.transfer-points-content {
+    /* Layout */
+    position: relative;
+    width: auto;
+
+    /* Spacing */
+    padding: 2em;
+
+    /* Decorations */
+    background-color: white;
+    border-radius: 1em;
+}
+
+.transfer-points-close-button {
+    /* Layout */
+    position: absolute;
+    width: auto;
+    
+    /* Spacing */
+    top: 1em;
+    right: 1em;
+    padding: 0.5em;
+    line-height: 1em;
+    
+    /* Decorations */
+    color: black;
+    background: none;
+    border: none;
+}
+
+.transfer-points-title {
+    /* Spacing */
+    margin: 10px 0px;
+
+    /* Decorations */
+    color: black;
+}
+
+.transfer-points-recipient-label {
+    /* Layout */
+    display: block;
+    color: black;
+    
+    /* Spacing */
+    margin: 10px 0px;
+}
+
+#transfer-points-recipient-input {
+    /* Layout */
+    display: block;
+
+    /* Spacing */
+    margin: 10px 0px;
+    padding: 1em;
+
+    /* Decorations */
+    border: 1px solid #ccc;
+    border-radius: 1em !important;
+
+}
+
+
+.transfer-points-amount-of-points-label {
+    /* Layout */
+    display: block;
+    color: black;
+    
+    /* Spacing */
+    margin: 10px 0px;
+}
+
+#transfer-points-amount-of-points-input {
+    /* Layout */
+    display: block;
+
+    /* Spacing */
+    margin: 10px 0px;
+    padding: 1em;
+
+    /* Decorations */
+    border: 1px solid #ccc;
+    border-radius: 1em !important;
+
+}
+
+.transfer-points-remarks-label { 
+    /* Layout */
+    display: block;
+    color: black;
+
+    /* Spacing */
+    margin: 10px 0px;
+}
+
+#transfer-points-remarks-input {
+    /* Layout */
+    display: block;
+
+    /* Spacing */
+    margin: 10px 0px;
+    padding: 1em;
+
+    /* Decorations */
+    border: 1px solid #ccc;
+    border-radius: 1em !important;
+}
+
+.transfer-points-submit-button {
+    padding: 1em;
+    margin: 1em 0em;
+    border: none;
+    border-radius: 0.5em;
+    color: white;
+    background-color: #2A73B7;
+}
+
+button {
+    cursor: pointer;
+}

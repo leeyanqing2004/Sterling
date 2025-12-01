@@ -1,150 +1,121 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "sqlite"
   url      = "file:./dev.db"
 }
 
-generator client {
-  provider = "prisma-client-js"
-}
-
-enum RoleType {
-  regular
-  cashier
-  manager
-  superuser
-}
-
-enum TransactionType {
-  purchase
-  redemption
-  adjustment
-  event
-  transfer
-}
-
-enum PromotionType {
-  automatic
-  onetime
-}
-
 model User {
-  id          Int          @id @default(autoincrement())
-  utorid      String       @unique
-  name        String
-  email       String       @unique
-  password    String?
-  birthday    DateTime?
-  role        RoleType     @default(regular)
-  points      Int          @default(0)
-  suspicious  Boolean      @default(false)
-  createdAt   DateTime     @default(now())
-  lastLogin   DateTime?
-  verified    Boolean      @default(false)
-  promotions  Promotion[]  @relation("UserPromotions")
-  avatarUrl   String?
-  organizer   EventOrganizer[]
-  guest       EventGuest[]
-  resetToken  String?       @unique
-  expiresAt   DateTime?
-
-	transactionsCreated  Transaction[]     @relation("CreatedBy")
-  transactionsSent     Transaction[]     @relation("Sender")
-  transactionsReceived Transaction[]     @relation("Recipient")
+  id                    Int              @id @default(autoincrement())
+  utorid                String           @unique
+  name                  String
+  email                 String           @unique
+  password              String?
+  birthday              DateTime?
+  role                  String           @default("regular")
+  points                Int              @default(0)
+  suspicious            Boolean          @default(false)
+  createdAt             DateTime         @default(now())
+  lastLogin             DateTime?
+  verified              Boolean          @default(false)
+  avatarUrl             String?
+  resetToken            String?          @unique
+  expiresAt             DateTime?
+  guest                 EventGuest[]
+  organizer             EventOrganizer[]
   transactionsProcessed Transaction[]    @relation("ProcessedBy")
+  transactionsReceived  Transaction[]    @relation("Recipient")
+  transactionsSent      Transaction[]    @relation("Sender")
+  transactionsCreated   Transaction[]    @relation("CreatedBy")
+  promotions            Promotion[]      @relation("UserPromotions")
 }
 
 model Promotion {
-  id          Int           @id @default(autoincrement())
-  name        String
-  description String
-  type        PromotionType
-  startTime   DateTime
-  endTime     DateTime
-  minSpending Float?
-  rate Float?
-  points Int?
+  id           Int                    @id @default(autoincrement())
+  name         String
+  description  String
+  type         String
+  startTime    DateTime
+  endTime      DateTime
+  minSpending  Float?
+  rate         Float?
+  points       Int?
   transactions TransactionPromotion[]
-
-  users User[]              @relation("UserPromotions")
+  users        User[]                 @relation("UserPromotions")
 }
 
-
 model Event {
-  id            Int @id @default(autoincrement())
+  id            Int              @id @default(autoincrement())
   name          String
   description   String
   location      String
   startTime     DateTime
   endTime       DateTime
   capacity      Int?
-  pointsRemain  Int      @default(0)
-  pointsAwarded Int      @default(0)
-  published     Boolean  @default(false)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  organizers   EventOrganizer[]
-  guests       EventGuest[]
-  transactions Transaction[]
+  pointsRemain  Int              @default(0)
+  pointsAwarded Int              @default(0)
+  published     Boolean          @default(false)
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  guests        EventGuest[]
+  organizers    EventOrganizer[]
+  transactions  Transaction[]
 }
 
 model EventOrganizer {
-  id      Int @id @default(autoincrement())
+  id      Int   @id @default(autoincrement())
   userId  Int
   eventId Int
-
-  user  User  @relation(fields: [userId], references: [id])
-  event Event @relation(fields: [eventId], references: [id])
+  event   Event @relation(fields: [eventId], references: [id])
+  user    User  @relation(fields: [userId], references: [id])
 
   @@unique([userId, eventId])
 }
 
 model EventGuest {
-  id      Int @id @default(autoincrement())
+  id      Int   @id @default(autoincrement())
   userId  Int
   eventId Int
-
-  user  User  @relation(fields: [userId], references: [id])
-  event Event @relation(fields: [eventId], references: [id])
+  event   Event @relation(fields: [eventId], references: [id])
+  user    User  @relation(fields: [userId], references: [id])
 
   @@unique([userId, eventId])
 }
 
 model Transaction {
-  id            Int               @id @default(autoincrement())
+  id            Int                    @id @default(autoincrement())
   utorid        String
-  type          TransactionType   @default(purchase)
-  promotions    TransactionPromotion[]
-  remark        String            @default("")            
+  type          String                 @default("purchase")
+  remark        String                 @default("")
   createdById   Int
-  createdBy     User              @relation("CreatedBy", fields: [createdById], references: [id])
-  suspicious    Boolean           @default(false)
+  suspicious    Boolean                @default(false)
   relatedId     Int?
-  amount        Int               @default(0)
-  spent         Int               @default(0)
-  earned        Int               @default(0)
-
+  amount        Int                    @default(0)
+  spent         Int                    @default(0)
+  earned        Int                    @default(0)
   senderId      Int?
-  sender        User?             @relation("Sender", fields: [senderId], references: [id])
   recipientId   Int?
-  recipient     User?             @relation("Recipient", fields: [recipientId], references: [id])
   sent          Int?
-
-  processed     Boolean           @default(false)
+  processed     Boolean                @default(false)
   processedById Int?
-  processedBy   User?             @relation("ProcessedBy", fields: [processedById], references: [id])
   redeemed      Int?
-
-  awarded Int?
-  eventId Int?
-  event   Event? @relation(fields: [eventId], references: [id])
+  awarded       Int?
+  eventId       Int?
+  event         Event?                 @relation(fields: [eventId], references: [id])
+  processedBy   User?                  @relation("ProcessedBy", fields: [processedById], references: [id])
+  recipient     User?                  @relation("Recipient", fields: [recipientId], references: [id])
+  sender        User?                  @relation("Sender", fields: [senderId], references: [id])
+  createdBy     User                   @relation("CreatedBy", fields: [createdById], references: [id])
+  promotions    TransactionPromotion[]
 }
 
 model TransactionPromotion {
   transactionId Int
   promotionId   Int
-  transaction   Transaction @relation(fields: [transactionId], references: [id])
   promotion     Promotion   @relation(fields: [promotionId], references: [id])
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
 
   @@id([transactionId, promotionId])
 }

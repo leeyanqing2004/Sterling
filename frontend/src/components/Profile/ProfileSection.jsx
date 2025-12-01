@@ -1,6 +1,8 @@
+import { useMatch, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import api from "../../api/api";
 import RedeemPointsPopup from "../RedeemPoints";
+import TransferPointsPopup from "../TransferPoints";
 import "./ProfileSection.css";
 
 function isValidName(name) {
@@ -70,6 +72,10 @@ function ProfileSection({ id }) {
     const [birthdayError, setBirthdayError] = useState("");
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
+    const navigate = useNavigate();
+    const { utorid } = useParams();
+    const isRedeemRoute = Boolean(useMatch("/profile/:utorid/redeem-points"));
+    const isTransferRoute = Boolean(useMatch("/profile/:utorid/transfer-points"));
 
     const profileSectionSettingsStyle = locked ? "profile-section-settings-locked" : "profile-section-settings-unlocked";
     const profileSectionNewImageButtonStyle = locked ? "" : "profile-section-new-image-button-unlocked";
@@ -89,6 +95,23 @@ function ProfileSection({ id }) {
         setEmailError("");
         setPasswordError("");
     }
+
+    const handleCloseRedeem = () => {
+        if (utorid) {
+            navigate(`/profile/${utorid}/home`);
+        } else {
+            navigate("/profile");
+        }
+    };
+
+        const handleCloseTransfer = () => {
+        if (utorid) {
+            navigate(`/profile/${utorid}/home`);
+        } else {
+            navigate("/profile");
+        }
+    };
+
 
     const handleSaveChanges = async () => {
         setNameError("");
@@ -203,7 +226,8 @@ function ProfileSection({ id }) {
                 </div>
             </div>
             {getEditingFields(locked, setLocked, handleCancelChanges, handleSaveChanges)}
-            <RedeemPointsPopup />
+            {isRedeemRoute && <RedeemPointsPopup onClose={handleCloseRedeem} />}
+            {isTransferRoute && <TransferPointsPopup onClose={handleCloseTransfer} />}
         </div>
     </div>;
 }

@@ -1,9 +1,9 @@
 import "./RedeemPoints.css";
 
-function RedeemPointsPopup() {
+function RedeemPointsPopup({ onClose = () => {} }) {
     return <div className="redeem-points-redemption-popup">
         <div className="redeem-points-content">
-            <button className="redeem-points-close-button">X</button>
+            <button className="redeem-points-close-button" onClick={onClose}>X</button>
             <h2 className="redeem-points-title">Redeem Points</h2>
             <div className="redeem-points-amount-of-points">
                 <label 

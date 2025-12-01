@@ -1,0 +1,93 @@
+.new-guest-popup {
+    /* Layout */
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Spacing */
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    /* Decorations */
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.new-guest-popup-content {
+    /* Layout */
+    position: relative;
+    width: auto;
+
+    /* Spacing */
+    padding: 2em;
+
+    /* Decorations */
+    background-color: white;
+    border-radius: 1em;
+}
+
+.new-guest-popup-close-button {
+    /* Layout */
+    position: absolute;
+    width: auto;
+    
+    /* Spacing */
+    top: 1em;
+    right: 1em;
+    padding: 0.5em;
+    line-height: 1em;
+    
+    /* Decorations */
+    color: black;
+    background: none;
+    border: none;
+}
+
+.new-guest-popup-title {
+    /* Spacing */
+    margin: 10px 0px;
+
+    /* Decorations */
+    color: black;
+}
+
+.new-guest-popup-utorid-label {
+    /* Layout */
+    display: block;
+    color: black;
+    
+    /* Spacing */
+    margin: 10px 0px;
+}
+
+#new-guest-popup-utorid-input {
+    /* Layout */
+    display: block;
+
+    /* Spacing */
+    margin: 10px 0px;
+    padding: 1em;
+
+    /* Decorations */
+    border: 1px solid #ccc;
+    border-radius: 1em !important;
+}
+
+.new-guest-popup-error {
+    /* Decorations */
+    color: #2A73B7;
+}
+
+.new-guest-popup-add-guest-button {
+    /* Layout */
+    padding: 1em;
+    margin: 1em 0em;
+
+    /* Decorations */
+    border: none;
+    border-radius: 0.5em;
+    color: white;
+    background-color: #2A73B7;
+}

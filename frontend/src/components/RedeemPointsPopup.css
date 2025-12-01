@@ -1,4 +1,4 @@
-.redeem-points-redemption-popup {
+.redeem-points-popup-redemption-popup {
     /* Layout */
     position: fixed;
     display: flex;
@@ -15,7 +15,7 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.redeem-points-content {
+.redeem-points-popup-content {
     /* Layout */
     position: relative;
     width: auto;
@@ -28,7 +28,7 @@
     border-radius: 1em;
 }
 
-.redeem-points-close-button {
+.redeem-points-popup-close-button {
     /* Layout */
     position: absolute;
     width: auto;
@@ -45,7 +45,7 @@
     border: none;
 }
 
-.redeem-points-title {
+.redeem-points-popup-title {
     /* Spacing */
     margin: 10px 0px;
 
@@ -53,7 +53,7 @@
     color: black;
 }
 
-.redeem-points-amount-of-points-label {
+.redeem-points-popup-amount-of-points-label {
     /* Layout */
     display: block;
     color: black;
@@ -62,7 +62,7 @@
     margin: 10px 0px;
 }
 
-#redeem-points-amount-of-points-input {
+#redeem-points-popup-amount-of-points-input {
     /* Layout */
     display: block;
 
@@ -73,10 +73,14 @@
     /* Decorations */
     border: 1px solid #ccc;
     border-radius: 1em !important;
-
 }
 
-.redeem-points-remarks-label { 
+.redeem-points-popup-error {
+    /* Decorations */
+    color: #2A73B7;
+}
+
+.redeem-points-popup-remarks-label { 
     /* Layout */
     display: block;
     color: black;
@@ -85,7 +89,7 @@
     margin: 10px 0px;
 }
 
-#redeem-points-remarks-input {
+#redeem-points-popup-remarks-input {
     /* Layout */
     display: block;
 
@@ -98,7 +102,7 @@
     border-radius: 1em !important;
 }
 
-.redeem-points-submit-button {
+.redeem-points-popup-submit-button {
     padding: 1em;
     margin: 1em 0em;
     border: none;

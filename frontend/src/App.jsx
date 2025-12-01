@@ -22,6 +22,7 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <Routes>
+          <Route path="/" element={<AllTransactions />} />
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<Login />} />
           <Route path="/reset-password" element={<ResetPassword />} />
@@ -31,7 +32,6 @@ function App() {
           <Route path="/profile/:utorid/transfer-points" element={<Profile />} />
           <Route path="/profile/:utorid/redeem-points" element={<Profile />} />
           <Route path="/profile/:utorid/past-transactions" element={<Profile />} />
-          <Route path="/" element={<Dashboard />} />
           <Route path="/all-users" element={<AllUsers />} />
           <Route path="/all-promotions" element={<AllPromotions />} />
           <Route path="/available-promotions" element={<AvailablePromotions />} />

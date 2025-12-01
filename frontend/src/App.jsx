@@ -25,7 +25,7 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<AllUsers />} />
+          <Route path="/" element={<Dashboard />} />
           <Route path="/all-users" element={<AllUsers />} />
           <Route path="/all-promotions" element={<AllPromotions />} />
           <Route path="/available-promotions" element={<AvailablePromotions />} />

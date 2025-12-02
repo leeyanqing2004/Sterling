@@ -3,7 +3,8 @@ import {
     TableRow, Paper, TablePagination
 } from "@mui/material";
 import { TextField, FormControl, InputLabel, Select, MenuItem, Box } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import api from "../../api/api";
 import styles from "./RedemptionTable.module.css"
   
 export default function RedemptionTable({ redempTableTitle, processedBool }) {
@@ -19,10 +20,40 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
         createdBy: "[createdBy utorid here]"
     }));
   
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [filter, setFilter] = useState("");
     const [sortBy, setSortBy] = useState("");
+    const [error, setError] = useState("");
+
+    useEffect(() => {
+        const fetchRedemptions = async () => {
+            try {
+                setLoading(true);
+                const response = await api.request({
+                    method: "GET",
+                    url: "/users/me/transactions",
+                    data: {
+                        type: "redemption",
+                        page: 1,
+                        limit: 1000,
+                        processed: processedBool
+                    }
+                });
+                setData(response.data.results || []);
+                setError("");
+            } catch (err) {
+                setError(err.response?.data?.error);
+                setData([]);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchRedemptions();
+    }, [processedBool]);
   
     const handleChangePage = (_, newPage) => setPage(newPage);
     const handleChangeRowsPerPage = (e) => {
@@ -37,11 +68,25 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
     )
     // SORT
     .sort((a, b) => {
-        if (!sortBy) return 0;
-        if (sortBy === "id") return a.id - b.id;
-        if (sortBy === "earned") return a.earned - b.earned;
-        if (sortBy === "spent") return a.spent - b.spent;
-        if (sortBy === "utorid") return a.utorid.localeCompare(b.utorid);
+        if (!sortBy) {
+            return 0;
+        }
+        
+        if (sortBy === "id") {
+            return a.id - b.id;
+        } 
+        
+        if (sortBy === "earned") {
+            return a.earned - b.earned;
+        } 
+        
+        if (sortBy === "spent") {
+            return a.spent - b.spent;
+        }
+        
+        if (sortBy === "utorid") {
+            return a.utorid.localeCompare(b.utorid);
+        }
         return 0;
     });
   

@@ -766,10 +766,12 @@ router.all("/me/transactions", clearanceRequired('regular'), async (req, res) =>
                     id: true,
                     type: true,
                     spent: true,
+                    earned: true,
                     amount: true,
                     promotions: { select: { promotionId: true } },
                     remark: true,
                     createdBy: { select: { utorid: true } },
+                    processed: true,
                 }
             })
         ]);

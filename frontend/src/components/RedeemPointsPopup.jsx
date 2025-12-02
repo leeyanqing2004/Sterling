@@ -34,8 +34,8 @@ function RedeemPointsPopup() {
         try {
             await api.post("users/me/transactions", {
                 type: "redemption",
-                points: amountOfPoints,
-                remarks: remarks
+                point: amountOfPoints,
+                remark: remarks
             });
 
             setAmount("");

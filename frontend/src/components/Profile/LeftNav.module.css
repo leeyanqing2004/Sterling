@@ -1,4 +1,4 @@
-.left-nav-menu {
+.leftNavMenu {
     /* Layout */
     display: flex;
     flex-direction: column;
@@ -12,7 +12,7 @@
     background: none;
 }
 
-.left-nav-menu-bar {
+.leftNavMenuBar {
     /* Sizes */
     width: 16px;
     height: 2px;
@@ -22,96 +22,87 @@
     border-radius: 3px;
 }
 
-.left-nav-left-top {
-    /* Layout */
+.leftNavLeftTop {
     display: flex;
     flex-direction: column;
-
-    /* Spacing */
     padding: 30px;
 }
 
-.left-nav-left-middle {
-    /* Layout */
+.leftNavScrollableContent {
     display: flex;
     flex-direction: column;
-}
-
-.left-nav-left-bottom {
-    /* Layout */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-end;
     flex: 1;
-
-    /* Spacing */
-    padding: 20px;
+    overflow-y: auto;
 }
 
-.left-nav-logout-button {
-    /* Decorations */
-    color: #2A73B7;
-    background: none;
-    border: none;
-}
-
-.left-nav {
+.leftNavLeftMiddle {
     display: flex;
     flex-direction: column;
-    height: 100%;
-    /* Decorations */
+}
+
+.leftNavLeftBottom {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: sticky;
+    bottom: 0;
+    padding: 20px;
     background-color: white;
 }
 
-.left-nav-user-info {
-    /* Layout */
+.leftNavLogoutButton {
+    color: #2A73B7;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.leftNav {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: white;
+    position: relative;
+}
+
+.leftNavUserInfo {
     display: flex;
     flex-direction: column;
 }
 
-.left-nav-username {
-    /* Spacing */
+.leftNavUsername {
     margin: 0;
 }
 
-.left-nav-user-details {
-    /* Layout */
+.leftNavUserDetails {
     display: flex;
     flex-direction: column;
 }
 
-.left-nav-UTORid {
-    /* Spacing */
+.leftNavUTORid {
     margin: 0;
 }
 
-.left-nav-user-role {
-    /* Spacing */
+.leftNavUserRole {
     margin: 0;
 }
 
-.left-nav-home-tab {
-    /* Layout */
+.leftNavHomeTab {
     display: flex;
 }
 
-.left-nav-my-account-tab {
-    /* Layout */
+.leftNavMyAccountTab {
     display: flex;
 }
 
-.left-nav-transfer-points-tab {
-    /* Layout */
+.leftNavTransferPointsTab {
     display: flex;
 }
 
-.left-nav-redeem-points-tab {
-    /* Layout */
+.leftNavRedeemPointsTab {
     display: flex;
 }
 
-.left-nav-past-transactions-tab {
-    /* Layout */
+.leftNavPastTransactionsTab {
     display: flex;
 }

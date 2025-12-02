@@ -1,4 +1,4 @@
-.page-button {
+.pageButton {
     /* Spacing */
     padding: 1em;
 
@@ -10,7 +10,7 @@
     background: none;
 }
 
-.page-button-active {
+.pageButtonActive {
     background-color: #2A73B7;
     color: white;
     border-radius: 0.5em;

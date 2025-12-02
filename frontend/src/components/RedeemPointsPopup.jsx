@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import api from "../api/api";
-import "./RedeemPointsPopup.module.css";
+import styles from "./RedeemPointsPopup.module.css";
 
 function RedeemPointsPopup() {
     const { user } = useAuth();
@@ -49,18 +49,19 @@ function RedeemPointsPopup() {
         }
     }; 
 
-    return <div className="redeem-points-popup-redemption-popup">
-        <div className="redeem-points-popup-content" onClick={(e) => e.stopPropagation()}>
-            <button className="redeem-points-popup-close-button">X</button>
-            <h2 className="redeem-points-popup-title">Redeem Points</h2>
-            <div className="redeem-points-popup-amount-of-points">
+    return <div className={styles.redeemPointsPopupRedemptionPopup}>
+        <div className={styles.redeemPointsPopupContent} onClick={(e) => e.stopPropagation()}>
+            <button className={styles.redeemPointsPopupCloseButton}>X</button>
+            <h2 className={styles.redeemPointsPopupTitle}>Redeem Points</h2>
+            <div className={styles.redeemPointsPopupAmountOfPoints}>
                 <label 
-                    className="redeem-points-popup-amount-of-points-label" 
-                    htmlFor="redeem-points-popup-amount-of-points-input"
+                    className={styles.redeemPointsPopupAmountOfPointsLabel} 
+                    htmlFor={styles.redeemPointsPopupAmountOfPointsInput}
                 >
                     Amount of Points</label>
                 <input 
-                    id="redeem-points-popup-amount-of-points-input"
+                    id={styles.redeemPointsPopupAmountOfPointsInput}
+                    className={styles.redeemPointsPopupAmountOfPointsInput}
                     type="number"
                     name="redeem-points-popup-amount-of-points-input"
                     placeholder="e.g. 1000"
@@ -68,17 +69,18 @@ function RedeemPointsPopup() {
                     onChange={(e) => setAmount(e.target.value)}
                     disabled={submitting}
                 />
-                {error && <span className="redeem-points-popup-error">{error}</span>}
+                {error && <span className={styles.redeemPointsPopupError}>{error}</span>}
             </div>
-            <div className="redeem-points-popup-remarks">
+            <div className={styles.redeemPointsPopupRemarks}>
                 <label 
-                    className="redeem-points-popup-remarks-label" 
-                    htmlFor="redeem-points-popup-remarks-input"
+                    className={styles.redeemPointsPopupRemarksLabel} 
+                    htmlFor={styles.redeemPointsPopupRemarksInput}
                 >
                     Remarks
                 </label>
                 <textarea 
-                    id="redeem-points-popup-remarks-input"
+                    id={styles.redeemPointsPopupRemarksInput}
+                    className={styles.redeemPointsPopupRemarksInput}
                     name="redeem-points-popup-remarks-input"
                     placeholder="Enter any remarks here..."
                     rows="4"
@@ -89,7 +91,7 @@ function RedeemPointsPopup() {
             </div>
 
             <button 
-                className="redeem-points-popup-submit-button"
+                className={styles.redeemPointsPopupSubmitButton}
                 onClick={handleSubmit}
                 disabled={submitting}
             >

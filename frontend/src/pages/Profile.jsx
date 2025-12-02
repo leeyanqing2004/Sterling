@@ -12,10 +12,14 @@ function RightSide() {
 }
 
 function Profile() {
-    return <div className={styles.profileGridContainer}>
-        <Nav className={styles.profileNav}/>
-        <LeftNav className={styles.profileLeftNav}/>
-        <RightSide />
+    return <div className={styles.profilePageContainer}>
+        <Nav className={styles.profileNav} />
+        <div className={styles.profileLeftNavAndContentContainer}>
+            <LeftNav className={styles.profileLeftNavContainer} />
+            <div className={styles.profileContentContainer}>
+                <RightSide />
+            </div>
+        </div>
     </div>;
 }
 

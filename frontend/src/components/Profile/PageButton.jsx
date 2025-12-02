@@ -3,10 +3,10 @@ import styles from './PageButton.module.css';
 
 function PageButton({ text, active, path }) {
     const navigate = useNavigate();
-    const activeClass = active ? styles['page-button-active'] : "";
+    const activeClass = active ? styles.pageButtonActive : "";
     return (
         <button
-            className={`${styles['page-button']} ${activeClass}`}
+            className={`${styles.pageButton} ${activeClass}`}
             onClick={() => navigate(path)}
         >
             {text}

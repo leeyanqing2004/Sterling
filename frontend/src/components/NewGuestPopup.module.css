@@ -1,4 +1,4 @@
-.new-guest-popup {
+.newGuestPopup {
     /* Layout */
     position: fixed;
     display: flex;
@@ -15,7 +15,7 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.new-guest-popup-content {
+.newGuestPopupContent {
     /* Layout */
     position: relative;
     width: auto;
@@ -28,7 +28,7 @@
     border-radius: 1em;
 }
 
-.new-guest-popup-close-button {
+.newGuestPopupCloseButton {
     /* Layout */
     position: absolute;
     width: auto;
@@ -45,7 +45,7 @@
     border: none;
 }
 
-.new-guest-popup-title {
+.newGuestPopupTitle {
     /* Spacing */
     margin: 10px 0px;
 
@@ -53,7 +53,7 @@
     color: black;
 }
 
-.new-guest-popup-utorid-label {
+.newGuestPopupUtoridLabel {
     /* Layout */
     display: block;
     color: black;
@@ -62,7 +62,7 @@
     margin: 10px 0px;
 }
 
-#new-guest-popup-utorid-input {
+.newGuestPopupUtoridInput {
     /* Layout */
     display: block;
 
@@ -75,12 +75,12 @@
     border-radius: 1em !important;
 }
 
-.new-guest-popup-error {
+.newGuestPopupError {
     /* Decorations */
     color: #2A73B7;
 }
 
-.new-guest-popup-add-guest-button {
+.newGuestPopupAddGuestButton {
     /* Layout */
     padding: 1em;
     margin: 1em 0em;

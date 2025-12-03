@@ -44,6 +44,7 @@ body {
     max-height: 100vh;
     padding: 20px;
     gap: 20px;
+    overflow-y: auto;
 }
 
 .redeemPointsTableTopContainer {
@@ -51,6 +52,18 @@ body {
     flex-direction: row;
     gap: 20px;
     align-self: flex-end;
+}
+
+.redeemPointsTableTopContainerButton {
+    /* Spacing */
+    padding: 1em;
+
+    /* Decorations */
+    border-radius: 0.5em;
+    opacity: 1;
+    color: #2A73B7;
+    background-color: white;
+    border-color: #fafafa;
 }
 
 .redeemPointsTableBottomContainer {

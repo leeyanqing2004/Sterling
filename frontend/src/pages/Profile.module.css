@@ -1,40 +1,39 @@
-body {
+:global(body) {
     margin: 0;
 }
 
-.availPromoPageContainer {
+.profilePageContainer {
     display: flex;
     flex-direction: column;
     height: 100vh;
     width: 100vw;
 }
 
-.availPromoNav {
+.profileNav {
     flex: 0 0 auto;
-    width: 100%
+    width: 100%;
 }
 
-.availPromoLeftNavAndTableContainer {
+.profileLeftNavAndContentContainer {
     display: flex;
     flex-direction: row;
     flex: 1 1 auto;
     min-height: 0;
 }
 
-/* i feel like the button for opening and closing Left Nav should be on the Page level */
-/* so that the button can just change the visibility of the CONTAINER holding the Left Nav*/
-
-.availPromoleftNavContainer.nonvisible {
+.profileLeftNavContainer.nonvisible {
     display: none;
     width: 250px;
     flex-shrink: 0;
 }
 
-.availPromoleftNavContainer {
+.profileLeftNavContainer {
     display: block;
+    width: 250px;
+    flex-shrink: 0;
 }
 
-.availPromoTableContainer {
+.profileContentContainer {
     display: flex;
     flex-direction: column;
     background-color: #F2F2F7;
@@ -44,10 +43,20 @@ body {
     max-height: 100vh;
     padding: 20px;
     gap: 20px;
+}
+
+.profileRightSide {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "profile-section account-section";
+    min-height: 0;
     overflow-y: auto;
 }
 
-:global(.MuiTableCell-head) {
-    color: #2A73B7;
-    font-weight: bold;
+.profileProfileSection {
+    grid-area: profile-section;
+}
+
+.profileAccountSection {
+    grid-area: account-section;
 }

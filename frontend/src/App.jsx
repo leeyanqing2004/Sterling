@@ -1,12 +1,11 @@
-import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from './pages/Login';
-import Profile from './pages/Profile';
-
-import ResetPassword from "./pages/ResetPassword";
-import SetPassword from "./pages/SetPassword";
 import { AuthProvider } from "./contexts/AuthContext";
 import { Navigate } from "react-router-dom";
+
+import Login from './pages/Login';
+import Profile from './pages/Profile';
+import ResetPassword from "./pages/ResetPassword";
+import SetPassword from "./pages/SetPassword";
 import Dashboard from "./pages/Dashboard";
 import PastTransactions from "./pages/PastTransactions";
 import AllTransactions from "./pages/AllTransactions";
@@ -28,7 +27,8 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<RootRedirect />} />
+          <Route path="/" element={<AllTransactions />} />
+          <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<Login />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/set-password" element={<SetPassword />} />
@@ -37,17 +37,21 @@ function App() {
           <Route path="/profile/:utorid/transfer-points" element={<Profile />} />
           <Route path="/profile/:utorid/redeem-points" element={<Profile />} />
           <Route path="/profile/:utorid/past-transactions" element={<Profile />} />
+          <Route path="/all-users" element={<AllUsers />} />
           <Route path="/all-promotions" element={<AllPromotions />} />
           <Route path="/available-promotions" element={<AvailablePromotions />} />
-          <Route path="/all-events" element={<ProfileShell><AllEvents /></ProfileShell>} />
-          <Route path="/published-events" element={<ProfileShell><PublishedEvents /></ProfileShell>} />
-          <Route path="/home" element={<ProfileShell><Dashboard /></ProfileShell>} />
+          <Route path="/all-events" element={<AllEvents />} />
+          <Route path="/published-events" element={<PublishedEvents />} />
+          <Route path="/home" element={<Dashboard />} />
           <Route path="/redeem-points" element={<RedeemPoints />} />
-          <Route path="/all-transactions" element={<ProfileShell><AllTransactions /></ProfileShell>} />
-          <Route path="/all-users" element={<ProfileShell><AllUsers /></ProfileShell>} />
-          <Route path="/past-transactions" element={<ProfileShell><PastTransactions /></ProfileShell>} />
+          <Route path="/all-transactions" element={<AllTransactions />} />
+          <Route path="/past-transactions" element={<PastTransactions />} />
           <Route path="/profile" element={<Profile />} />
           {/* <Route path="/" element={<Navigate to="/login" replace />} /> */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/set-password" element={<SetPassword />} />
+
         </Routes>
       </AuthProvider>
     </BrowserRouter>

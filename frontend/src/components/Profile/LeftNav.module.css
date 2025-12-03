@@ -1,67 +1,63 @@
-.left-nav-menu {
-    /* Layout */
+.leftNavMenu {
     display: flex;
     flex-direction: column;
-
-    /* Spacing */
     padding: 0.25em;
     gap: 0.25em;
-
-    /* Decorations */
     border: none;
     background: none;
 }
 
-.left-nav-menu-bar {
-    /* Sizes */
+.leftNavMenuBar {
     width: 16px;
     height: 2px;
-
-    /* Decorations */
     background: #7d7d7d;
     border-radius: 3px;
 }
 
-.left-nav-left-top {
-    /* Layout */
+.leftNavLeftTop {
     display: flex;
     flex-direction: column;
-
-    /* Spacing */
     padding: 30px;
 }
 
-.left-nav-left-middle {
-    /* Layout */
+.leftNavScrollableContent {
     display: flex;
     flex-direction: column;
-}
-
-.left-nav-left-bottom {
-    /* Layout */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-end;
     flex: 1;
-
-    /* Spacing */
-    padding: 20px;
+    overflow-y: auto;
 }
 
-.left-nav-logout-button {
-    /* Decorations */
+.leftNavLeftMiddle {
+    display: flex;
+    flex-direction: column;
+}
+
+.leftNavLeftBottom {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: sticky;
+    bottom: 0;
+    padding: 20px;
+    background-color: white;
+}
+
+.leftNavLogoutButton {
     color: #2A73B7;
     background: none;
     border: none;
+    cursor: pointer;
 }
 
-.left-nav {
+.leftNav {
     display: flex;
     flex-direction: column;
     height: 100%;
+<<<<<<< HEAD:frontend/src/components/Profile/LeftNav.css
     width: 250px;
     /* Decorations */
+=======
+>>>>>>> origin/main:frontend/src/components/Profile/LeftNav.module.css
     background-color: white;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }

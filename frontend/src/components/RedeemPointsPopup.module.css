@@ -4,7 +4,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+<<<<<<< HEAD
     z-index: 1500;
+=======
+    z-index: 1000;
+>>>>>>> origin/main
 
     /* Spacing */
     top: 0;
@@ -14,14 +18,18 @@
 
     /* Decorations */
     background-color: rgba(0, 0, 0, 0.5);
+<<<<<<< HEAD
     padding: 20px;
     box-sizing: border-box;
+=======
+>>>>>>> origin/main
 }
 
 .redeemPointsPopupContent {
     /* Layout */
     position: relative;
     width: auto;
+<<<<<<< HEAD
     min-width: 280px;
     max-width: 320px;
     display: flex;
@@ -31,6 +39,13 @@
 
     /* Spacing */
     padding: 1.5em 1.5em 2.5em 1.5em;
+=======
+    min-width: 400px;
+    max-width: 600px;
+
+    /* Spacing */
+    padding: 2em;
+>>>>>>> origin/main
 
     /* Decorations */
     background-color: white;
@@ -66,7 +81,10 @@
     /* Layout */
     display: block;
     width: 100%;
+<<<<<<< HEAD
     margin-bottom: 0.5em;
+=======
+>>>>>>> origin/main
 }
 
 .redeemPointsPopupAmountOfPointsLabel {
@@ -75,7 +93,11 @@
     color: black;
     
     /* Spacing */
+<<<<<<< HEAD
     margin: 8px 0px 6px 0px;
+=======
+    margin: 10px 0px;
+>>>>>>> origin/main
 }
 
 .redeemPointsPopupAmountOfPointsInput {
@@ -85,8 +107,13 @@
     box-sizing: border-box;
 
     /* Spacing */
+<<<<<<< HEAD
     margin: 6px 0px 0 0;
     padding: 0.85em;
+=======
+    margin: 10px 0px;
+    padding: 1em;
+>>>>>>> origin/main
 
     /* Decorations */
     border: 1px solid #ccc;
@@ -98,14 +125,21 @@
     display: block;
 
     /* Decorations */
+<<<<<<< HEAD
     color: #b3261e; /* match transfer popup */
+=======
+    color: #2A73B7;
+>>>>>>> origin/main
 }
 
 .redeemPointsPopupRemarks {
     /* Layout */
     display: block;
     width: 100%;
+<<<<<<< HEAD
     margin-top: 0.25em;
+=======
+>>>>>>> origin/main
 }
 
 .redeemPointsPopupRemarksLabel { 
@@ -114,20 +148,32 @@
     color: black;
 
     /* Spacing */
+<<<<<<< HEAD
     margin: 8px 0px 6px 0px;
+=======
+    margin: 10px 0px;
+>>>>>>> origin/main
 }
 
 .redeemPointsPopupRemarksInput {
     /* Spacing */
+<<<<<<< HEAD
     margin: 6px 0px 0 0;
     padding: 0.85em;
+=======
+    margin: 10px 0px;
+    padding: 1em;
+>>>>>>> origin/main
 
     /* Decorations */
     border: 1px solid #ccc;
     border-radius: 1em !important;
+<<<<<<< HEAD
     width: 100%;
     box-sizing: border-box;
     resize: none;
+=======
+>>>>>>> origin/main
 }
 
 .redeemPointsPopupSubmitButton {
@@ -137,11 +183,15 @@
     border-radius: 0.5em;
     color: white;
     background-color: #2A73B7;
+<<<<<<< HEAD
     position: relative;
+=======
+>>>>>>> origin/main
 }
 
 button {
     cursor: pointer;
+<<<<<<< HEAD
 }
 
 .redeemPointsPopupMessage {
@@ -213,3 +263,6 @@ button {
     from { opacity: 0; }
     to { opacity: 1; }
 }
+=======
+}
+>>>>>>> origin/main

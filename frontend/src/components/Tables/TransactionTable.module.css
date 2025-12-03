@@ -38,3 +38,17 @@
 :global(.MuiTableCell-body) {
     text-align: center !important;
 }
+<<<<<<< HEAD
+=======
+
+button {
+    background-color: #ffff;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    border-color: #ffff;
+    border-style: none;
+    color: #2A73B7;
+    font-weight: bold;
+}
+>>>>>>> origin/main

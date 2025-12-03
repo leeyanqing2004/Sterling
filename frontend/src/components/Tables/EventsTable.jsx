@@ -5,6 +5,7 @@ import {
 import { TextField, FormControl, InputLabel, Select, MenuItem, Box } from "@mui/material";
 import { useState, useEffect } from "react";
 import api from "../../api/api";
+<<<<<<< HEAD
 import styles from "./EventsTable.module.css";
 
 const formatDateTime = (value) => {
@@ -13,6 +14,9 @@ const formatDateTime = (value) => {
     if (isNaN(d.getTime())) return value;
     return `${d.toLocaleDateString()} ${d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
 };
+=======
+import styles from "./EventsTable.module.css"
+>>>>>>> origin/main
   
 export default function EventsTable({ eventsTableTitle, managerViewBool }) {
     // this is make a fake table with 50 rows, just to see
@@ -35,7 +39,10 @@ export default function EventsTable({ eventsTableTitle, managerViewBool }) {
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [filter, setFilter] = useState("");
     const [sortBy, setSortBy] = useState("");
+<<<<<<< HEAD
     const [rsvps, setRsvps] = useState({});
+=======
+>>>>>>> origin/main
 
     useEffect(() => {
         const fetchEvents = async () => {

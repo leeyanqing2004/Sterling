@@ -3,26 +3,51 @@ import {
     TableRow, Paper, TablePagination
 } from "@mui/material";
 import { TextField, FormControl, InputLabel, Select, MenuItem, Box } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import api from "../../api/api";
 import styles from "./RedemptionTable.module.css"
   
 export default function RedemptionTable({ redempTableTitle, processedBool }) {
     // this is make a fake table with 50 rows, just to see
-    const rows = Array.from({ length: 50 }, (_, i) => ({
-        id: i + 1,
-        utorid: `[Utorid Here]`,
-        type: `[redemption]`,
-        processedBy: "[processedBy utorid here]",
-        amount: (Math.random() * 100).toFixed(2),
-        redeemed: (Math.random() * 100).toFixed(2),
-        remark: "[remark here]",
-        createdBy: "[createdBy utorid here]"
-    }));
+    // const rows = Array.from({ length: 50 }, (_, i) => ({
+    //     id: i + 1,
+    //     utorid: `[Utorid Here]`,
+    //     type: `[redemption]`,
+    //     processedBy: "[processedBy utorid here]",
+    //     amount: (Math.random() * 100).toFixed(2),
+    //     redeemed: (Math.random() * 100).toFixed(2),
+    //     remark: "[remark here]",
+    //     createdBy: "[createdBy utorid here]"
+    // }));
   
+    const [rows, setRows] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [filter, setFilter] = useState("");
     const [sortBy, setSortBy] = useState("");
+
+    useEffect(() => {
+        const fetchRedemptions = async () => {
+            try {
+                const response = await api.request({
+                    method: "GET",
+                    url: "/users/me/transactions",
+                    data: {
+                        type: "redemption",
+                        page: 1,
+                        limit: 1000,
+                        processed: processedBool
+                    }
+                });
+                setRows(response.data.results || []);
+            } catch (err) {
+                console.error(err);
+                setRows([]);
+            }
+        };
+
+        fetchRedemptions();
+    }, [filter, sortBy]);
   
     const handleChangePage = (_, newPage) => setPage(newPage);
     const handleChangeRowsPerPage = (e) => {
@@ -37,12 +62,19 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
     )
     // SORT
     .sort((a, b) => {
-        if (!sortBy) return 0;
-        if (sortBy === "id") return a.id - b.id;
-        if (sortBy === "earned") return a.earned - b.earned;
-        if (sortBy === "spent") return a.spent - b.spent;
-        if (sortBy === "utorid") return a.utorid.localeCompare(b.utorid);
-        return 0;
+        if (!sortBy) {
+            return 0;
+        } else if (sortBy === "id") {
+            return a.id - b.id;
+        } else if (sortBy === "earned") {
+            return a.earned - b.earned;
+        } else if (sortBy === "spent") {
+            return a.spent - b.spent;
+        } else if (sortBy === "utorid") {
+            return a.utorid.localeCompare(b.utorid);
+        } else {
+            return 0;
+        }
     });
   
     return (

@@ -1,9 +1,9 @@
-.account-section {
+.accountSection {
     /* Spacing */
     margin: 20px 20px 20px 0px;
 }
 
-.account-section-details {
+.accountSectionDetails {
     /* Decorations */
     background-color: white;
     
@@ -11,7 +11,7 @@
     padding: 30px;
 }
 
-.account-section-settings {
+.accountSectionSettings {
     /* Layout */
     display: flex;
     flex-direction: column;
@@ -20,7 +20,12 @@
     gap: 20px;
 }
 
-.account-section-account-info {
+.accountSectionTitle {
+    /* Spacing */
+    margin: 0;
+}
+
+.accountSectionAccountInfo {
     /* Layout */
     display: flex;
     flex-direction: column;
@@ -29,10 +34,12 @@
     gap: 0.5em;
 }
 
-.account-section-account-info-label {
+.accountSectionAccountInfoLabel {
+    /* Decorations */
     color: gray;
 }
 
-.account-section-account-info-value {
+.accountSectionAccountInfoValue {
+    /* Decorations */
     color: black;
 }

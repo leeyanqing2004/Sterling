@@ -1,9 +1,13 @@
 import { useMatch, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import api from "../../api/api";
+<<<<<<< HEAD
 import RedeemPointsPopup from "../RedeemPointsPopup";
 import TransferPointsPopup from "../TransferPoints";
 import "./ProfileSection.css";
+=======
+import styles from "./ProfileSection.module.css";
+>>>>>>> origin/main
 
 function isValidName(name) {
     return name && 1 <= name.length && name.length <= 50;
@@ -34,33 +38,33 @@ function isValidBirthday(birthday) {
 }
 
 function ProfileField({ type, label, field, setField, error }) {
-    return  <div className="profile-section-profile-field">
-        <label className="profile-section-profile-field-label" htmlFor={label}>{label}</label>
-        <input className="profile-section-profile-field-input" 
+    return  <div className={styles.profileSectionProfileField}>
+        <label className={styles.profileSectionProfileFieldLabel} htmlFor={label}>{label}</label>
+        <input className={styles.profileSectionProfileFieldInput} 
                type={type} 
                id={label} 
                name={label} 
                value={field} 
                onChange={(e) => setField(e.target.value)} 
         />
-        {error && <span className="profile-section-error">{error}</span>}
+        {error && <span className={styles.profileSectionError}>{error}</span>}
     </div>;
 }
 
 function getEditingFields(locked, setLocked, onCancel, onSave) {
     let content;
     if (locked) {
-        content = <button className="profile-section-edit-button" onClick={() => setLocked(false)}>Edit</button>
+        content = <button className={styles.profileSectionEditButton} onClick={() => setLocked(false)}>Edit</button>
     } else {
-        content = <div className="profile-section-editing-buttons">
-            <button className="profile-section-discard-changes-button" onClick={onCancel}>Cancel</button>
-            <button className="profile-section-save-changes-button" onClick={onSave}>Save Changes</button>
+        content = <div className={styles.profileSectionEditingButtons}>
+            <button className={styles.profileSectionDiscardChangesButton} onClick={onCancel}>Cancel</button>
+            <button className={styles.profileSectionSaveChangesButton} onClick={onSave}>Save Changes</button>
         </div>
     }
-    return <div className="profile-section-editing-fields">{content}</div>;
+    return <div className={styles.profileSectionEditingFields}>{content}</div>;
 }
 
-function ProfileSection({ id }) {
+function ProfileSection({ id, className }) {
     const [name, setName] = useState("");
     const [birthday, setBirthday] = useState("");
     const [email, setEmail] = useState("");
@@ -78,10 +82,10 @@ function ProfileSection({ id }) {
     const isRedeemRoute = Boolean(useMatch("/profile/:utorid/redeem-points"));
     const isTransferRoute = Boolean(useMatch("/profile/:utorid/transfer-points"));
 
-    const profileSectionSettingsStyle = locked ? "profile-section-settings-locked" : "profile-section-settings-unlocked";
-    const profileSectionNewImageButtonStyle = locked ? "" : "profile-section-new-image-button-unlocked";
-    const profileSectionRemoveImageButtonStyle = locked ? "" : "profile-section-remove-image-button-unlocked";
-    const profileSectionChangePasswordButtonStyle = locked ? "" : "profile-section-change-password-button-unlocked";
+    const profileSectionSettingsStyle = locked ? styles.profileSectionSettingsLocked : styles.profileSectionSettingsUnlocked;
+    const profileSectionNewImageButtonStyle = locked ? "" : styles.profileSectionNewImageButtonUnlocked;
+    const profileSectionRemoveImageButtonStyle = locked ? "" : styles.profileSectionRemoveImageButtonUnlocked;
+    const profileSectionChangePasswordButtonStyle = locked ? "" : styles.profileSectionChangePasswordButtonUnlocked;
 
     const handleCancelChanges = () => {
         setName("");
@@ -196,28 +200,28 @@ function ProfileSection({ id }) {
         }
     }
 
-    return <div id={id} className="profile-section">
-        <div className="profile-section-details">
-            <div className={`profile-section-settings ${profileSectionSettingsStyle}`}>
-                <h2 className="profile-section-title">My Profile</h2>
-                <div className="profile-section-image-settings">
+    return <div id={id} className={`${styles.profileSection} ${className || ''}`}>
+        <div className={styles.profileSectionDetails}>
+            <div className={`${styles.profileSectionSettings} ${profileSectionSettingsStyle}`}>
+                <h2 className={styles.profileSectionTitle}>My Profile</h2>
+                <div className={styles.profileSectionImageSettings}>
                     <img src="/profile.png" alt="Profile Picture" />
-                    <button className={`profile-section-new-image-button ${profileSectionNewImageButtonStyle}`}>Upload New Image</button>
-                    <button className={`profile-section-remove-image-button ${profileSectionRemoveImageButtonStyle}`}>Remove Image</button>
+                    <button className={`${styles.profileSectionNewImageButton} ${profileSectionNewImageButtonStyle}`}>Upload New Image</button>
+                    <button className={`${styles.profileSectionRemoveImageButton} ${profileSectionRemoveImageButtonStyle}`}>Remove Image</button>
                 </div>
-                <div className="profile-section-public-settings">
+                <div className={styles.profileSectionPublicSettings}>
                     <ProfileField type="text" label="Name" field={name} setField={setName} error={nameError} />
                     <ProfileField type="date" label="Birthday" field={birthday} setField={setBirthday} error={birthdayError}/>
                 </div>
-                <h2 className="profile-section-account-security">Account Security</h2>
-                <div className="profile-section-private-settings">
+                <h2 className={styles.profileSectionAccountSecurity}>Account Security</h2>
+                <div className={styles.profileSectionPrivateSettings}>
                     <ProfileField type="email" label="Email" field={email} setField={setEmail} error={emailError} />
                     <ProfileField type="password" label="Old Password" field={oldPassword} setField={setOldPassword} />
                     <ProfileField type="password" label="New Password" field={newPassword} setField={setNewPassword} />
-                    {passwordError && <span className="profile-section-error">{passwordError}</span>}
-                    <div className="profile-section-password">
+                    {passwordError && <span className={styles.profileSectionError}>{passwordError}</span>}
+                    <div className={styles.profileSectionPassword}>
                         <button 
-                            className={`profile-section-change-password-button ${profileSectionChangePasswordButtonStyle}`} 
+                            className={`${styles.profileSectionChangePasswordButton} ${profileSectionChangePasswordButtonStyle}`} 
                             onClick={handlePasswordChange}>
                                 Change Password
                         </button>

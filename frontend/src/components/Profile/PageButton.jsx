@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import './PageButton.css';
+import styles from './PageButton.module.css';
 
 function PageButton({ text, active, path }) {
     const navigate = useNavigate();
-    const activeClass = active ? "page-button-active" : "";
+    const activeClass = active ? styles.pageButtonActive : "";
     return (
         <button
-            className={`page-button ${activeClass}`}
+            className={`${styles.pageButton} ${activeClass}`}
             onClick={() => navigate(path)}
         >
             {text}

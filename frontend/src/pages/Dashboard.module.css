@@ -44,6 +44,7 @@ body {
     max-height: 100vh;
     padding: 20px;
     gap: 20px;
+    overflow-y: auto;
 }
 
 .dashboardDashTopContainer {
@@ -65,6 +66,30 @@ body {
     padding: 30px 50px;
     background-color: #ffff;
     border-radius: 10px;
+}
+
+.cashierButtonContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 20px;
+}
+
+.cashierButton {
+    flex: 1;
+}
+
+.cashierButton button {
+    background-color: #ffff;
+    width: 100%;
+    height: 100%;
+    font-size: 16px;
+    padding: 10px 50px;
+    border-radius: 10px;
+    border-color: #ffff;
+    border-style: none;
+    color: #2A73B7;
+    font-weight: bold;
 }
 
 

@@ -21,7 +21,7 @@ function PublishedEvents() {
 
             {/* everything to the right of the left Nav container */}
             <div className={styles.pubEventsTableContainer}>
-                <EventsTable eventsTableTitle={"Published Events"} managerViewBool={false}/>;
+                <EventsTable eventsTableTitle={"Published Events"} managerViewBool={false}/>
             </div>
         </div>
     </div>;

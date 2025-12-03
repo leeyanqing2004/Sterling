@@ -21,7 +21,7 @@ function AllUsers() {
 
             {/* everything to the right of the left Nav container */}
             <div className={styles.allUsersTableContainer}>
-                <UserTable userTableTitle={"All Users"} />;
+                <UserTable userTableTitle={"All Users"} />
             </div>
         </div>
     </div>;

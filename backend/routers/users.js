@@ -691,14 +691,33 @@ router.all("/me/transactions", clearanceRequired('regular'), async (req, res) =>
         });
     }
     if (req.method === "GET") {
-        const keys = Object.keys(req.body);
+        // Support filters from either query string (?page=1&limit=10...) or JSON body (legacy)
+        const source = Object.keys(req.query).length ? req.query : req.body;
+        const keys = Object.keys(source);
         const allowedKeys = ['type', 'relatedId', 'promotionId', 'amount', 'operator', 'page', 'limit'];
         const unknownKeys = keys.filter(key => !allowedKeys.includes(key));
         if (unknownKeys.length > 0) {
             return res.status(400).json({ error: `Unknown field(s): ${unknownKeys.join(', ')}` });
         }
 
-        let { type, relatedId, promotionId, amount, operator, page, limit } = req.body;
+        let { type, relatedId, promotionId, amount, operator, page, limit } = source;
+
+        // Coerce primitive types from query-string values where necessary
+        if (typeof relatedId === 'string') {
+            relatedId = relatedId.length ? Number(relatedId) : undefined;
+        }
+        if (typeof promotionId === 'string') {
+            promotionId = promotionId.length ? Number(promotionId) : undefined;
+        }
+        if (typeof amount === 'string') {
+            amount = amount.length ? Number(amount) : undefined;
+        }
+        if (typeof page === 'string') {
+            page = page.length ? Number(page) : undefined;
+        }
+        if (typeof limit === 'string') {
+            limit = limit.length ? Number(limit) : undefined;
+        }
 
         const userId = req.auth.id;
         const user = await prisma.user.findUnique({where: { id: userId }})

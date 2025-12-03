@@ -120,7 +120,7 @@ export default function UserTable({ userTableTitle }) {
                             <TableCell>{row.createdAt || "—"}</TableCell>
                             <TableCell>{row.lastLogin || "—"}</TableCell>
                             <TableCell>
-                                <button className={styles.manageBtn}>Manage User</button>
+                                <button className={styles.manageBtn} onClick = {() => ManageUserPopup(row)}>Manage User</button>
                             </TableCell>
                         </TableRow>
                         ))}

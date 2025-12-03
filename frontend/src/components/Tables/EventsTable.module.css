@@ -19,12 +19,57 @@
     text-align: center !important;
 }
 
-.moreDetailsBtn {
+.manageEventBtn {
     color: #2A73B7;
-    background: #f7f7f7;
+    background: none;
     border: none;
     cursor: pointer;
-  }
+    padding: 0;
+    border-radius: 0;
+    font-weight: 600;
+    min-width: 0;
+    transition: transform 120ms ease;
+}
+
+.manageEventBtn:hover {
+    transform: translateY(-1px);
+}
+
+.rsvpBtn {
+    color: white;
+    background: #2A73B7;
+    border: none;
+    cursor: pointer;
+    padding: 10px 16px;
+    border-radius: 14px;
+    font-weight: 600;
+    min-width: 120px;
+    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+
+.rsvpBtn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    background: #1f5a90;
+}
+
+.rsvpBtnSecondary {
+    color: #2A73B7;
+    background: #e8f0fe;
+    border: none;
+    cursor: pointer;
+    padding: 10px 16px;
+    border-radius: 14px;
+    font-weight: 600;
+    min-width: 120px;
+    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+
+.rsvpBtnSecondary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    background: #d9e8ff;
+}
 
 :global(.MuiTableCell-body) {
     text-align: center !important;

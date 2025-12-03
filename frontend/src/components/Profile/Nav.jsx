@@ -7,6 +7,7 @@ function Nav({ id }) {
     const location = useLocation();
     const path = location.pathname.toLowerCase();
     const isManager = user?.role === "manager" || user?.role === "superuser";
+    const eventsPath = isManager ? "/all-events" : "/published-events";
 
     const isEvents = path.startsWith("/published-events") || path.startsWith("/all-events");
     const isHome = path === "/home";
@@ -16,7 +17,7 @@ function Nav({ id }) {
     return (<nav id={id} className="nav">
                 <ul className="nav-list">
                     <li className="nav-list-item">
-                        <Link className={`nav-list-item-link ${isEvents ? "active" : ""}`} to="/published-events">Events</Link>
+                        <Link className={`nav-list-item-link ${isEvents ? "active" : ""}`} to={eventsPath}>Events</Link>
                     </li>
                     {isManager && (
                         <li className="nav-list-item">

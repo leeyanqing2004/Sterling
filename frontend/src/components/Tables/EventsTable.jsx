@@ -5,7 +5,14 @@ import {
 import { TextField, FormControl, InputLabel, Select, MenuItem, Box } from "@mui/material";
 import { useState, useEffect } from "react";
 import api from "../../api/api";
-import styles from "./EventsTable.module.css"
+import styles from "./EventsTable.module.css";
+
+const formatDateTime = (value) => {
+    if (!value) return "—";
+    const d = new Date(value);
+    if (isNaN(d.getTime())) return value;
+    return `${d.toLocaleDateString()} ${d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+};
   
 export default function EventsTable({ eventsTableTitle, managerViewBool }) {
     // this is make a fake table with 50 rows, just to see
@@ -28,6 +35,7 @@ export default function EventsTable({ eventsTableTitle, managerViewBool }) {
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [filter, setFilter] = useState("");
     const [sortBy, setSortBy] = useState("");
+    const [rsvps, setRsvps] = useState({});
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -140,17 +148,40 @@ export default function EventsTable({ eventsTableTitle, managerViewBool }) {
                             <TableCell>{row.id}</TableCell>
                             <TableCell>{row.name}</TableCell>
                             <TableCell>{row.location}</TableCell>
-                            <TableCell>{row.startTime}</TableCell>
-                            <TableCell>{row.endTime}</TableCell>
+                            <TableCell>{formatDateTime(row.startTime)}</TableCell>
+                            <TableCell>{formatDateTime(row.endTime)}</TableCell>
                             <TableCell>{row.numGuests}</TableCell>
 
                             {managerViewBool && <TableCell>{row.capacity}</TableCell>}
                             {managerViewBool && <TableCell>{row.pointsRemain}</TableCell>}
                             {managerViewBool && <TableCell>{row.pointsAwarded}</TableCell>}
-                            {managerViewBool && <TableCell>{row.published}</TableCell>}
+                            {managerViewBool && <TableCell>{row.published ? "Yes" : "No"}</TableCell>}
 
-                            <TableCell> <button className={styles.moreDetailsBtn} >More Details</button> </TableCell>
-                            <TableCell> <button>RSVP</button> </TableCell> {/* need to make these words change by state */}
+                            <TableCell>
+                                <button className={styles.manageEventBtn}>Manage Event</button>
+                            </TableCell>
+                            <TableCell>
+                                {(() => {
+                                    const isRsvped = Boolean(rsvps[row.id]);
+                                    return (
+                                        <button
+                                            className={
+                                                isRsvped
+                                                    ? styles.rsvpBtnSecondary
+                                                    : styles.rsvpBtn
+                                            }
+                                            onClick={() =>
+                                                setRsvps((prev) => ({
+                                                    ...prev,
+                                                    [row.id]: !isRsvped,
+                                                }))
+                                            }
+                                        >
+                                            {isRsvped ? "Un-RSVP" : "RSVP"}
+                                        </button>
+                                    );
+                                })()}
+                            </TableCell>
                             
                         </TableRow>
                         ))}

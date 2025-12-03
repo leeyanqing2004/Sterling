@@ -9,29 +9,26 @@ import styles from "./RedemptionTable.module.css"
   
 export default function RedemptionTable({ redempTableTitle, processedBool }) {
     // this is make a fake table with 50 rows, just to see
-    const rows = Array.from({ length: 50 }, (_, i) => ({
-        id: i + 1,
-        utorid: `[Utorid Here]`,
-        type: `[redemption]`,
-        processedBy: "[processedBy utorid here]",
-        amount: (Math.random() * 100).toFixed(2),
-        redeemed: (Math.random() * 100).toFixed(2),
-        remark: "[remark here]",
-        createdBy: "[createdBy utorid here]"
-    }));
+    // const rows = Array.from({ length: 50 }, (_, i) => ({
+    //     id: i + 1,
+    //     utorid: `[Utorid Here]`,
+    //     type: `[redemption]`,
+    //     processedBy: "[processedBy utorid here]",
+    //     amount: (Math.random() * 100).toFixed(2),
+    //     redeemed: (Math.random() * 100).toFixed(2),
+    //     remark: "[remark here]",
+    //     createdBy: "[createdBy utorid here]"
+    // }));
   
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [rows, setRows] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [filter, setFilter] = useState("");
     const [sortBy, setSortBy] = useState("");
-    const [error, setError] = useState("");
 
     useEffect(() => {
         const fetchRedemptions = async () => {
             try {
-                setLoading(true);
                 const response = await api.request({
                     method: "GET",
                     url: "/users/me/transactions",
@@ -42,18 +39,15 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
                         processed: processedBool
                     }
                 });
-                setData(response.data.results || []);
-                setError("");
+                setRows(response.data.results || []);
             } catch (err) {
-                setError(err.response?.data?.error);
-                setData([]);
-            } finally {
-                setLoading(false);
+                console.error(err);
+                setRows([]);
             }
         };
 
         fetchRedemptions();
-    }, [processedBool]);
+    }, [filter, sortBy]);
   
     const handleChangePage = (_, newPage) => setPage(newPage);
     const handleChangeRowsPerPage = (e) => {
@@ -70,24 +64,17 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
     .sort((a, b) => {
         if (!sortBy) {
             return 0;
-        }
-        
-        if (sortBy === "id") {
+        } else if (sortBy === "id") {
             return a.id - b.id;
-        } 
-        
-        if (sortBy === "earned") {
+        } else if (sortBy === "earned") {
             return a.earned - b.earned;
-        } 
-        
-        if (sortBy === "spent") {
+        } else if (sortBy === "spent") {
             return a.spent - b.spent;
-        }
-        
-        if (sortBy === "utorid") {
+        } else if (sortBy === "utorid") {
             return a.utorid.localeCompare(b.utorid);
+        } else {
+            return 0;
         }
-        return 0;
     });
   
     return (

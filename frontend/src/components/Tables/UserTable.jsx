@@ -3,29 +3,43 @@ import {
     TableRow, Paper, TablePagination
 } from "@mui/material";
 import { TextField, FormControl, InputLabel, Select, MenuItem, Box } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import api from "../../api/api";
 import styles from "./UserTable.module.css"
   
 export default function UserTable({ userTableTitle }) {
-    // this is make a fake table with 50 rows, just to see
-    const rows = Array.from({ length: 50 }, (_, i) => ({
-        id: i + 1,
-        utorid: "[e.g. johndoe1]",
-        name: "[e.g. John Doe]",
-        email: "[e.g. john@gmail.com]",
-        birthday: "[e.g. 2000-01-01]",
-        role: "[e.g. regular]",
-        points: "[e.g. 0]",
-        createdAt: "[e.g. Dec. 10, 2025]",
-        lastLogin: "[e.g. Dec 11, 2025]",
-        verified: "[e.g. false]",
-        avatarUrl: "[e.g. avatar.jpeg]"
-    }));
-  
+    const [rows, setRows] = useState([]);
+    const [totalCount, setTotalCount] = useState(0);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [filter, setFilter] = useState("");
     const [sortBy, setSortBy] = useState("");
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const params = {
+                    page: page + 1,
+                    limit: rowsPerPage,
+                }
+
+                if (filter) {
+                    params.name = filter;
+                }
+
+                const response = await api.get("/users", {
+                    params: params
+                });
+                setRows(response.data.results || []);
+                setTotalCount(response.data.count || 0);
+            } catch (err) {
+                console.error(err);
+                setRows([]);
+                setTotalCount(0);
+            }
+        };
+        fetchUsers();
+    }, [page, rowsPerPage, filter]);
   
     const handleChangePage = (_, newPage) => setPage(newPage);
     const handleChangeRowsPerPage = (e) => {
@@ -34,18 +48,22 @@ export default function UserTable({ userTableTitle }) {
     };
 
     const processedRows = rows
-    // FILTER
-    .filter((row) =>
-        row.name.toLowerCase().includes(filter.toLowerCase())
-    )
-    // SORT
     .sort((a, b) => {
-        if (!sortBy) return 0;
-        if (sortBy === "id") return a.id - b.id;
-        if (sortBy === "points") return a.points - b.points;
-        if (sortBy === "utorid") return a.utorid.localeCompare(b.utorid);
-        if (sortBy === "role") return a.role.localeCompare(b.role);
-        return 0;
+        if (!sortBy) {
+            return 0;
+        } else if (sortBy === "id") {
+            return a.id - b.id;
+        } else if (sortBy === "points") {
+            return a.points - b.points;
+        } else if (sortBy === "utorid") {
+            return a.utorid.localeCompare(b.utorid);
+        } else if (sortBy === "role") {
+            return a.role.localeCompare(b.role);
+        } else if (sortBy === "name") {
+            return a.name.localeCompare(b.name);
+        } else {
+            return 0;
+        }
     });
   
     return (
@@ -58,7 +76,10 @@ export default function UserTable({ userTableTitle }) {
                     variant="outlined"
                     size="small"
                     value={filter}
-                    onChange={(e) => setFilter(e.target.value)}
+                    onChange={(e) => {
+                        setFilter(e.target.value);
+                        setPage(0);
+                    }}
                 />
 
                 {/* Sort Dropdown */}
@@ -73,8 +94,8 @@ export default function UserTable({ userTableTitle }) {
                         <MenuItem value="">None</MenuItem>
                         <MenuItem value="id">ID</MenuItem>
                         <MenuItem value="name">Name</MenuItem>
-                        <MenuItem value="type">Type</MenuItem>
-                        <MenuItem value="minSpending">Minimum Spending</MenuItem>
+                        <MenuItem value="utorid">Utorid</MenuItem>
+                        <MenuItem value="role">Role</MenuItem>
                         <MenuItem value="points">Points</MenuItem>
                     </Select>
                 </FormControl>
@@ -98,9 +119,7 @@ export default function UserTable({ userTableTitle }) {
                     </TableHead>
         
                     <TableBody>
-                    {processedRows
-                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                        .map((row) => (
+                    {processedRows.map((row) => (
                         <TableRow key={row.id}>
                             <TableCell>{row.id}</TableCell>
                             <TableCell>{row.role}</TableCell>
@@ -113,14 +132,14 @@ export default function UserTable({ userTableTitle }) {
                             <TableCell>{row.lastLogin}</TableCell>
                             <TableCell> <button className={styles.moreDetailsBtn} >Manage User</button> </TableCell>
                         </TableRow>
-                        ))}
+                    ))}
                     </TableBody>
                 </Table>
                 </TableContainer>
         
                 <TablePagination
                 component="div"
-                count={rows.length}
+                count={totalCount}
                 page={page}
                 rowsPerPage={rowsPerPage}
                 onPageChange={handleChangePage}

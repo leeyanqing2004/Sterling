@@ -4,6 +4,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1000;
 
     /* Spacing */
     top: 0;
@@ -19,6 +20,8 @@
     /* Layout */
     position: relative;
     width: auto;
+    min-width: 400px;
+    max-width: 600px;
 
     /* Spacing */
     padding: 2em;
@@ -53,6 +56,12 @@
     color: black;
 }
 
+.redeemPointsPopupAmountOfPoints {
+    /* Layout */
+    display: block;
+    width: 100%;
+}
+
 .redeemPointsPopupAmountOfPointsLabel {
     /* Layout */
     display: block;
@@ -65,6 +74,8 @@
 .redeemPointsPopupAmountOfPointsInput {
     /* Layout */
     display: block;
+    width: 100%;
+    box-sizing: border-box;
 
     /* Spacing */
     margin: 10px 0px;
@@ -76,8 +87,17 @@
 }
 
 .redeemPointsPopupError {
+    /* Layout */
+    display: block;
+
     /* Decorations */
     color: #2A73B7;
+}
+
+.redeemPointsPopupRemarks {
+    /* Layout */
+    display: block;
+    width: 100%;
 }
 
 .redeemPointsPopupRemarksLabel { 
@@ -90,9 +110,6 @@
 }
 
 .redeemPointsPopupRemarksInput {
-    /* Layout */
-    display: block;
-
     /* Spacing */
     margin: 10px 0px;
     padding: 1em;

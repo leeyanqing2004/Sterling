@@ -772,6 +772,8 @@ router.all("/me/transactions", clearanceRequired('regular'), async (req, res) =>
                     remark: true,
                     createdBy: { select: { utorid: true } },
                     processed: true,
+                    processedBy: { select: { utorid: true } },
+                    redeemed: true
                 }
             })
         ]);
@@ -780,6 +782,7 @@ router.all("/me/transactions", clearanceRequired('regular'), async (req, res) =>
             field.promotionIds = field.promotions.map(p => p.promotionId);
             delete field.promotions;
             field.createdBy = field.createdBy.utorid;
+            field.processedBy = field.processedBy.utorid;
         }
         res.status(200).json({ count, results });
     }

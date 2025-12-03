@@ -22,7 +22,7 @@ function AllEvents() {
             {/* everything to the right of the left Nav container */}
             <div className={styles.allEventsTableContainer}>
                 <div className={styles.allEventsTableTopContainer}>
-                    <button>+ Create New Event</button>
+                    <button className={styles.allEventsTableTopContainerButton}>+ Create New Event</button>
                 </div>
                 <div className={styles.allEventsTableBottomContainer}>
                     <EventsTable eventsTableTitle={"All Events"} managerViewBool={true}/>

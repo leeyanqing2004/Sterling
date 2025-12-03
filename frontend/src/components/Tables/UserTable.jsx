@@ -55,6 +55,13 @@ export default function UserTable({ userTableTitle }) {
         if (sortBy === "role") return a.role.localeCompare(b.role);
         return 0;
     });
+
+    const formatDate = (value) => {
+        if (!value) return "—";
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return value;
+        return date.toLocaleDateString();
+    };
   
     return (
         <div className={styles.userTableContainer}>
@@ -114,11 +121,11 @@ export default function UserTable({ userTableTitle }) {
                             <TableCell>{row.role}</TableCell>
                             <TableCell>{row.name}</TableCell>
                             <TableCell>{row.email}</TableCell>
-                            <TableCell>{row.birthday || "—"}</TableCell>
+                            <TableCell>{formatDate(row.birthday)}</TableCell>
                             <TableCell>{row.points}</TableCell>
                             <TableCell>{row.verified ? "Yes" : "No"}</TableCell>
-                            <TableCell>{row.createdAt || "—"}</TableCell>
-                            <TableCell>{row.lastLogin || "—"}</TableCell>
+                            <TableCell>{formatDate(row.createdAt)}</TableCell>
+                            <TableCell>{formatDate(row.lastLogin)}</TableCell>
                             <TableCell>
                                 <button className={styles.manageBtn} onClick = {() => ManageUserPopup(row)}>Manage User</button>
                             </TableCell>

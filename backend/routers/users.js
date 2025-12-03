@@ -339,6 +339,8 @@ router.get('/me', clearanceRequired('regular'), async (req, res) => {
         return res.status(404).json({ error: "User not found" });
     }
 
+    const computedPoints = await computeUserPointsForUser(user);
+
     // 200 OK
     res.status(200).json({
         id: user.id,
@@ -347,7 +349,7 @@ router.get('/me', clearanceRequired('regular'), async (req, res) => {
         email: user.email,
         birthday: user.birthday,
         role: user.role,
-        points: user.points,
+        points: computedPoints,
         createdAt: user.createdAt,
         lastLogin: user.lastLogin,
         verified: user.verified,
@@ -457,6 +459,7 @@ router.get('/:userId', clearanceRequired('cashier'), async (req, res) => {
     }
 
     const userRole = req.auth.role;
+    const computedPoints = await computeUserPointsForUser(user);
     if (userRole === 'manager' || userRole === 'superuser') {
 
         // Manager or higher response
@@ -469,7 +472,7 @@ router.get('/:userId', clearanceRequired('cashier'), async (req, res) => {
             email: user.email,
             birthday: user.birthday,
             role: user.role,
-            points: user.points,
+            points: computedPoints,
             createdAt: user.createdAt,
             lastLogin: user.lastLogin,
             verified: user.verified,
@@ -482,7 +485,7 @@ router.get('/:userId', clearanceRequired('cashier'), async (req, res) => {
             id: user.id,
             utorid: user.utorid,
             name: user.name,
-            points: user.points,
+            points: computedPoints,
             verified: user.verified,
             promotions: Array.isArray(user.promotions) ? user.promotions : []
         });
@@ -612,6 +615,46 @@ router.all('/:userId', (req, res) => {
     res.setHeader('Allow', 'GET, PATCH');
     res.status(405).json({ error: "Method Not Allowed" });
 });
+
+async function computeUserPointsForUser(user) {
+    const transactions = await prisma.transaction.findMany({
+        where: { utorid: user.utorid },
+        select: {
+            type: true,
+            amount: true,
+            suspicious: true,
+            processed: true,
+            senderId: true,
+            recipientId: true
+        }
+    });
+
+    let total = 0;
+
+    for (const t of transactions) {
+        if (t.suspicious) continue;
+        if (t.type === "purchase" || t.type === "event") {
+            total += t.amount;
+            continue;
+        }
+        if (t.type === "transfer") {
+            if (t.senderId === user.id) {
+                total -= t.amount;
+            } else if (t.recipientId === user.id) {
+                total += t.amount;
+            }
+            continue;
+        }
+        if (t.type === "redemption") {
+            if (t.processed) {
+                total -= t.amount;
+            }
+            continue;
+        }
+    }
+
+    return total;
+}
 
 // helper function to check the types of values in payload
 function checkTypes(values, types, isRequired) {

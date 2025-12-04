@@ -5,20 +5,10 @@ import {
 import { TextField, FormControl, InputLabel, Select, MenuItem, Box, FormControlLabel } from "@mui/material";
 import { useState } from "react";
 import styles from "./PromotionsTable.module.css"
+import PromotionDetailsPopup from "../Popups/PromotionDetailsPopup";
+
   
 export default function PromotionsTable({ promoTableTitle, availableOnlyBool, promotions }) {
-    // dummy data
-    // const rows = Array.from({ length: 50 }, (_, i) => ({
-    //     id: i + 1,
-    //     name: "[Promo Name]",
-    //     location: "[Event Location]",
-    //     type: "[e.g. automatic]",
-    //     startTime: "[Start Time]",
-    //     endTime: "[End Time]",
-    //     minSpending: "[e.g. 20]",
-    //     rate: "[e.g. 0.01]",
-    //     points: "[e.g. 50]"
-    // }));
 
     const rows = promotions;
     const [showAvailableOnly, setShowAvailableOnly] = useState(false);
@@ -32,6 +22,10 @@ export default function PromotionsTable({ promoTableTitle, availableOnlyBool, pr
     const [spentFilter, setSpentFilter] = useState("");
     const [promotionTypeFilter, setPromotionTypeFilter] = useState("");
     const [sortBy, setSortBy] = useState("");
+    const [selectedPromotion, setSelectedPromotion] = useState(null);
+
+    const handleShowDetails = (promotion) => setSelectedPromotion(promotion);
+    const handleCloseDetails = () => setSelectedPromotion(null);
   
     const handleChangePage = (_, newPage) => setPage(newPage);
     const handleChangeRowsPerPage = (e) => {
@@ -170,7 +164,14 @@ export default function PromotionsTable({ promoTableTitle, availableOnlyBool, pr
                             <TableCell>{row.minSpending}</TableCell>
                             <TableCell>{row.rate}</TableCell>
                             <TableCell>{row.points}</TableCell>
-                            <TableCell> <button className={styles.moreDetailsBtn} >More Details</button> </TableCell>
+                            <TableCell>
+                                <button
+                                    className={styles.moreDetailsBtn}
+                                    onClick={() => handleShowDetails(row)}
+                                >
+                                    More Details
+                                </button>
+                            </TableCell>
                         </TableRow>
                         ))}
                     </TableBody>
@@ -186,6 +187,12 @@ export default function PromotionsTable({ promoTableTitle, availableOnlyBool, pr
                 onRowsPerPageChange={handleChangeRowsPerPage}
                 />
             </Paper>
+            {selectedPromotion && (
+                <PromotionDetailsPopup
+                    promotion={selectedPromotion}
+                    onClose={handleCloseDetails}
+                />
+            )} 
         </div>
     );
 }

@@ -7,7 +7,8 @@ function DetailsPopup({
   open = true,
   onClose,
   primaryAction,
-  secondaryAction
+  secondaryAction,
+  children,
 }) {
   if (!open) return null;
   return (
@@ -15,19 +16,24 @@ function DetailsPopup({
       <div className="popup-content" onClick={e => e.stopPropagation()}>
         <button className="close-btn" onClick={onClose}>×</button>
         <h2 className="popup-title">{title}</h2>
-        <div className="info-list">
-          {fields.map((field, idx) => (
-            <div className="info-field" key={idx}>
-              <span className="info-label">{field.label}</span>
-              <span className="info-value">
-                {(field.value !== undefined && field.value !== null && field.value !== '' && (!(Array.isArray(field.value)) || field.value.length))
-                  ? (Array.isArray(field.value) ? field.value.join(', ') : String(field.value))
-                  : <span className="placeholder">{field.placeholder || '-'}</span>
-                }
-              </span>
-            </div>
-          ))}
-        </div>
+        {/* Render field-based layout if provided */}
+        {fields.length > 0 && (
+          <div className="info-list">
+            {fields.map((field, idx) => (
+              <div className="info-field" key={idx}>
+                <span className="info-label">{field.label}</span>
+                <span className="info-value">
+                  {(field.value !== undefined && field.value !== null && field.value !== '' && (!(Array.isArray(field.value)) || field.value.length))
+                    ? (Array.isArray(field.value) ? field.value.join(', ') : String(field.value))
+                    : <span className="placeholder">{field.placeholder || '-'}</span>
+                  }
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+        {/* Also support arbitrary children content (used by PromotionDetailsPopup) */}
+        {children}
         {secondaryAction &&
           <button className={secondaryAction.className} onClick={secondaryAction.onClick}>{secondaryAction.label}</button>
         }

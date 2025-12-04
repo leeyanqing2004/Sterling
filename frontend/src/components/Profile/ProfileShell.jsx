@@ -30,7 +30,7 @@ function ProfileShell({ children }) {
                     aria-label="Toggle navigation"
                     type="button"
                 >
-                    {navOpen ? "✕" : "☰"}
+                    ☰
                 </button>
                 <div className={`profile-shell-left ${navOpen ? "open" : "collapsed"}`}>
                     <LeftNav />

@@ -3,7 +3,7 @@ import { useState } from "react";
 import api from "../../api/api";
 import RedeemPointsPopup from "../RedeemPointsPopup";
 import TransferPointsPopup from "../TransferPoints";
-import "./ProfileSection.module.css";
+import styles from "./ProfileSection.module.css";
 
 function isValidName(name) {
     return name && 1 <= name.length && name.length <= 50;

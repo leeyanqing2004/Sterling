@@ -82,6 +82,56 @@
     flex: 1;
 }
 
+.popup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.popup-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.field-label {
+    font-size: 0.95rem;
+    color: var(--color-info);
+    font-weight: 500;
+}
+
+.field-input {
+    border-radius: 12px;
+    border: 1px solid #d7dce3;
+    padding: 0.9rem 1rem;
+    font-size: 1rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.field-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(42, 115, 183, 0.1);
+}
+
+.field-input.has-error {
+    border-color: #d94646;
+}
+
+.field-helper {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+}
+
+.error-text {
+    color: #d94646;
+}
+
+.form-status {
+    font-size: 0.9rem;
+    color: var(--color-primary);
+}
+
 .action-btn {
     width: 100%;
     padding: var(--space-md);

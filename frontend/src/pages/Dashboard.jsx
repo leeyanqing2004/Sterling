@@ -2,24 +2,26 @@ import Nav from "../components/Profile/Nav";
 import LeftNav from "../components/Profile/LeftNav";
 import { AvailablePointsDisplay, StartTransactionQR } from "../components/Dashboard/DashboardTopSection";
 import styles from "./Dashboard.module.css";
-import Button from '@mui/material/Button';
 import TransactionTable from "../components/Tables/TransactionTable";
 import { getRecentTransactions } from "../api/getTransactionsApi";
 import { getMyPoints } from "../api/pointsAndQrApi";
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
+import PanelActionButton from "../components/Buttons/PanelActionButton";
+import RegisterUserPopup from "../components/Popups/RegisterUserPopup";
 
 // TODO: should we move the Nav and LeftNav components out of the Profile folder, since we'll use it
 // for multiple pages?
 
 function Dashboard() {
-
+   //  const user = "cashier"
     const { user } = useAuth();
-    // const user = "cashier"; // FOR TESTING ONLY
+    const isCashier = user?.role === "cashier";
 
     const [recentTransactions, setRecentTransactions] = useState([]);
     const [count, setCount] = useState(0);
     const [availablePoints, setavailablePoints] = useState(0);
+    const [showRegisterPopup, setShowRegisterPopup] = useState(false);
     {/* const [qrInfo, setQrInfo] = useState([]); */}
 
     useEffect(() => {
@@ -64,17 +66,25 @@ function Dashboard() {
                         <StartTransactionQR qrCodeInfo={"QR CODE INFO HERE"} />
                     </div>
 
-                    {/*{user?.role === "cashier" && ( */}
-                    {user === "cashier" && (
+                    {isCashier && (
                         <div className={styles.cashierButtonContainer}>
                             <div className={styles.cashierButton}>
-                                <button>+ Register New User</button>
+                                <PanelActionButton
+                                    label="+ Register New User"
+                                    onClick={() => setShowRegisterPopup(true)}
+                                />
                             </div>
                             <div className={styles.cashierButton}>
-                                <button>+ Search User</button>
+                                <PanelActionButton
+                                    label="+ Search User"
+                                    onClick={() => {}}
+                                />
                             </div>
                             <div className={styles.cashierButton}>
-                                <button>+ Create Purchase</button>
+                                <PanelActionButton
+                                    label="+ Create Purchase"
+                                    onClick={() => {}}
+                                />
                             </div>
                         </div>
                     )}
@@ -87,6 +97,13 @@ function Dashboard() {
 
             </div>
         </div>
+        {isCashier && (
+            <RegisterUserPopup
+                open={showRegisterPopup}
+                onClose={() => setShowRegisterPopup(false)}
+                onSuccess={() => setShowRegisterPopup(false)}
+            />
+        )}
     </div>;
 }
 

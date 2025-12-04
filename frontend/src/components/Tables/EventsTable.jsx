@@ -182,7 +182,8 @@ export default function EventsTable({ eventsTableTitle, managerViewBool }) {
                                         <TableCell>
                                             {!rsvpedEventIds.has(row.id) && (
                                                 <button
-                                                    className={`${styles.rsvpBtn} action-btn`}
+                                                    className={`action-btn`}
+                                                    style={{ width: "7em" }}
                                                     onClick={() => handleRsvp(row.id)}
                                                     disabled={row.capacity !== null && row.numGuests >= row.capacity}
                                                 >
@@ -192,6 +193,7 @@ export default function EventsTable({ eventsTableTitle, managerViewBool }) {
                                             {rsvpedEventIds.has(row.id) && (
                                                 <button
                                                     className={`unrsvp-btn`}
+                                                    style={{ width: "7em" }}
                                                     onClick={() => handleUnRsvp(row.id)}
                                                 >
                                                     Un-RSVP

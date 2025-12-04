@@ -1,0 +1,118 @@
+:root {
+    --color-backdrop: rgba(0, 0, 0, 0.5);
+    --color-popup-bg: #fff;
+    --color-primary: #2A73B7;
+    --color-muted: #888;
+    --color-title: #111;
+    --color-info: #333;
+    --color-unrsvp-bg: #E6EEF8;
+    --border-radius: 1em;
+    --space-md: 1em;
+    --space-lg: 2em;
+}
+
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--color-backdrop);
+    z-index: 3000;
+}
+
+.popup-content {
+    position: relative;
+    background: var(--color-popup-bg);
+    border-radius: var(--border-radius);
+    padding: var(--space-lg);
+    box-shadow: 0 6px 32px rgba(0, 0, 0, 0.16);
+    min-width: 320px;
+    max-width: 95vw;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.close-btn {
+    position: absolute;
+    width: auto;
+    top: 1em;
+    right: 1em;
+    border: none;
+    background: none;
+    color: var(--color-info);
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 0.25em 0.5em;
+    transition: 0.2s;
+}
+
+.popup-title {
+    color: var(--color-title);
+    margin: 0 0 1rem 0;
+    font-size: 1.5em;
+}
+
+.info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65em;
+}
+
+.info-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2em;
+    font-size: 1em;
+    align-items: baseline;
+}
+
+.info-label {
+    color: var(--color-muted);
+    min-width: 120px;
+    flex-shrink: 0;
+}
+
+.info-value {
+    font-weight: 490;
+    color: var(--color-info);
+    word-break: break-word;
+    flex: 1;
+}
+
+.action-btn {
+    width: 100%;
+    padding: var(--space-md);
+    border: none;
+    border-radius: 0.5em;
+    color: #fff;
+    background: var(--color-primary);
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: filter 0.2s;
+}
+
+.action-btn:hover,
+.action-btn:focus {
+    filter: brightness(0.93);
+}
+
+.unrsvp-btn {
+    width: 100%;
+    padding: var(--space-md);
+    border: none;
+    border-radius: 0.5em;
+    color: var(--color-primary); 
+    background: var(--color-unrsvp-bg);
+    font-size: 1em;
+    font-weight: bold; 
+    cursor: pointer;
+    transition: filter 0.2s;
+}
+
+.unrsvp-btn:hover,
+.unrsvp-btn:focus {
+    filter: brightness(0.93);
+}

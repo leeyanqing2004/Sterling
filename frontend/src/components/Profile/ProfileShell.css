@@ -17,26 +17,27 @@
     min-height: 0;
     position: relative;
     min-width: 0;
+    background: #f2f2f7;
 }
 
 .profile-shell-left {
+    position: relative;
     width: 250px;
     flex-shrink: 0;
-    transition: transform 160ms ease, width 160ms ease;
+    transition: transform 180ms ease;
     overflow: hidden;
+    background: #ffffff;
 }
 
 .profile-shell-left.collapsed {
     transform: translateX(-110%);
-    width: 0;
-    display: none;
 }
 
 .profile-shell-toggle {
     position: fixed;
-    top: 12px;
-    left: 12px;
-    z-index: 5;
+    top: 16px;
+    left: 16px;
+    z-index: 3000;
     background: #ffffff;
     border: none;
     border-radius: 8px;
@@ -48,6 +49,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    outline: none;
+    color: #333;
+    font-size: 18px;
 }
 
 .profile-shell-right {
@@ -60,6 +64,12 @@
     overflow-x: hidden;
 }
 
+.profile-shell-right.with-nav {
+    margin-left: 0;
+    transition: margin 180ms ease;
+}
+
 .profile-shell-right.expanded {
-    padding-left: 32px;
+    margin-left: 0;
+    transition: margin 180ms ease;
 }

@@ -45,6 +45,7 @@ export default function EventsTable({ eventsTableTitle, managerViewBool }) {
     const [loadingRsvp, setLoadingRsvp] = useState({});
     const [toast, setToast] = useState(null);
     const [organizerEvents, setOrganizerEvents] = useState({});
+    const [guestStatusChecked, setGuestStatusChecked] = useState(false);
 
     // Check for success message from navigation state
     const updateOrganizerStatus = useCallback(async (eventList) => {
@@ -74,6 +75,35 @@ export default function EventsTable({ eventsTableTitle, managerViewBool }) {
             console.error("Failed to check organizer status", err);
         }
     }, [user, isManagerOrSuperuser]);
+
+    const updateGuestStatus = useCallback(async (eventList) => {
+        if (!user || !Array.isArray(eventList) || !eventList.length) {
+            return;
+        }
+        try {
+            const statusPairs = await Promise.all(
+                eventList.map(async (event) => {
+                    try {
+                        const detail = await api.get(`/events/${event.id}`);
+                        const isGuest = detail.data.guests?.some(
+                            (g) => g.utorid === user.utorid
+                        );
+                        return { id: event.id, isGuest: Boolean(isGuest) };
+                    } catch {
+                        return { id: event.id, isGuest: false };
+                    }
+                })
+            );
+            const map = {};
+            statusPairs.forEach(({ id, isGuest }) => {
+                if (isGuest) map[id] = true;
+            });
+            setRsvps(map);
+            setGuestStatusChecked(true);
+        } catch (err) {
+            console.error("Failed to check RSVP status", err);
+        }
+    }, [user]);
 
     useEffect(() => {
         if (location.state?.success) {
@@ -111,9 +141,9 @@ export default function EventsTable({ eventsTableTitle, managerViewBool }) {
                 const events = response.data.results || [];
                 setRows(events);
                 setTotalCount(response.data.count || 0);
-                // Reset RSVP status when events change
-                setRsvps({});
+                // Refresh organizer and RSVP status for current page
                 updateOrganizerStatus(events);
+                updateGuestStatus(events);
             } catch (err) {
                 console.error(err);
                 setRows([]);
@@ -121,7 +151,7 @@ export default function EventsTable({ eventsTableTitle, managerViewBool }) {
             }
         };
         fetchEvents();
-    }, [page, rowsPerPage, filter, managerViewBool, updateOrganizerStatus]);
+    }, [page, rowsPerPage, filter, managerViewBool, updateOrganizerStatus, updateGuestStatus]);
     const handleChangePage = (_, newPage) => setPage(newPage);
     const handleChangeRowsPerPage = (e) => {
         setRowsPerPage(parseInt(e.target.value, 10));
@@ -333,7 +363,7 @@ export default function EventsTable({ eventsTableTitle, managerViewBool }) {
                                                 : isEnded
                                                 ? "Event Ended"
                                                 : isFull && !isRsvped
-                                                ? "Event Full"
+                                                ? "RSVP"
                                                 : "RSVP"}
                                         </button>
                                     );

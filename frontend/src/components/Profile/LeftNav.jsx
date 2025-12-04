@@ -18,9 +18,11 @@ function Capitalize(str) {
 
 function LeftTop() {
     const { user } = useAuth();
-    const name = user?.name;
-    const utorid = user?.utorid;
-    const role = user?.role;
+    if (!user) return null;
+
+    const name = user.name || "";
+    const utorid = user.utorid || "";
+    const role = user.role || "";
     const profilePicture = <img src="/profile.png" alt="Profile Picture" />;
     const userInfo = <div className="left-nav-user-info">
         <h1 className="left-nav-username">{name}</h1>
@@ -46,9 +48,11 @@ function LeftMiddle({ endpoint }) {
         <PageButton text="Home" active={isHomeActive} path="/home"/>
     </div>;
 
-    const isMyAccountActive = matchPath({ path: "/profile" }, endpoint);
+    const isMyAccountActive =
+        matchPath({ path: "/profile/:utorid/account" }, endpoint) ||
+        endpoint === "/profile";
     const myAccountTab = <div className={styles.leftNavMyAccountTab}>
-        <PageButton text="My Account" active={isMyAccountActive} path={"/profile"}/>
+        <PageButton text="My Account" active={isMyAccountActive} path={user ? `/profile/${user.utorid}/account` : "/profile"}/>
     </div>;
 
     const isPastTransactionsActive = matchPath({ path: "/past-transactions" }, endpoint);

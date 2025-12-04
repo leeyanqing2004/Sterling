@@ -37,6 +37,22 @@
     transform: translateY(-1px);
 }
 
+.moreDetailsBtn {
+    color: #2A73B7;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    border-radius: 0;
+    font-weight: 600;
+    min-width: 0;
+    transition: transform 120ms ease;
+}
+
+.moreDetailsBtn:hover {
+    transform: translateY(-1px);
+}
+
 .rsvpBtn {
     color: white;
     background: #2A73B7;
@@ -112,6 +128,7 @@
         transform: translateX(100%);
         opacity: 0;
     }
+
     to {
         transform: translateX(0);
         opacity: 1;

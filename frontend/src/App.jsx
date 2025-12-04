@@ -52,7 +52,6 @@ function App() {
           <Route path="/transfer-points" element={<Profile />} />
           <Route path="/redeem-points" element={<RedeemPoints />} />
           <Route path="/past-transactions" element={<PastTransactions />} />
-          <Route path="/published-events" element={<PublishedEvents />} />
           <Route path="/all-users" element={<AllUsers />} />
           <Route path="/user-search" element={<UserSearch />} />
           <Route path="/all-promotions" element={<AllPromotions />} />

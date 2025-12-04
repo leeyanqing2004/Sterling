@@ -19,19 +19,6 @@ const formatDateTime = (value) => {
 };
 
 export default function EventsTable({ eventsTableTitle, managerViewBool }) {
-    // this is make a fake table with 50 rows, just to see
-    // const rows = Array.from({ length: 50 }, (_, i) => ({
-    //     id: i + 1,
-    //     name: "[Event Name]",
-    //     location: "[Event Location]",
-    //     startTime: "[Start Time]",
-    //     endTime: "[End Time]",
-    //     capacity: "[e.g. 200]",
-    //     numGuests: "[e.g. 7]",
-    //     pointsRemain: "[e.g. 500]",
-    //     pointsAwarded: "[e.g. 10]",
-    //     published: "[e.g. false]"
-    // }));
 
     const { user } = useAuth();
     const navigate = useNavigate();
@@ -339,7 +326,14 @@ export default function EventsTable({ eventsTableTitle, managerViewBool }) {
                                                         </button>
                                                     );
                                                 }
-                                                return <button className={styles.manageEventBtn}>More Details</button>;
+                                                return (
+                                                    <button
+                                                        className={styles.moreDetailsBtn}
+                                                        onClick={() => handleMoreDetails(row)}
+                                                    >
+                                                        More Details
+                                                    </button>
+                                                );
                                             })()}
                                         </TableCell>
                                         <TableCell>
@@ -393,70 +387,7 @@ export default function EventsTable({ eventsTableTitle, managerViewBool }) {
                                 ))}
                         </TableBody>
                     </Table>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>ID</TableCell>
-                                <TableCell>Name</TableCell>
-                                <TableCell>Location</TableCell>
-                                <TableCell>Start Time</TableCell>
-                                <TableCell>End Time</TableCell>
-                                <TableCell>Number of Guests</TableCell>
-                                {managerViewBool && <TableCell>Capacity</TableCell>}
-                                {managerViewBool && <TableCell>Remaining Points</TableCell>}
-                                {managerViewBool && <TableCell>Points Awarded</TableCell>}
-                                {managerViewBool && <TableCell>Published</TableCell>}
-                                <TableCell></TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {processedRows
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row) => (
-                                    <TableRow key={row.id}>
-                                        <TableCell>{row.id}</TableCell>
-                                        <TableCell>{row.name}</TableCell>
-                                        <TableCell>{row.location}</TableCell>
-                                        <TableCell>{row.startTime}</TableCell>
-                                        <TableCell>{row.endTime}</TableCell>
-                                        <TableCell>{row.numGuests}</TableCell>
-                                        {managerViewBool && <TableCell>{row.capacity}</TableCell>}
-                                        {managerViewBool && <TableCell>{row.pointsRemain}</TableCell>}
-                                        {managerViewBool && <TableCell>{row.pointsAwarded}</TableCell>}
-                                        {managerViewBool && <TableCell>{row.published}</TableCell>}
-                                        <TableCell>
-                                            <button
-                                                className={styles.moreDetailsBtn}
-                                                onClick={() => handleMoreDetails(row)}
-                                            >
-                                                More Details
-                                            </button>
-                                        </TableCell>
-                                        <TableCell>
-                                            {!rsvpedEventIds.has(row.id) && (
-                                                <button
-                                                    className={`action-btn`}
-                                                    style={{ width: "7em" }}
-                                                    onClick={() => handleRsvp(row)}
-                                                    disabled={row.capacity !== null && row.numGuests >= row.capacity}
-                                                >
-                                                    RSVP
-                                                </button>
-                                            )}
-                                            {rsvpedEventIds.has(row.id) && (
-                                                <button
-                                                    className={`unrsvp-btn`}
-                                                    style={{ width: "7em" }}
-                                                    onClick={() => handleRsvp(row)}
-                                                >
-                                                    Un-RSVP
-                                                </button>
-                                            )}
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                        </TableBody>
-                    </Table>
+                    
                 </TableContainer>
                 <TablePagination
                     component="div"

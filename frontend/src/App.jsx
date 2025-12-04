@@ -53,7 +53,6 @@ function App() {
           <Route path="/redeem-points" element={<RedeemPoints />} />
           <Route path="/past-transactions" element={<PastTransactions />} />
           <Route path="/published-events" element={<PublishedEvents />} />
-          <Route path="/available-promotions" element={<AvailablePromotions />} />
           <Route path="/all-users" element={<AllUsers />} />
           <Route path="/user-search" element={<UserSearch />} />
           <Route path="/all-promotions" element={<AllPromotions />} />

@@ -153,9 +153,9 @@ router.post('/', clearanceRequired('cashier'), async (req, res) => {
 /*
  * GET /users
  * Retrieve a list of users
- * Clearance: Manager or higher
+ * Clearance: Cashier or higher
  */
-router.get('/', clearanceRequired('manager'), async (req, res) => {
+router.get('/', clearanceRequired('cashier'), async (req, res) => {
     console.log("Running GET /users");
     const { name, role, verified, activated, page = "1", limit = "10" } = req.query;
 

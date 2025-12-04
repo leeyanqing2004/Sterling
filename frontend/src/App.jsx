@@ -15,6 +15,7 @@ import AllEvents from './pages/AllEvents';
 import AvailablePromotions from './pages/AvailablePromotions';
 import AllPromotions from './pages/AllPromotions';
 import AllUsers from './pages/AllUsers';
+import UserSearch from './pages/UserSearch';
 
 import './App.css'
 
@@ -41,6 +42,7 @@ function App() {
           <Route path="/published-events" element={<PublishedEvents />} />
           <Route path="/available-promotions" element={<AvailablePromotions />} />
           <Route path="/all-users" element={<AllUsers />} />
+          <Route path="/user-search" element={<UserSearch />} />
           <Route path="/all-promotions" element={<AllPromotions />} />
           <Route path="/all-events" element={<AllEvents />} />
           <Route path="/all-transactions" element={<AllTransactions />} />

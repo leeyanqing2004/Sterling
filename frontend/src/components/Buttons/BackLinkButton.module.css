@@ -1,0 +1,13 @@
+.backLinkButton {
+    height: 30px;
+    border: none;
+    background: none;
+    color: #2A73B7;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    align-self: flex-start;
+    padding: 0;
+}
+
+

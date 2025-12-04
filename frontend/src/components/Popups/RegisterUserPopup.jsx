@@ -43,14 +43,14 @@ export default function RegisterUserPopup({ open, onClose, onSuccess }) {
         setSubmitting(true);
         setStatusMessage("");
         try {
-            await registerUser({
+            const newUser = await registerUser({
                 utorid: form.utorid.trim(),
                 name: form.name.trim(),
                 email: form.email.trim(),
             });
             setForm(INITIAL_FORM);
             setStatusMessage("User registered successfully.");
-            if (onSuccess) onSuccess();
+            if (onSuccess) onSuccess(newUser);
         } catch (err) {
             const message =
                 err?.response?.data?.error ||
@@ -73,8 +73,8 @@ export default function RegisterUserPopup({ open, onClose, onSuccess }) {
                     name="utorid"
                     value={form.utorid}
                     onChange={setField("utorid")}
-                    placeholder="johnsmith"
-                    helperText="must be a valid utorid"
+                    placeholder="johndoe"
+                    helperText="" //maybe add a little message for help to user?
                     error={errors.utorid}
                 />
                 <PopupFormField
@@ -82,8 +82,8 @@ export default function RegisterUserPopup({ open, onClose, onSuccess }) {
                     name="name"
                     value={form.name}
                     onChange={setField("name")}
-                    placeholder="John Smith"
-                    helperText="corresponding error message"
+                    placeholder="John Doe"
+                    helperText=""
                     error={errors.name}
                 />
                 <PopupFormField
@@ -93,7 +93,7 @@ export default function RegisterUserPopup({ open, onClose, onSuccess }) {
                     value={form.email}
                     onChange={setField("email")}
                     placeholder="john.smith@mail.utoronto.ca"
-                    helperText="corresponding error message"
+                    helperText=""
                     error={errors.email}
                     autoComplete="email"
                 />

@@ -9,6 +9,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import PanelActionButton from "../components/Buttons/PanelActionButton";
 import RegisterUserPopup from "../components/Popups/RegisterUserPopup";
+import DetailsPopup from "../components/Popups/DetailsPopup";
 
 // TODO: should we move the Nav and LeftNav components out of the Profile folder, since we'll use it
 // for multiple pages?
@@ -22,6 +23,7 @@ function Dashboard() {
     const [count, setCount] = useState(0);
     const [availablePoints, setavailablePoints] = useState(0);
     const [showRegisterPopup, setShowRegisterPopup] = useState(false);
+    const [registeredUser, setRegisteredUser] = useState(null);
     {/* const [qrInfo, setQrInfo] = useState([]); */}
 
     useEffect(() => {
@@ -77,7 +79,7 @@ function Dashboard() {
                             <div className={styles.cashierButton}>
                                 <PanelActionButton
                                     label="+ Search User"
-                                    onClick={() => {}}
+                                    onClick={() => window.location.assign("/user-search")}
                                 />
                             </div>
                             <div className={styles.cashierButton}>
@@ -101,7 +103,27 @@ function Dashboard() {
             <RegisterUserPopup
                 open={showRegisterPopup}
                 onClose={() => setShowRegisterPopup(false)}
-                onSuccess={() => setShowRegisterPopup(false)}
+                onSuccess={(userData) => {
+                    setShowRegisterPopup(false);
+                    setRegisteredUser(userData);
+                }}
+            />
+        )}
+        {registeredUser && (
+            <DetailsPopup
+                open={true}
+                onClose={() => setRegisteredUser(null)}
+                title="User Registered!"
+                fields={[
+                    { label: "Utorid", value: registeredUser.utorid },
+                    { label: "Name", value: registeredUser.name },
+                    { label: "Email", value: registeredUser.email },
+                ]}
+                primaryAction={{
+                    label: "Close",
+                    onClick: () => setRegisteredUser(null),
+                    className: "action-btn",
+                }}
             />
         )}
     </div>;

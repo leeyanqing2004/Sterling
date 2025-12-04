@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router( { mergeParams: true } );
+const router = express.Router({ mergeParams: true });
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const jwt = require('jsonwebtoken');
@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
     }
 
     const event = await prisma.event.findUnique({
-        where : {id: eventId },
+        where: { id: eventId },
         include: {
             organizers: { include: { user: true } },
             guests: { include: { user: true } },
@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
 
     if (!event) return res.status(404).json({ error: "Not Found" });
 
-    if ((new Date(event.endTime) < new Date()) || 
+    if ((new Date(event.endTime) < new Date()) ||
         (event.capacity !== null && event.guests.length >= event.capacity)) {
         return res.status(410).json({ error: "Gone" });
     }
@@ -74,7 +74,7 @@ router.post('/', async (req, res) => {
     });
 
     const updatedEvent = await prisma.event.findUnique({
-        where: {id: eventId },
+        where: { id: eventId },
         include: {
             guests: { include: { user: true } },
         }
@@ -112,13 +112,13 @@ router.all('/me', async (req, res) => { // I hate this route it took me so long
     }
 
     const event = await prisma.event.findUnique({
-        where : {id: eventId },
+        where: { id: eventId },
         include: {
             organizers: { include: { user: true } },
             guests: { include: { user: true } },
         }
     });
-    
+
 
     if (!event) return res.status(404).json({ error: "Not Found" });
 
@@ -194,7 +194,7 @@ router.delete('/:userId', async (req, res) => {
 
     const authHdr = req.headers.authorization;
     if (!authHdr) {
-        return res.status(400).json({ error: "Bad Request"});
+        return res.status(400).json({ error: "Bad Request" });
     }
 
     const token = authHdr.split(' ')[1];
@@ -210,7 +210,7 @@ router.delete('/:userId', async (req, res) => {
     }
 
     const event = await prisma.event.findUnique({
-        where: {id: eventId },
+        where: { id: eventId },
         include: {
             organizers: { include: { user: true } },
             guests: { include: { user: true } },

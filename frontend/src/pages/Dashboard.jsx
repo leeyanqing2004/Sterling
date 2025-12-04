@@ -18,7 +18,7 @@ import DetailsPopup from "../components/Popups/DetailsPopup";
 // for multiple pages?
 
 function Dashboard() {
-   //  const user = "cashier"
+    //  const user = "cashier"
     const { user } = useAuth();
     const isCashier = user?.role === "cashier";
 
@@ -29,7 +29,7 @@ function Dashboard() {
     const [showPurchasePopup, setShowPurchasePopup] = useState(false);
     const [promotionsOptions, setPromotionsOptions] = useState([]);
     const [registeredUser, setRegisteredUser] = useState(null);
-    {/* const [qrInfo, setQrInfo] = useState([]); */}
+    {/* const [qrInfo, setQrInfo] = useState([]); */ }
     const [showTransfer, setShowTransfer] = useState(false);
     const [showRedeem, setShowRedeem] = useState(false);
 
@@ -55,22 +55,23 @@ function Dashboard() {
     }, []);
 
     return (
-        <div className={styles.dashboardDashContainer}>
+        <>
+            <div className={styles.dashboardDashContainer}>
                 <div className={styles.dashboardDashTopContainer}>
 
                     {/* Available Points container */}
                     <div className={styles.dashboardAvailPoints}>
-                        <AvailablePointsDisplay 
-                            availablePoints={availablePoints} 
+                        <AvailablePointsDisplay
+                            availablePoints={availablePoints}
                             onTransfer={() => setShowTransfer(true)}
                             onRedeem={() => setShowRedeem(true)}
                         />
                     </div>
 
-                {/* QR Code container */}
-                <div className={styles.dashboardQR}>
-                    <StartTransactionQR qrCodeInfo={"QR CODE INFO HERE"} />
-                </div>
+                    {/* QR Code container */}
+                    <div className={styles.dashboardQR}>
+                        <StartTransactionQR qrCodeInfo={"QR CODE INFO HERE"} />
+                    </div>
 
                     {isCashier && (
                         <div className={styles.cashierButtonContainer}>
@@ -95,54 +96,55 @@ function Dashboard() {
                         </div>
                     )}
 
-            </div>
+                </div>
 
-            <div className={styles.dashboardDashBottomContainer}>
-                <TransactionTable transTableTitle={"Recent Transactions"} includeManageButton={false} recentOnlyBool={true} transactions={recentTransactions}/>
-            </div>
+                <div className={styles.dashboardDashBottomContainer}>
+                    <TransactionTable transTableTitle={"Recent Transactions"} includeManageButton={false} recentOnlyBool={true} transactions={recentTransactions} />
+                </div>
 
-            {showTransfer && <TransferPointsPopup onClose={() => setShowTransfer(false)} />}
-            {showRedeem && <RedeemPointsPopup show={showRedeem} setShow={setShowRedeem} />}
-        </div>
-        {isCashier && (
-            <RegisterUserPopup
-                open={showRegisterPopup}
-                onClose={() => setShowRegisterPopup(false)}
-                onSuccess={(userData) => {
-                    setShowRegisterPopup(false);
-                    setRegisteredUser(userData);
-                }}
-            />
-        )}
-        {isCashier && showPurchasePopup && (
-            <NewPurchasePopup
-                initialUtorid=""
-                promotionsOptions={promotionsOptions}
-                onSubmit={async ({ utorid, spent, promotionIds, remark }) => {
-                    const res = await createPurchase({ utorid, spent, promotionIds, remark });
-                    return res;
-                }}
-                onClose={() => setShowPurchasePopup(false)}
-            />
-        )}
-        {registeredUser && (
-            <DetailsPopup
-                open={true}
-                onClose={() => setRegisteredUser(null)}
-                title="User Registered!"
-                fields={[
-                    { label: "Utorid", value: registeredUser.utorid },
-                    { label: "Name", value: registeredUser.name },
-                    { label: "Email", value: registeredUser.email },
-                ]}
-                primaryAction={{
-                    label: "Close",
-                    onClick: () => setRegisteredUser(null),
-                    className: "action-btn",
-                }}
-            />
-        )}
-    </div>;
+                {showTransfer && <TransferPointsPopup onClose={() => setShowTransfer(false)} />}
+                {showRedeem && <RedeemPointsPopup show={showRedeem} setShow={setShowRedeem} />}
+            </div>
+            {isCashier && (
+                <RegisterUserPopup
+                    open={showRegisterPopup}
+                    onClose={() => setShowRegisterPopup(false)}
+                    onSuccess={(userData) => {
+                        setShowRegisterPopup(false);
+                        setRegisteredUser(userData);
+                    }}
+                />
+            )}
+            {isCashier && showPurchasePopup && (
+                <NewPurchasePopup
+                    initialUtorid=""
+                    promotionsOptions={promotionsOptions}
+                    onSubmit={async ({ utorid, spent, promotionIds, remark }) => {
+                        const res = await createPurchase({ utorid, spent, promotionIds, remark });
+                        return res;
+                    }}
+                    onClose={() => setShowPurchasePopup(false)}
+                />
+            )}
+            {registeredUser && (
+                <DetailsPopup
+                    open={true}
+                    onClose={() => setRegisteredUser(null)}
+                    title="User Registered!"
+                    fields={[
+                        { label: "Utorid", value: registeredUser.utorid },
+                        { label: "Name", value: registeredUser.name },
+                        { label: "Email", value: registeredUser.email },
+                    ]}
+                    primaryAction={{
+                        label: "Close",
+                        onClick: () => setRegisteredUser(null),
+                        className: "action-btn",
+                    }}
+                />
+            )}
+        </>
+    )
 }
 
 export default Dashboard;

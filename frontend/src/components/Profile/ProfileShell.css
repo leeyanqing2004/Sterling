@@ -22,7 +22,7 @@
 
 .profile-shell-left {
     position: relative;
-    width: 250px;
+    width: 20vw;
     flex-shrink: 0;
     transition: transform 180ms ease;
     overflow: hidden;

@@ -4,7 +4,9 @@ import {
 } from "@mui/material";
 import { TextField, FormControl, InputLabel, Select, MenuItem, Box } from "@mui/material";
 import { useState } from "react";
-import styles from "./TransactionTable.module.css"
+import styles from "./TransactionTable.module.css";
+import ManageTransactionPopup from "../ManageTransactionPopup";
+
   
 export default function TransactionTable({ 
     transTableTitle, includeManageButton, recentOnlyBool, transactions }) {
@@ -34,12 +36,18 @@ export default function TransactionTable({
     const [utoridFilter, setUtoridFilter] = useState("");
 
     const [sortBy, setSortBy] = useState("");
+    const [activeTransaction, setActiveTransaction] = useState(null);
   
     const handleChangePage = (_, newPage) => setPage(newPage);
     const handleChangeRowsPerPage = (e) => {
         setRowsPerPage(parseInt(e.target.value, 10));
         setPage(0);
     };
+
+    function Capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
 
     const processedRows = rows
     // FILTER
@@ -58,129 +66,147 @@ export default function TransactionTable({
     });
   
     return (
-        <div className={styles.transactionTableContainer}>
-            <div className={styles.transactionTableTitle}>{transTableTitle}</div>
-            {!recentOnlyBool && (
-                <Box display="flex" gap={2} mb={2}>
-                    {/* Filter Input */}
-                    <TextField
-                        label="Transaction ID"
-                        variant="outlined"
-                        size="small"
-                        value={idFilter}
-                        onChange={(e) => setIdFilter(e.target.value)}
-                    />
-                    
-                    <TextField
-                        label="CreatedBy"
-                        variant="outlined"
-                        size="small"
-                        value={createdByFilter}
-                        onChange={(e) => setCreatedByFilter(e.target.value)}
-                    />
-
-                    {includeManageButton && 
+        <>
+            <div className={styles.transactionTableContainer}>
+                <div className={styles.transactionTableTitle}>{transTableTitle}</div>
+                {!recentOnlyBool && (
+                    <Box display="flex" gap={2} mb={2}>
+                        {/* Filter Input */}
                         <TextField
-                            label="Utorid"
+                            label="Transaction ID"
                             variant="outlined"
                             size="small"
-                            value={utoridFilter}
-                            onChange={(e) => setUtoridFilter(e.target.value)}
+                            value={idFilter}
+                            onChange={(e) => setIdFilter(e.target.value)}
                         />
-                    }
+                        
+                        <TextField
+                            label="Created By"
+                            variant="outlined"
+                            size="small"
+                            value={createdByFilter}
+                            onChange={(e) => setCreatedByFilter(e.target.value)}
+                        />
 
-                    {/* Sort Dropdown */}
-                    <FormControl size="small">
-                        <InputLabel>Sort By</InputLabel>
-                        <Select
-                            value={sortBy}
-                            label="Sort By"
-                            onChange={(e) => setSortBy(e.target.value)}
-                            style={{ minWidth: 150 }}
-                        >
-                            <MenuItem value="">None</MenuItem>
-                            <MenuItem value="id">ID</MenuItem>
-                            <MenuItem value="amount">Amount</MenuItem>
-                        </Select>
-                    </FormControl>
+                        {includeManageButton && 
+                            <TextField
+                                label="UTORid"
+                                variant="outlined"
+                                size="small"
+                                value={utoridFilter}
+                                onChange={(e) => setUtoridFilter(e.target.value)}
+                            />
+                        }
 
-                    <FormControl size="small">
-                        <InputLabel>Type</InputLabel>
-                        <Select
-                            value={transactionTypeFilter}
-                            label="Transaction Type"
-                            onChange={(e) => setTransactionTypeFilter(e.target.value)}
-                            style={{ minWidth: 150 }}
-                        >
-                            <MenuItem value="">All</MenuItem>
-                            <MenuItem value="purchase">Purchase</MenuItem>
-                            <MenuItem value="adjustment">Adjustment</MenuItem>
-                            <MenuItem value="redemption">Redemption</MenuItem>
-                            <MenuItem value="transfer">Transfer</MenuItem>
-                            <MenuItem value="event">Event</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Box>
-            )}
-            <Paper>
-                <TableContainer>
-                <Table>
-                    <TableHead>
-                    <TableRow>
-                        <TableCell>ID</TableCell>
-                        {includeManageButton && <TableCell>Utorid</TableCell>}
-                        <TableCell>Type</TableCell>
-                        <TableCell>Amount</TableCell>
-                        <TableCell>Remark</TableCell>
-                        <TableCell>Promotions Applied</TableCell>
-                        <TableCell>Created By</TableCell>
-                        <TableCell>Additional Details</TableCell>
-                        <TableCell></TableCell>
-                    </TableRow>
-                    </TableHead>
-        
-                    <TableBody>
-                    {processedRows
-                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                        .map((row) => (
-                        <TableRow key={row.id}>
-                            <TableCell>{row.id}</TableCell>
-                            {includeManageButton && <TableCell>{row.utorid}</TableCell>}
-                            <TableCell>{row.type}</TableCell>
-                            <TableCell>{row.amount}</TableCell>
-                            <TableCell>{row.remark}</TableCell>
-                            <TableCell>{row.promotionIds}</TableCell>
-                            <TableCell>{row.createdBy}</TableCell>
-                            {/* <TableCell>Additional Info Here</TableCell> */}
-                            <TableCell>
-                                {Object.entries(row)
-                                    .filter(
-                                        ([key]) =>
-                                            !["id", "utorid", "earned", "remark", "promotionIds", "createdBy"].includes(key)
-                                    )
-                                    .map(([key, value]) => (
-                                        <div key={key}>
-                                            <strong>{key}:</strong> {value?.toString()}
-                                        </div>
-                                    ))}
-                            </TableCell>
-                            <TableCell> {includeManageButton ? <button>Manage Transaction</button> : null} </TableCell>
+                        {/* Sort Dropdown */}
+                        <FormControl size="small">
+                            <InputLabel>Sort By</InputLabel>
+                            <Select
+                                value={sortBy}
+                                label="Sort By"
+                                onChange={(e) => setSortBy(e.target.value)}
+                                style={{ minWidth: 150 }}
+                            >
+                                <MenuItem value="">None</MenuItem>
+                                <MenuItem value="id">ID</MenuItem>
+                                <MenuItem value="amount">Amount</MenuItem>
+                            </Select>
+                        </FormControl>
+
+                        <FormControl size="small">
+                            <InputLabel>Type</InputLabel>
+                            <Select
+                                value={transactionTypeFilter}
+                                label="Transaction Type"
+                                onChange={(e) => setTransactionTypeFilter(e.target.value)}
+                                style={{ minWidth: 150 }}
+                            >
+                                <MenuItem value="">All</MenuItem>
+                                <MenuItem value="purchase">Purchase</MenuItem>
+                                <MenuItem value="adjustment">Adjustment</MenuItem>
+                                <MenuItem value="redemption">Redemption</MenuItem>
+                                <MenuItem value="transfer">Transfer</MenuItem>
+                                <MenuItem value="event">Event</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
+                )}
+                <Paper>
+                    <TableContainer>
+                    <Table>
+                        <TableHead>
+                        <TableRow>
+                            <TableCell>ID</TableCell>
+                            {includeManageButton && <TableCell>UTORid</TableCell>}
+                            <TableCell>Type</TableCell>
+                            <TableCell>Amount</TableCell>
+                            <TableCell>Remark</TableCell>
+                            <TableCell>Promotions Applied</TableCell>
+                            <TableCell>Created By</TableCell>
+                            <TableCell>Additional Details</TableCell>
+                            <TableCell></TableCell>
                         </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-                </TableContainer>
-        
-                <TablePagination
-                component="div"
-                count={rows.length}
-                page={page}
-                rowsPerPage={rowsPerPage}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
+                        </TableHead>
+            
+                        <TableBody>
+                        {processedRows
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((row) => (
+                            <TableRow key={row.id}>
+                                <TableCell>{row.id}</TableCell>
+                                {includeManageButton && <TableCell>{row.utorid}</TableCell>}
+                                <TableCell>{Capitalize(row.type)}</TableCell>
+                                <TableCell>{row.amount}</TableCell>
+                                <TableCell>{row.remark}</TableCell>
+                                <TableCell>{row.promotionIds}</TableCell>
+                                <TableCell>{row.createdBy}</TableCell>
+                                {/* <TableCell>Additional Info Here</TableCell> */}
+                                <TableCell>
+                                    {Object.entries(row)
+                                        .filter(
+                                            ([key]) =>
+                                                !["id", "utorid", "earned", "remark", "promotionIds", "createdBy", "amount", "type"].includes(key)
+                                        )
+                                        .map(([key, value]) => (
+                                            <div key={key}>
+                                                <strong>{Capitalize(key)}:</strong> {value?.toString()}
+                                            </div>
+                                        ))}
+                                </TableCell>
+                                <TableCell>
+                                    {includeManageButton ? (
+                                        <button
+                                            className={styles.manageBtn}
+                                            onClick={() => setActiveTransaction(row)}
+                                        >
+                                            Manage Transaction
+                                        </button>
+                                    ) : null}
+                                </TableCell>
+                            </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                    </TableContainer>
+            
+                    <TablePagination
+                    component="div"
+                    count={rows.length}
+                    page={page}
+                    rowsPerPage={rowsPerPage}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                </Paper>
+            </div>
+            {activeTransaction && (
+                <ManageTransactionPopup
+                    show={!!activeTransaction}
+                    transaction={activeTransaction}
+                    onClose={() => setActiveTransaction(null)}
                 />
-            </Paper>
-        </div>
+            )}
+        </>
     );
 }
   

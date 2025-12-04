@@ -19,17 +19,22 @@
     text-align: center !important;
 }
 
-:global(.MuiTableCell-body) {
-    text-align: center !important;
+.manageBtn {
+    color: #2A73B7;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    border-radius: 0;
+    font-weight: 600;
+    min-width: 0;
+    transition: transform 120ms ease;
 }
 
-button {
-    background-color: #ffff;
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-    border-color: #ffff;
-    border-style: none;
-    color: #2A73B7;
-    font-weight: bold;
+.manageBtn:hover {
+    transform: translateY(-1px);
+}
+
+:global(.MuiTableCell-body) {
+    text-align: center !important;
 }

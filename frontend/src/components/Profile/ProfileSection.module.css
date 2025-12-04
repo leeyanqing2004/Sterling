@@ -23,7 +23,7 @@
 
 .profileSectionError {
     /* Decorations */
-    color: #2A73B7;
+    color: #ff0015; /* SK: Change this colour if you do not like this red */
 }
 
 .profileSectionEditButton {

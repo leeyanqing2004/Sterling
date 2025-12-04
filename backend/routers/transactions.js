@@ -347,29 +347,18 @@ router.all("/", async (req, res) => {
 
             // Now, actually adjust the related transaction
 
+            const recipientId = relatedTransaction.recipient?.id;
+            const recipientPoints = relatedTransaction.recipient?.points ?? 0;
+            let pointDelta = 0;
+
             if (relatedTransaction.type === 'purchase') {
-                let newAmount = relatedTransaction.amount + amount;
-                let newEarned = relatedTransaction.earned;
-                let newPoints = relatedTransaction.recipient.points;
-
-                if (!relatedTransaction.suspicious) {
-                    newEarned += amount;
-                    newPoints += amount;
-
-                    await prisma.user.update({
-                        where: {
-                            id: relatedTransaction.recipient.id,
-                        },
-                        data: {
-                            points: newPoints
-                        }
-                    })
+                const newAmount = relatedTransaction.amount + amount;
+                const newEarned = relatedTransaction.earned + amount;
+                if (!relatedTransaction.suspicious && recipientId) {
+                    pointDelta = amount;
                 }
-
                 await prisma.transaction.update({
-                    where: {
-                        id: parseInt(relatedId),
-                    },
+                    where: { id: parseInt(relatedId) },
                     data: {
                         amount: newAmount,
                         earned: newEarned,
@@ -381,16 +370,12 @@ router.all("/", async (req, res) => {
                             }
                             : undefined
                     }
-                })
-
+                });
             } else if (relatedTransaction.type === 'event') {
-                let newAmount = relatedTransaction.amount + amount;
-                let newPoints = relatedTransaction.recipient.points + amount;
-
+                const newAmount = relatedTransaction.amount + amount;
+                pointDelta = amount;
                 await prisma.transaction.update({
-                    where: {
-                        id: parseInt(relatedId),
-                    },
+                    where: { id: parseInt(relatedId) },
                     data: {
                         amount: newAmount,
                         promotions: promotionIds?.length
@@ -401,20 +386,10 @@ router.all("/", async (req, res) => {
                             }
                             : undefined
                     }
-                })
-                await prisma.user.update({
-                    where: {
-                        id: relatedTransaction.recipient.id,
-                    },
-                    data: {
-                        points: newPoints
-                    }
-                })
+                });
             } else { // TODO: IMPLEMENT FOR TRANSFER & REDEMPTION
                 await prisma.transaction.update({
-                    where: {
-                        id: parseInt(relatedId),
-                    },
+                    where: { id: parseInt(relatedId) },
                     data: {
                         promotions: promotionIds?.length
                             ? {
@@ -424,7 +399,17 @@ router.all("/", async (req, res) => {
                             }
                             : undefined
                     }
-                })
+                });
+            }
+
+            // apply point delta after transaction adjustment
+            if (recipientId && pointDelta !== 0) {
+                await prisma.user.update({
+                    where: { id: recipientId },
+                    data: {
+                        points: recipientPoints + pointDelta
+                    }
+                });
             }
 
             return res.status(201).json({
@@ -440,13 +425,38 @@ router.all("/", async (req, res) => {
         }
     }
     if (req.method === "GET") {
+        // Support filters from either query string (?page=1&limit=10...) or JSON body (legacy)
+        const source = Object.keys(req.query).length ? req.query : req.body;
+        const keys = Object.keys(source);
+
         const allowedKeys = ['name', 'createdBy', 'suspicious', 'promotionId', 'type', 'relatedId', 'amount', 'operator', 'page', 'limit'];
         const unknownKeys = keys.filter(key => !allowedKeys.includes(key));
         if (unknownKeys.length > 0) {
             return res.status(400).json({ error: `Unknown field(s): ${unknownKeys.join(', ')}` });
         }
 
-        let { name, createdBy, suspicious, promotionId, type, relatedId, amount, operator, page, limit } = req.body;
+        let { name, createdBy, suspicious , promotionId, type, relatedId, amount, operator, page, limit } = source;
+
+        // Coerce primitive types from query-string values where necessary
+        if (typeof suspicious === 'string') {
+            // accept "true"/"false"
+            suspicious = suspicious.toLowerCase() === 'true';
+        }
+        if (typeof promotionId === 'string') {
+            promotionId = promotionId.length ? Number(promotionId) : undefined;
+        }
+        if (typeof relatedId === 'string') {
+            relatedId = relatedId.length ? Number(relatedId) : undefined;
+        }
+        if (typeof amount === 'string') {
+            amount = amount.length ? Number(amount) : undefined;
+        }
+        if (typeof page === 'string') {
+            page = page.length ? Number(page) : undefined;
+        }
+        if (typeof limit === 'string') {
+            limit = limit.length ? Number(limit) : undefined;
+        }
 
         if (!checkTypes([name, createdBy, suspicious, promotionId, type, relatedId, amount, operator, page, limit],
             ['string', 'string', 'boolean', 'number', 'string', 'number', 'number', 'string', 'number', 'number'],

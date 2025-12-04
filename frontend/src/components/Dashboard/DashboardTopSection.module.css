@@ -4,6 +4,32 @@
     gap: 10px;
 }
 
+.dashboardPointsActions {
+    display: flex;
+    gap: 10px;
+}
+
+.dashboardPointsActions button {
+    flex: 1;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #2A73B7, #1f5a90);
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.dashboardPointsActions button.secondary {
+    background: linear-gradient(135deg, #1f5a90, #2A73B7);
+}
+
+.dashboardPointsActions button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}
+
 .dashboardStartTransQRContainer {
     display: flex;
     flex-direction: column;

@@ -1,7 +1,8 @@
 import { useState } from "react";
-import styles from "./NewGuestPopup.module.css";
+import api from "../api/api";
+import "./NewGuestPopup.module.css";
 
-function NewGuestPopup(eventId) {
+function NewGuestPopup({ eventId, onClose, onSuccess }) {
     const [utorid, setUtorid] = useState("");
     const [error, setError] = useState("");
     const [submitting, setSubmitting] = useState(false);
@@ -11,58 +12,61 @@ function NewGuestPopup(eventId) {
 
         const trimmed = utorid.trim();
         if (!trimmed) {
-            setError("Please enter a valid utorid!");
+            setError("Please enter a valid UTORid");
             return;
         }
 
         setSubmitting(true);
 
         try {
-            await api.post(`events/${eventId}/guests`, {
-                utorid: trimmed
+            await api.post(`/events/${eventId}/guests`, {
+                utorid: trimmed,
             });
 
             setUtorid("");
-            setError("");
-            alert("Guest added successfully!");
+            onSuccess?.();
         } catch (err) {
-            setError(err.response?.data?.error)
+            setError(err.response?.data?.error || "Failed to add guest");
         } finally {
             setSubmitting(false);
         }
     };
-    return <div className={styles.newGuestPopup}>
-        <div className={styles.newGuestPopupContent} onClick={(e) => e.stopPropagation()}>
-            <button className={styles.newGuestPopupCloseButton}>X</button>
-            <h2 className={styles.newGuestPopupTitle}>New Guest</h2>
-            <div className={styles.newGuestPopupUtorid}>
-                <label 
-                    className={styles.newGuestPopupUtoridLabel} 
-                    htmlFor={styles.newGuestPopupUtoridInput}
-                >
-                    Utorid
-                </label>
-                <input 
-                    id={styles.newGuestPopupUtoridInput}
-                    className={styles.newGuestPopupUtoridInput}
-                    type="text"
-                    name="new-guest-popup-utorid-input"
-                    placeholder="Enter utorid"
-                    value={utorid}
-                    onChange={(e) => setUtorid(e.target.value)}
+
+    return (
+        <div className="new-guest-popup" onClick={onClose}>
+            <div className="new-guest-popup-content" onClick={(e) => e.stopPropagation()}>
+                <button className="new-guest-popup-close-button" onClick={onClose}>
+                    X
+                </button>
+                <h2 className="new-guest-popup-title">New Guest</h2>
+                <div className="new-guest-popup-utorid">
+                    <label
+                        className="new-guest-popup-utorid-label"
+                        htmlFor="new-guest-popup-utorid-input"
+                    >
+                        UTORid
+                    </label>
+                    <input
+                        id="new-guest-popup-utorid-input"
+                        type="text"
+                        name="new-guest-popup-utorid-input"
+                        placeholder="Enter UTORid"
+                        value={utorid}
+                        onChange={(e) => setUtorid(e.target.value)}
+                        disabled={submitting}
+                    />
+                    {error && <span className="new-guest-popup-error">{error}</span>}
+                </div>
+                <button
+                    className="new-guest-popup-add-guest-button"
+                    onClick={handleSubmit}
                     disabled={submitting}
-                />
-                {error && <span className={styles.newGuestPopupError}>{error}</span>}
+                >
+                    {submitting ? "Adding..." : "Add guest"}
+                </button>
             </div>
-            <button 
-                className={styles.newGuestPopupAddGuestButton}
-                onClick={handleSubmit}
-                disabled={submitting}
-            >
-                Add guest
-            </button>
         </div>
-    </div>
+    );
 }
 
 export default NewGuestPopup;

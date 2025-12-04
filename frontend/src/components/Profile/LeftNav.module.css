@@ -53,5 +53,13 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    width: 250px;
+    /* Decorations */
     background-color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.left-nav-left-top img {
+    max-width: 80px;
+    border-radius: 50%;
 }

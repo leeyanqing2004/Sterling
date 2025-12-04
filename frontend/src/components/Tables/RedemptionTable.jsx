@@ -83,7 +83,7 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
             <Box display="flex" gap={2} mb={2}>
                 {/* Filter Input */}
                 <TextField
-                    label="Filter by Utorid"
+                    label=""
                     variant="outlined"
                     size="small"
                     value={filter}
@@ -103,7 +103,7 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
                         <MenuItem value="id">ID</MenuItem>
                         <MenuItem value="earned">Points Earned</MenuItem>
                         <MenuItem value="spent">Points Spent</MenuItem>
-                        <MenuItem value="utorid">Utorid</MenuItem>
+                        <MenuItem value="utorid">UTORid</MenuItem>
                     </Select>
                 </FormControl>
             </Box>

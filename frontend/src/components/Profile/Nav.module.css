@@ -24,4 +24,12 @@
     /* Decorations */
     color: black;
     text-decoration: none;
+    font-weight: 600;
+    padding: 0.75em 1.25em;
+    border-radius: 0.5em;
+}
+
+.active {
+    background-color: #2A73B7;
+    color: white;
 }

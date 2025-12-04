@@ -491,15 +491,15 @@ router.all('/:eventId', async (req, res) => {
             }
 
             if (event.published) {
-                return res.status(400).json({ error: "Bad Request" });
+                return res.status(400).json({ error: "Cannot delete published event" });
             }
 
             if (event._count.guests > 0) {
-                return res.status(400).json({ error: "Bad Request" });
+                return res.status(400).json({ error: "Cannot delete event with guests" });
             }
 
             if (event._count.transactions > 0) {
-                return res.status(400).json({ error: "Bad Request" });
+                return res.status(400).json({ error: "Cannot delete event with transactions" });
             }
 
             const isManagerOrSU = 

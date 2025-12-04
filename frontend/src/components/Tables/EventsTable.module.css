@@ -5,6 +5,8 @@
     padding: 30px;
     gap: 20px;
     border-radius: 10px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .eventsTableTitle {
@@ -19,12 +21,102 @@
     text-align: center !important;
 }
 
-.moreDetailsBtn {
+.manageEventBtn {
     color: #2A73B7;
-    background: #f7f7f7;
+    background: none;
     border: none;
     cursor: pointer;
-  }
+    padding: 0;
+    border-radius: 0;
+    font-weight: 600;
+    min-width: 0;
+    transition: transform 120ms ease;
+}
+
+.manageEventBtn:hover {
+    transform: translateY(-1px);
+}
+
+.rsvpBtn {
+    color: white;
+    background: #2A73B7;
+    border: none;
+    cursor: pointer;
+    padding: 10px 16px;
+    border-radius: 14px;
+    font-weight: 600;
+    min-width: 120px;
+    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+
+.rsvpBtn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    background: #1f5a90;
+}
+
+.rsvpBtnSecondary {
+    color: #2A73B7;
+    background: #e8f0fe;
+    border: none;
+    cursor: pointer;
+    padding: 10px 16px;
+    border-radius: 14px;
+    font-weight: 600;
+    min-width: 120px;
+    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+
+.rsvpBtnSecondary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    background: #d9e8ff;
+}
+
+.rsvpBtn:disabled,
+.rsvpBtnSecondary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.rsvpBtn:disabled:hover,
+.rsvpBtnSecondary:disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.toast {
+    position: fixed;
+    bottom: 2em;
+    right: 2em;
+    padding: 1em 1.5em;
+    border-radius: 0.5em;
+    color: white;
+    font-weight: 600;
+    z-index: 2000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: slideIn 0.3s ease-out;
+}
+
+.toastSuccess {
+    background-color: rgba(24, 115, 62, 0.9);
+}
+
+.toastError {
+    background-color: rgba(139, 26, 26, 0.9);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
 
 :global(.MuiTableCell-body) {
     text-align: center !important;

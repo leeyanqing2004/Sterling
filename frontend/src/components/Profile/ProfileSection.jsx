@@ -1,5 +1,8 @@
+import { useMatch, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import api from "../../api/api";
+import RedeemPointsPopup from "../RedeemPointsPopup";
+import TransferPointsPopup from "../TransferPoints";
 import styles from "./ProfileSection.module.css";
 
 function isValidName(name) {
@@ -69,6 +72,11 @@ function ProfileSection({ id, className }) {
     const [birthdayError, setBirthdayError] = useState("");
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
+    const navigate = useNavigate();
+    const { utorid } = useParams();
+    
+    const isRedeemRoute = Boolean(useMatch("/profile/:utorid/redeem-points"));
+    const isTransferRoute = Boolean(useMatch("/profile/:utorid/transfer-points"));
 
     const profileSectionSettingsStyle = locked ? styles.profileSectionSettingsLocked : styles.profileSectionSettingsUnlocked;
     const profileSectionNewImageButtonStyle = locked ? "" : styles.profileSectionNewImageButtonUnlocked;
@@ -88,6 +96,23 @@ function ProfileSection({ id, className }) {
         setEmailError("");
         setPasswordError("");
     }
+
+    const handleCloseRedeem = () => {
+        if (utorid) {
+            navigate(`/profile/${utorid}/home`);
+        } else {
+            navigate("/profile");
+        }
+    };
+
+        const handleCloseTransfer = () => {
+        if (utorid) {
+            navigate(`/profile/${utorid}/home`);
+        } else {
+            navigate("/profile");
+        }
+    };
+
 
     const handleSaveChanges = async () => {
         setNameError("");
@@ -200,6 +225,8 @@ function ProfileSection({ id, className }) {
                 </div>
             </div>
             {getEditingFields(locked, setLocked, handleCancelChanges, handleSaveChanges)}
+            {isRedeemRoute && <RedeemPointsPopup onClose={handleCloseRedeem} />}
+            {isTransferRoute && <TransferPointsPopup onClose={handleCloseTransfer} />}
         </div>
     </div>;
 }

@@ -4,7 +4,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 1500;
 
     /* Spacing */
     top: 0;
@@ -14,17 +14,23 @@
 
     /* Decorations */
     background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .redeemPointsPopupContent {
     /* Layout */
     position: relative;
     width: auto;
-    min-width: 400px;
-    max-width: 600px;
+    min-width: 280px;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75em;
+    box-sizing: border-box;
 
     /* Spacing */
-    padding: 2em;
+    padding: 1.5em 1.5em 2.5em 1.5em;
 
     /* Decorations */
     background-color: white;
@@ -60,6 +66,7 @@
     /* Layout */
     display: block;
     width: 100%;
+    margin-bottom: 0.5em;
 }
 
 .redeemPointsPopupAmountOfPointsLabel {
@@ -68,7 +75,7 @@
     color: black;
     
     /* Spacing */
-    margin: 10px 0px;
+    margin: 8px 0px 6px 0px;
 }
 
 .redeemPointsPopupAmountOfPointsInput {
@@ -78,8 +85,8 @@
     box-sizing: border-box;
 
     /* Spacing */
-    margin: 10px 0px;
-    padding: 1em;
+    margin: 6px 0px 0 0;
+    padding: 0.85em;
 
     /* Decorations */
     border: 1px solid #ccc;
@@ -91,13 +98,14 @@
     display: block;
 
     /* Decorations */
-    color: #2A73B7;
+    color: #b3261e;
 }
 
 .redeemPointsPopupRemarks {
     /* Layout */
     display: block;
     width: 100%;
+    margin-top: 0.25em;
 }
 
 .redeemPointsPopupRemarksLabel { 
@@ -106,17 +114,20 @@
     color: black;
 
     /* Spacing */
-    margin: 10px 0px;
+    margin: 8px 0px 6px 0px;
 }
 
 .redeemPointsPopupRemarksInput {
     /* Spacing */
-    margin: 10px 0px;
-    padding: 1em;
+    margin: 6px 0px 0 0;
+    padding: 0.85em;
 
     /* Decorations */
     border: 1px solid #ccc;
     border-radius: 1em !important;
+    width: 100%;
+    box-sizing: border-box;
+    resize: none;
 }
 
 .redeemPointsPopupSubmitButton {
@@ -126,8 +137,79 @@
     border-radius: 0.5em;
     color: white;
     background-color: #2A73B7;
+    position: relative;
 }
 
 button {
     cursor: pointer;
+}
+
+.redeemPointsPopupMessage {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    margin: 0.15em 0 0 0;
+    gap: 0.15em;
+}
+
+.redeemPointsPopupSuccessActions {
+    display: flex;
+    gap: 0.5em;
+    margin-top: 0.5em;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.redeemPointsPopupSuccessActions .redeemPointsPopupSubmitButton {
+    margin: 0;
+    padding: 0.75em 1.25em;
+}
+
+.redeemPointsPopupSubmitButton.loading::after {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    border-radius: 0.4em;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-left-color: transparent;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.redeemPointsToastPopup {
+    position: absolute;
+    top: 3.25em;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff !important;
+    padding: 0.55em 0.85em;
+    border-radius: 0.75em;
+    font-size: 0.9em;
+    max-width: 90%;
+    text-align: center;
+    animation: fadeIn 120ms ease-out;
+    pointer-events: none;
+}
+
+.redeemPointsToastError {
+    background: rgba(139, 26, 26, 0.9);
+    color: #fff !important;
+}
+
+.redeemPointsToastSuccess {
+    background: rgba(24, 115, 62, 0.9);
+    color: #fff !important;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }

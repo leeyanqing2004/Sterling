@@ -21,49 +21,31 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 export const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
+    const [authLoading, setAuthLoading] = useState(true);
 
     useEffect(() => {
-        // Retrieve token from localStorage and make an api call to GET /user/me.
-
-        // when the user is logged in (i.e., localStorage contains a valid token), 
-        //      fetch the user data from /user/me,
-        //      and update the user context state with the returned user object.
-
-        // when the user is not logged in (i.e., localStorage does not contain a token), 
-        //      set the user context state to null.
-
-        // first, we get the token from localStorage
         const fetchUser = async() => {
+            setAuthLoading(true);
             const token = localStorage.getItem("token");
-            const expiresAt = localStorage.getItem("expiresAt"); // we also store the expiresAt of the token
-            const expiryDate = new Date(expiresAt);
+            const expiresAt = localStorage.getItem("expiresAt");
+            const expiryDate = expiresAt ? new Date(expiresAt) : null;
             const currentDate = new Date();
 
-            if (!token) {
-                // set user context state to null
+            try {
+                if (!token) {
+                    setUser(null);
+                } else if (expiryDate && currentDate > expiryDate) {
+                    localStorage.removeItem("token");
+                    setUser(null);
+                    navigate("/");
+                } else {
+                    const response = await api.get("/users/me");
+                    setUser(response.data);
+                }
+            } catch (err) {
                 setUser(null);
-            } 
-            else if (currentDate > expiryDate) {
-                // if the token has expired, log out the user. 
-                // TODO: Should we have a 'your session has expired' page?
-                localStorage.removeItem("token");
-                setUser(null);
-                navigate("/");
-            }
-            else {
-
-                // const response = await fetch(`${BACKEND_URL}/users/me`, {
-                //     method: "GET",
-                //     headers: {
-                //     "Authorization": `Bearer ${token}`
-                //     }
-                // })
-                // const data = await response.json();
-                // const user = data.user;
-
-                const response = await api.get("/users/me");
-                setUser(response.data);
-
+            } finally {
+                setAuthLoading(false);
             }
         };
         fetchUser();
@@ -125,9 +107,10 @@ export const AuthProvider = ({ children }) => {
             // setUser(userData.user);
 
             const userRes = await api.get("/users/me");
-            setUser(userRes.data);
+            const userData = userRes.data;
+            setUser(userData);
 
-            navigate("/home"); // TODO: hypothetical "/home" page right now
+            navigate(`/profile/${userData.utorid}/home`); // TODO: hypothetical "/home" page right now
             return null;
         } catch (err) {
             return "Network error"
@@ -236,7 +219,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, createAccount, sendResetPassEmail, setPassword }}>
+        <AuthContext.Provider value={{ user, authLoading, login, logout, createAccount, sendResetPassEmail, setPassword }}>
             {children}
         </AuthContext.Provider>
     );

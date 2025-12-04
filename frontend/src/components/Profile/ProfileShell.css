@@ -1,0 +1,75 @@
+.profile-shell {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+.profile-shell-nav {
+    flex: 0 0 auto;
+}
+
+.profile-shell-body {
+    display: flex;
+    flex-direction: row;
+    flex: 1 1 auto;
+    min-height: 0;
+    position: relative;
+    min-width: 0;
+    background: #f2f2f7;
+}
+
+.profile-shell-left {
+    position: relative;
+    width: 250px;
+    flex-shrink: 0;
+    transition: transform 180ms ease;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.profile-shell-left.collapsed {
+    transform: translateX(-110%);
+}
+
+.profile-shell-toggle {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 3000;
+    background: #ffffff;
+    border: none;
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    cursor: pointer;
+    box-shadow: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    color: #333;
+    font-size: 18px;
+}
+
+.profile-shell-right {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 100%;
+    background-color: #F2F2F7;
+    padding: 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.profile-shell-right.with-nav {
+    margin-left: 0;
+    transition: margin 180ms ease;
+}
+
+.profile-shell-right.expanded {
+    margin-left: 0;
+    transition: margin 180ms ease;
+}

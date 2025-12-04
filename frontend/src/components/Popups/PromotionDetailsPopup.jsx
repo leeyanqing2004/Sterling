@@ -12,7 +12,7 @@ export default function PromotionDetailsPopup({ promotion, onClose }) {
                 <div><span style={{ color: "#888" }}>Minimum Spending</span><br /><b>{promotion.minSpending ?? "n/a"}</b></div>
                 <div><span style={{ color: "#888" }}>Rate</span><br /><b>{promotion.rate ?? "n/a"}</b></div>
                 <div><span style={{ color: "#888" }}>Points</span><br /><b>{promotion.points ?? "n/a"}</b></div>
-                <div><span style={{ color: "#888" }}>Description</span><br /><b>{promotion.description ?? "n/a"}</b></div>
+                <div><span style={{ color: "#888" }}>Description</span><br /><b>{promotion.description && promotion.description.trim() !== "" ? promotion.description : "n/a"}</b></div>
             </div>
         </DetailsPopup>
     );

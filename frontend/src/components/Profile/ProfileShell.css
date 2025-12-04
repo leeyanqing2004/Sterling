@@ -21,19 +21,18 @@
 }
 
 .profile-shell-left {
-    position: relative;
+    position: absolute;
+    inset: 0 auto 0 0;
+    height: 100%;
     width: 250px;
-    flex-basis: 250px;
-    flex-shrink: 0;
-    transition: transform 180ms ease, width 180ms ease, flex-basis 180ms ease;
+    transition: transform 180ms ease;
     overflow: hidden;
     background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 .profile-shell-left.collapsed {
     transform: translateX(-100%);
-    width: 0;
-    flex-basis: 0;
 }
 
 .profile-shell-right {
@@ -47,7 +46,7 @@
 }
 
 .profile-shell-right.with-nav {
-    margin-left: 0;
+    margin-left: 250px;
     transition: margin 180ms ease;
 }
 

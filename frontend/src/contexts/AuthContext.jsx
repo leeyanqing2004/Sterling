@@ -49,8 +49,7 @@ export const AuthProvider = ({ children }) => {
             }
         };
         fetchUser();
-
-    }, [navigate])
+    }, [])
 
     /*
      * Logout the currently authenticated user.

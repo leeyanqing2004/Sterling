@@ -1,5 +1,5 @@
 import { useAuth } from "../../contexts/AuthContext.jsx";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useState } from "react";
 import Nav from "./Nav.jsx";
 import LeftNav from "./LeftNav.jsx";
@@ -9,6 +9,7 @@ function ProfileShell({ children }) {
     const { user, authLoading } = useAuth();
     const location = useLocation();
     const [navOpen, setNavOpen] = useState(true);
+    const hasChildren = !!children;
 
     if (authLoading) {
         return null;
@@ -28,7 +29,7 @@ function ProfileShell({ children }) {
                     <LeftNav />
                 </div>
                 <div className={`profile-shell-right ${navOpen ? "with-nav" : "expanded"}`}>
-                    {children}
+                    {hasChildren ? children : <Outlet />}
                 </div>
             </div>
         </div>

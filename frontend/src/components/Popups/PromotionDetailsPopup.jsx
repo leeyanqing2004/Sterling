@@ -1,19 +1,33 @@
 import DetailsPopup from "./DetailsPopup";
 
+const PLACEHOLDERS = {
+    description: "(No description provided)",
+    type: "(No type specified)",
+};
+
 export default function PromotionDetailsPopup({ promotion, onClose }) {
     if (!promotion) return null;
 
+    const formatDateTime = (value) => {
+        if (!value) return "n/a";
+        const d = new Date(value);
+        return isNaN(d.getTime()) ? String(value) : d.toLocaleString();
+    };
+
     return (
-        <DetailsPopup onClose={onClose} title={promotion.name || "Promotion Details"}>
-            <div style={{ padding: "0 1em" }}>
-                <div><span style={{ color: "#888" }}>id</span><br /><b>{promotion.id}</b></div>
-                <div><span style={{ color: "#888" }}>Type</span><br /><b>{promotion.type}</b></div>
-                <div><span style={{ color: "#888" }}>End time</span><br /><b>{promotion.endTime ? new Date(promotion.endTime).toLocaleString() : "n/a"}</b></div>
-                <div><span style={{ color: "#888" }}>Minimum Spending</span><br /><b>{promotion.minSpending ?? "n/a"}</b></div>
-                <div><span style={{ color: "#888" }}>Rate</span><br /><b>{promotion.rate ?? "n/a"}</b></div>
-                <div><span style={{ color: "#888" }}>Points</span><br /><b>{promotion.points ?? "n/a"}</b></div>
-                <div><span style={{ color: "#888" }}>Description</span><br /><b>{promotion.description && promotion.description.trim() !== "" ? promotion.description : "n/a"}</b></div>
-            </div>
-        </DetailsPopup>
+        <DetailsPopup
+            onClose={onClose}
+            title={promotion.name || "Promotion Details"}
+            fields={[
+                { label: "ID", value: promotion.id },
+                { label: "Type", value: promotion.type, placeholder: PLACEHOLDERS.type },
+                { label: "Start time", value: formatDateTime(promotion.startTime) },
+                { label: "End time", value: formatDateTime(promotion.endTime) },
+                { label: "Minimum Spending", value: promotion.minSpending ?? "n/a" },
+                { label: "Rate", value: promotion.rate ?? "n/a" },
+                { label: "Points", value: promotion.points ?? "n/a" },
+                { label: "Description", value: promotion.description, placeholder: PLACEHOLDERS.description },
+            ]}
+        />
     );
 }

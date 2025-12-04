@@ -199,19 +199,8 @@ router.all("/", async (req, res) => {
                 }
             }
 
-            const promotions = await prisma.promotion.findMany({
-                where: {
-                    id: { in: promotionIds }
-                }
-            });
-
-            const storedPromotionIds = [];
-
-            for (const promotion of promotions) {
-                if (promotion.type === 'one-time') {
-                    storedPromotionIds.push(promotion.id)
-                }
-            }
+            // Persist all selected promotions to the transaction
+            const storedPromotionIds = Array.isArray(promotionIds) ? promotionIds : [];
 
             let earned = 0;
             let suspicious = false;
@@ -239,13 +228,13 @@ router.all("/", async (req, res) => {
                         connect: { id: customerUser.id }
                     },
                     amount: amount,
-                    promotions: storedPromotionIds?.length
-                        ? {
-                          create: storedPromotionIds.map((storedPromotionIds) => ({
-                            promotion: { connect: { id: storedPromotionIds } }
-                          }))
-                        }
-                        : undefined
+                                        promotions: storedPromotionIds?.length
+                                                ? {
+                                                    create: storedPromotionIds.map((promotionId) => ({
+                                                        promotion: { connect: { id: promotionId } }
+                                                    }))
+                                                }
+                                                : undefined
                 },
                 include: {
                     promotions: {
@@ -833,6 +822,25 @@ router.all("/:transactionId/processed", clearanceRequired('cashier'), async (req
     results.createdBy = results.createdBy?.utorid ?? null;
 
     res.status(200).json(results);
+});
+
+// Lightweight lookup for cashiers to verify a redemption before processing
+router.get("/:transactionId/redeemable", clearanceRequired('cashier'), async (req, res) => {
+    const transactionId = req.params.transactionId;
+    const tx = await prisma.transaction.findUnique({ where: { id: parseInt(transactionId) } });
+    if (!tx) {
+        return res.status(404).send({ error: "Transaction not found!" });
+    }
+    if (tx.type !== 'redemption') {
+        return res.status(400).send({ error: "Transaction is not of type 'redemption'" });
+    }
+    return res.status(200).json({
+        id: tx.id,
+        utorid: tx.utorid,
+        pointsToRedeem: tx.amount,
+        remark: tx.remark ?? null,
+        processed: !!tx.processed,
+    });
 });
 
 module.exports = router;

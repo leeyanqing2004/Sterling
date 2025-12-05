@@ -57,9 +57,76 @@ body {
 .dashboardAvailPoints {
     grid-area: availPoints;
     padding: 30px 50px;
-    flex: 1;
+    flex: 1.1;
     background-color: #ffff;
     border-radius: 10px;
+}
+
+.dashboardPointsRecap {
+    padding: 30px 32px;
+    flex: 0.9;
+    background-color: #ffff;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.recapHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.recapTitle {
+    font-size: 20px;
+    font-weight: 400;
+    margin: 0 auto;
+}
+
+.recapSubtitle {
+    font-size: 13px;
+    color: #666;
+    text-align: center;
+    margin: 0 auto;
+    line-height: 1.4;
+}
+
+.recapRow {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    color: #000;
+}
+
+.recapValue {
+    color: #2A73B7;
+}
+
+.sparkline {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+    height: 70px;
+    justify-content: center;
+    padding: 6px 0;
+}
+
+.sparkBar {
+    width: 12px;
+    background: #2A73B7;
+    border-radius: 4px 4px 0 0;
+    transition: opacity 0.2s;
+}
+
+.sparkBarNeg {
+    background: #d9534f;
+}
+
+.sparkBar:hover {
+    opacity: 0.85;
 }
 
 .dashboardQR {
@@ -67,6 +134,7 @@ body {
     padding: 30px 50px;
     background-color: #ffff;
     border-radius: 10px;
+    flex: 1;
 }
 
 .cashierButtonContainer {

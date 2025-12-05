@@ -1,7 +1,7 @@
 import { AvailablePointsDisplay, StartTransactionQR } from "../components/Dashboard/DashboardTopSection";
 import styles from "./Dashboard.module.css";
 import TransactionTable from "../components/Tables/TransactionTable";
-import { getRecentTransactions } from "../api/getTransactionsApi";
+import { getRecentTransactions, getMyTransactions } from "../api/getTransactionsApi";
 import { getMyPoints } from "../api/pointsAndQrApi.js";
 import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "../contexts/AuthContext";
@@ -35,25 +35,18 @@ function Dashboard() {
     const [showTransfer, setShowTransfer] = useState(false);
     const [showRedeem, setShowRedeem] = useState(false);
     const [pointsLoading, setPointsLoading] = useState(user?.points == null);
+    const [pointsRecap, setPointsRecap] = useState({ weekEarned: 0, weekSpent: 0, monthEarned: 0, monthSpent: 0, recentTrend: [] });
+    const [txPage, setTxPage] = useState(0);
+    const [txRowsPerPage, setTxRowsPerPage] = useState(10);
+    const [txTotal, setTxTotal] = useState(0);
+    const [txLoading, setTxLoading] = useState(false);
+    const [txRows, setTxRows] = useState([]);
     const didLoadRef = useRef(false);
 
     useEffect(() => {
         if (didLoadRef.current) return;
         didLoadRef.current = true;
         async function loadData() {
-            setRecentLoading(true);
-            try {
-                const data = await getRecentTransactions();
-                setRecentTransactions(data.results);
-                setCount(data.count);
-            } catch (err) {
-                console.error("Failed to load recent transactions", err);
-                setRecentTransactions([]);
-                setCount(0);
-            } finally {
-                setRecentLoading(false);
-            }
-
             setPointsLoading(true);
             try {
                 const pointsData = await getMyPoints();
@@ -62,6 +55,62 @@ function Dashboard() {
                 }
             } finally {
                 setPointsLoading(false);
+            }
+
+            // Points recap from recent transactions (last ~30 days)
+            try {
+                const txRes = await getMyTransactions({ limit: 300, page: 1 });
+                const txs = txRes.results || [];
+                const now = new Date();
+                const startWeek = new Date(now);
+                startWeek.setDate(now.getDate() - 7);
+                const startMonth = new Date(now);
+                startMonth.setDate(now.getDate() - 30);
+
+                let weekEarned = 0, weekSpent = 0, monthEarned = 0, monthSpent = 0;
+                const trendDays = Array.from({ length: 7 }, (_, i) => {
+                    const d = new Date(now);
+                    d.setDate(now.getDate() - (6 - i));
+                    d.setHours(0,0,0,0);
+                    return { day: d, value: 0 };
+                });
+
+                txs.forEach(tx => {
+                    const txDate = new Date(tx.createdAt || tx.date || tx.updatedAt || now);
+                    if (isNaN(txDate.getTime())) return;
+                    const amountVal = typeof tx.amount === "number" ? tx.amount : 0;
+                    const spentVal = typeof tx.spent === "number" ? tx.spent : (amountVal < 0 ? Math.abs(amountVal) : 0);
+                    const earnedVal = amountVal > 0 ? amountVal : 0;
+
+                    if (txDate >= startMonth) {
+                        monthEarned += earnedVal;
+                        monthSpent += spentVal;
+                    }
+                    if (txDate >= startWeek) {
+                        weekEarned += earnedVal;
+                        weekSpent += spentVal;
+                    }
+
+                    trendDays.forEach(td => {
+                        const sameDay = td.day.getFullYear() === txDate.getFullYear() &&
+                            td.day.getMonth() === txDate.getMonth() &&
+                            td.day.getDate() === txDate.getDate();
+                        if (sameDay) {
+                            td.value += earnedVal - spentVal;
+                        }
+                    });
+                });
+
+                setPointsRecap({
+                    weekEarned,
+                    weekSpent,
+                    monthEarned,
+                    monthSpent,
+                    recentTrend: trendDays.map(td => td.value),
+                });
+            } catch (err) {
+                console.error("Failed to load points recap", err);
+                setPointsRecap({ weekEarned: 0, weekSpent: 0, monthEarned: 0, monthSpent: 0, recentTrend: [] });
             }
 
             // Promotions for purchase popup
@@ -75,6 +124,25 @@ function Dashboard() {
         }
         loadData();
     }, []);
+
+    // load paginated transactions for browsing history
+    useEffect(() => {
+        const loadTx = async () => {
+            setTxLoading(true);
+            try {
+                const res = await getMyTransactions({ page: txPage + 1, limit: txRowsPerPage });
+                setTxRows(res.results || []);
+                setTxTotal(res.count || 0);
+            } catch (err) {
+                console.error("Failed to load transactions", err);
+                setTxRows([]);
+                setTxTotal(0);
+            } finally {
+                setTxLoading(false);
+            }
+        };
+        loadTx();
+    }, [txPage, txRowsPerPage]);
 
     return (
         <>
@@ -92,9 +160,46 @@ function Dashboard() {
                         />
                     </div>
 
+                    <div className={styles.dashboardPointsRecap}>
+                        <div className={styles.recapHeader}>
+                            <div>
+                                <div className={styles.recapTitle}>Points Recap</div>
+                                <div className={styles.recapSubtitle}>Last 7 & 30 days</div>
+                            </div>
+                        </div>
+                        <div className={styles.recapRow}>
+                            <span>Week</span>
+                            <span className={styles.recapValue}>+{pointsRecap.weekEarned} / -{pointsRecap.weekSpent}</span>
+                        </div>
+                        <div className={styles.recapRow}>
+                            <span>Month</span>
+                            <span className={styles.recapValue}>+{pointsRecap.monthEarned} / -{pointsRecap.monthSpent}</span>
+                        </div>
+                        {pointsRecap.recentTrend.length > 0 && (
+                            <div className={styles.sparkline} aria-label="Weekly point trend">
+                                {pointsRecap.recentTrend.map((v, idx) => {
+                                    const clamped = Math.max(Math.min(v, 100), -100);
+                                    const height = 30 + (clamped / 100) * 20; // 30-50px
+                                    const isNegative = v < 0;
+                                    return (
+                                        <div
+                                            key={idx}
+                                            className={`${styles.sparkBar} ${isNegative ? styles.sparkBarNeg : ""}`}
+                                            style={{ height: `${Math.max(height, 8)}px` }}
+                                            title={`Day ${idx + 1}: ${v}`}
+                                        />
+                                    );
+                                })}
+                            </div>
+                        )}
+                    </div>
+
                     {/* QR Code container */}
                     <div className={styles.dashboardQR}>
-                        <StartTransactionQR qrCodeInfo={"QR CODE INFO HERE"} />
+                        <StartTransactionQR qrCodeInfo={<img 
+                            src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent("Redemption for user: " + (user?.utorid))}`} 
+                            alt="QR Code"
+                        />} />
                     </div>
 
                     {isCashierOrHigher && (
@@ -126,9 +231,15 @@ function Dashboard() {
                     <TransactionTable
                         transTableTitle={"Recent Transactions"}
                         includeManageButton={false}
-                        recentOnlyBool={true}
-                        transactions={recentTransactions}
-                        loading={recentLoading}
+                        recentOnlyBool={false}
+                        transactions={txRows}
+                        serverPaging={true}
+                        page={txPage}
+                        rowsPerPage={txRowsPerPage}
+                        onPageChange={(p) => setTxPage(p)}
+                        onRowsPerPageChange={(r) => { setTxRowsPerPage(r); setTxPage(0); }}
+                        totalCount={txTotal}
+                        loading={txLoading}
                     />
                 </div>
 

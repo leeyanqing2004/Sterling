@@ -789,29 +789,33 @@ router.all("/me/transactions", clearanceRequired('regular'), async (req, res) =>
             limit = 10;
         }
 
-        if (!page) {
-            page = 1;
-        }
-
-        const skip = (parseInt(page) - 1) * parseInt(limit);
-        const take = parseInt(limit);
+          if (!page) {
+              page = 1;
+          }
+          // allow users to page through all of their transactions; default to a larger page size and cap to avoid overload
+          if (!limit) {
+              limit = 100;
+          }
+          const parsedLimit = Math.min(parseInt(limit), 1000);
+          const skip = (parseInt(page) - 1) * parsedLimit;
+          const take = parsedLimit;
         const [count, results] = await Promise.all([
             prisma.transaction.count({ where }),
-            prisma.transaction.findMany({
-                where,
-                skip,
-                take,
-                orderBy: { id : 'asc' },
-                select: {
-                    id: true,
-                    type: true,
-                    spent: true,
-                    amount: true,
-                    promotions: { select: { promotionId: true } },
-                    remark: true,
-                    createdBy: { select: { utorid: true } },
-                }
-            })
+              prisma.transaction.findMany({
+                  where,
+                  skip,
+                  take,
+                  orderBy: { id : 'desc' },
+                  select: {
+                      id: true,
+                      type: true,
+                      spent: true,
+                      amount: true,
+                      promotions: { select: { promotionId: true } },
+                      remark: true,
+                      createdBy: { select: { utorid: true } },
+                  }
+              })
         ]);
 
         for (const field of results) {

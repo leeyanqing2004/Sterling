@@ -29,17 +29,16 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
     useEffect(() => {
         const fetchRedemptions = async () => {
             try {
-                const response = await api.request({
-                    method: "GET",
-                    url: "/users/me/transactions",
-                    data: {
+                const response = await api.get("/users/me/transactions", {
+                    params: {
                         type: "redemption",
                         page: 1,
-                        limit: 1000,
-                        processed: processedBool
+                        limit: 1000
                     }
                 });
-                setRows(response.data.results || []);
+                const list = response.data.results || [];
+                const filtered = list.filter(r => Boolean(r.processed) === Boolean(processedBool));
+                setRows(filtered);
             } catch (err) {
                 console.error(err);
                 setRows([]);
@@ -58,7 +57,7 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
     const processedRows = rows
         // FILTER
         .filter((row) =>
-            row.utorid.toLowerCase().includes(filter.toLowerCase())
+            (row.utorid || "").toLowerCase().includes(filter.toLowerCase())
         )
         // SORT
         .sort((a, b) => {
@@ -76,6 +75,9 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
                 return 0;
             }
         });
+    const countForPagination = processedRows.length;
+    const rangeStart = countForPagination === 0 ? 0 : page * rowsPerPage + 1;
+    const rangeEnd = countForPagination === 0 ? 0 : Math.min(countForPagination, page * rowsPerPage + rowsPerPage);
 
     return (
         <div className={styles.redempTableContainer}>
@@ -103,46 +105,20 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
                         <MenuItem value="id">ID</MenuItem>
                         <MenuItem value="earned">Points Earned</MenuItem>
                         <MenuItem value="spent">Points Spent</MenuItem>
-                        <MenuItem value="utorid">UTORid</MenuItem>
                     </Select>
                 </FormControl>
             </Box>
             <Paper>
                 <TableContainer>
-                <Table>
-                    <TableHead>
-                    <TableRow>
-                        <TableCell>ID</TableCell>
-                        <TableCell> {processedBool ? "Points Redeemed" : "Points to Redeem"} </TableCell>
-                        <TableCell>Remark</TableCell>
-                        <TableCell> {processedBool ? "Processed By" : null} </TableCell>
-                    </TableRow>
-                    </TableHead>
-        
-                    <TableBody>
-                    {processedRows.length === 0 ? (
-                        <TableRow>
-                            <TableCell colSpan={4}>
-                                <div className={styles.tableLoading}>
-                                    <span>No redemptions to display.</span>
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                    ) : (
-                        processedRows
-                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row) => (
-                            <TableRow key={row.id}>
-                                <TableCell>{row.id || "---"}</TableCell>
-                                <TableCell> {processedBool ? row.redeemed : row.amount} </TableCell> 
-                                <TableCell>{row.remark || "---"}</TableCell>
-                                <TableCell> {processedBool ? row.processedBy : null} </TableCell> 
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>ID</TableCell>
+                                <TableCell>{processedBool ? "Points Redeemed" : "Points to Redeem"}</TableCell>
+                                <TableCell>Remark</TableCell>
+                                <TableCell>{processedBool ? "Processed By" : null}</TableCell>
                             </TableRow>
-                            )
-                        )
-                    )}
-                    </TableBody>
-
+                        </TableHead>
                         <TableBody>
                             {processedRows.length === 0 ? (
                                 <TableRow>
@@ -169,6 +145,9 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
                 </TableContainer>
 
                 <Box className={styles.tablePaginationBar}>
+                    <div className={styles.rangeInfo}>
+                        {countForPagination === 0 ? "0 of 0" : `${rangeStart}-${rangeEnd} of ${countForPagination}`}
+                    </div>
                     <Pagination
                         count={Math.max(1, Math.ceil(rows.length / rowsPerPage))}
                         page={page + 1}

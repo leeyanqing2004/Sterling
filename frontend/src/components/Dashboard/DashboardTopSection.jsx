@@ -8,7 +8,7 @@ export function AvailablePointsDisplay({ availablePoints, className, onTransfer,
                 {loading ? (
                     <span className={styles.pointsSpinner} aria-label="Loading points" />
                 ) : (
-                    <p className={styles.dashboardAvailPointsAmount}>{availablePoints ?? "—"}</p>
+                    <p className={styles.dashboardAvailPointsAmount}>{availablePoints ?? "--"}</p>
                 )}
             </div>
             <div className={styles.dashboardPointsActions}>
@@ -34,3 +34,4 @@ export function StartTransactionQR({ qrCodeInfo, className }) {
         </div>
     );
 }
+

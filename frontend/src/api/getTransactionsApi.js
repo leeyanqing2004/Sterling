@@ -16,8 +16,8 @@ export async function getMyTransactions(filters = {}) {
 {/* we are assuming 'recent' transactions are transactions of higher ID numbers*/ }
 export async function getRecentTransactions() {
   try {
-    const res = await api.get("/users/me/transactions");
-    const all_transactions = res.data.results;
+    const res = await api.get("/users/me/transactions", { params: { page: 1, limit: 10 } });
+    const all_transactions = res.data?.results || [];
     const sorted_transactions = all_transactions.sort((a, b) => b.id - a.id);
     const recent_ten = sorted_transactions.slice(0, 10);
     return {

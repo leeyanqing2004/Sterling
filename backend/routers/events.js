@@ -395,7 +395,7 @@ router.all('/:eventId', async (req, res) => {
         const updateData = {};
         const now = new Date();
 
-        if (!isManagerOrSU && event.startTime <= now) {
+        if (!isManagerOrSU || event.startTime <= now) {
             if (name !== undefined || description !== undefined || location !== undefined || startTime !== undefined || endTime !== undefined || capacity !== undefined) {
                 return res.status(400).json({ error: "Bad Request" });
             }
@@ -482,7 +482,7 @@ router.all('/:eventId', async (req, res) => {
                 }
             }
 
-            if (publishValue !== true)
+            if (publishValue !== true && publishValue !== false)
                 return res.status(400).json({ error: "Bad Request" });
             updateData.published = true;
         }
@@ -680,7 +680,7 @@ router.all('/:eventId/transactions', async (req, res) => {
             }
         });
         if (!utoridIsGuest){
-            console.log("FAILED: utorid is not a guest of the event: ", user.id, eventId);
+            console.log("FAILED: UTORid is not a guest of the event: ", user.id, eventId);
             return res.status(400).json({ error: "UTORid must be of a guest of the event" });
         }
     }

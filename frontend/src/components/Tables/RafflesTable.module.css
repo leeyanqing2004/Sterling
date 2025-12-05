@@ -34,7 +34,7 @@
 
 .tablePaginationBar {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
     padding: 12px 16px;
     gap: 16px;
@@ -50,6 +50,11 @@
 
 .rowsSelect {
     justify-self: end;
+}
+
+.rangeInfo {
+    font-weight: 600;
+    color: #333;
 }
 
 :global(.MuiPaginationItem-root.Mui-selected) {
@@ -201,4 +206,3 @@
         opacity: 1;
     }
 }
-

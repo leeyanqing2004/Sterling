@@ -271,25 +271,37 @@ export default function EventsTable({ eventsTableTitle, managerViewBool, showReg
 
     // Note: unified RSVP toggle via handleRsvp(event). No duplicate handlers.
 
-    const filteredRows = (showRegisteredOnly && !loading ? rows.filter(row => Boolean(rsvps[row.id])) : rows);
+    const filteredRows = (() => {
+        if (showRegisteredOnly) {
+            // Wait for guest/organizer status before showing anything to avoid flashing all events
+            if (!guestStatusChecked) return [];
+            return rows.filter(row => Boolean(rsvps[row.id] || organizerEvents[row.id]));
+        }
+        return rows;
+    })();
     const processedRows = filteredRows
-        // SORT
-        .sort((a, b) => {
-            if (!sortBy) {
-                return 0;
-            } else if (sortBy === "id") {
-                return a.id - b.id;
-            } else if (sortBy === "earned") {
-                return a.earned - b.earned;
-            } else if (sortBy === "spent") {
-                return a.spent - b.spent;
-            } else if (sortBy === "utorid") {
-                return a.utorid.localeCompare(b.utorid);
-            } else {
-                return 0;
-            }
-        });
-
+    // SORT
+    .sort((a, b) => {
+        if (!sortBy) {
+            return 0;
+        } else if (sortBy === "id") {
+            return a.id - b.id;
+        } else if (sortBy === "earned") {
+            return a.earned - b.earned;
+        } else if (sortBy === "spent") {
+            return a.spent - b.spent;
+        } else if (sortBy === "utorid") {
+            return a.utorid.localeCompare(b.utorid);
+        } else {
+            return 0;
+        }
+    });
+    const countForPagination = showRegisteredOnly
+        ? processedRows.length
+        : (typeof totalCount === "number" ? totalCount : processedRows.length);
+    const rangeStart = countForPagination === 0 ? 0 : page * rowsPerPage + 1;
+    const rangeEnd = countForPagination === 0 ? 0 : Math.min(countForPagination, page * rowsPerPage + rowsPerPage);
+  
     return (
         <div className={styles.eventsTableContainer}>
             <div className={styles.eventsTableTitle}>{eventsTableTitle}</div>
@@ -454,8 +466,11 @@ export default function EventsTable({ eventsTableTitle, managerViewBool, showReg
                 </TableContainer>
 
                 <Box className={styles.tablePaginationBar}>
+                    <div className={styles.rangeInfo}>
+                        {countForPagination === 0 ? "0 of 0" : `${rangeStart}-${rangeEnd} of ${countForPagination}`}
+                    </div>
                     <Pagination
-                        count={Math.max(1, Math.ceil(totalCount / rowsPerPage))}
+                        count={Math.max(1, Math.ceil(countForPagination / rowsPerPage))}
                         page={page + 1}
                         onChange={(_, val) => handleChangePage(null, val - 1)}
                         siblingCount={1}

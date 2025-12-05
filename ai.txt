@@ -1,0 +1,1 @@
+We utilized AI to speed up certain processes (like copying components to implement other components) and also with debugging. It was quite helpful in assisting us with the development process of our code and helping us find ways to get around errors and broken features.

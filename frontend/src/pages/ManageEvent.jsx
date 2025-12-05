@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+﻿import { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../api/api";
 import styles from "./ManageEvent.module.css";
@@ -46,7 +46,6 @@ function ManageEvent() {
         try {
             const response = await api.get(`/events/${eventId}`);
             const event = response.data;
-            
             setName(event.name || "");
             setDescription(event.description || "");
             setLocation(event.location || "");
@@ -74,33 +73,20 @@ function ManageEvent() {
     const validateForm = () => {
         const newErrors = {};
         const now = new Date();
-
         if (name.length > 100) newErrors.name = "Name is too long";
         if (description.length > 500) newErrors.description = "Description is too long";
-        
         if (startTime) {
             const start = new Date(startTime);
             if (start < now) newErrors.startTime = "Cannot be in the past";
         }
-
         if (endTime && startTime) {
             const start = new Date(startTime);
             const end = new Date(endTime);
             if (end <= start) newErrors.endTime = "Must be after start time";
         }
-
-        if (capacity && (isNaN(capacity) || parseInt(capacity) < 0)) {
-            newErrors.capacity = "Must be a positive value";
-        }
-
-        if (pointsRemain && (isNaN(pointsRemain) || parseFloat(pointsRemain) < 0)) {
-            newErrors.pointsRemain = "Must be a positive value";
-        }
-
-        if (pointsAwarded && (isNaN(pointsAwarded) || parseFloat(pointsAwarded) < 0)) {
-            newErrors.pointsAwarded = "Must be a positive value";
-        }
-
+        if (capacity && (isNaN(capacity) || parseInt(capacity) < 0)) newErrors.capacity = "Must be a positive value";
+        if (pointsRemain && (isNaN(pointsRemain) || parseFloat(pointsRemain) < 0)) newErrors.pointsRemain = "Must be a positive value";
+        if (pointsAwarded && (isNaN(pointsAwarded) || parseFloat(pointsAwarded) < 0)) newErrors.pointsAwarded = "Must be a positive value";
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -110,7 +96,6 @@ function ManageEvent() {
             setToast({ message: "Please fix validation errors", type: "error" });
             return;
         }
-
         setSubmitting(true);
         try {
             const updateData = {};
@@ -120,13 +105,11 @@ function ManageEvent() {
             if (startTime) updateData.startTime = new Date(startTime).toISOString();
             if (endTime) updateData.endTime = new Date(endTime).toISOString();
             if (capacity !== "") updateData.capacity = capacity ? parseInt(capacity) : null;
-
             if (canEditRestrictedFields) {
                 if (pointsRemain !== "") updateData.pointsRemain = parseFloat(pointsRemain);
                 if (pointsAwarded !== "") updateData.pointsAwarded = parseFloat(pointsAwarded);
                 updateData.published = published;
             }
-
             await api.patch(`/events/${eventId}`, updateData);
             navigate("/all-events", { state: { success: "Event updated successfully" } });
         } catch (err) {
@@ -196,162 +179,165 @@ function ManageEvent() {
                 </button>
 
                 <div className={styles.contentCard}>
-                <div className={styles.header}>
-                    <h1 className={styles.title}>Manage Event #{eventId}</h1>
-                </div>
-                
-
-                <div className={styles.formGrid}>
-                <div className={styles.formColumn}>
-                    <div className={styles.formField}>
-                        <label>Name</label>
-                        <input
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            maxLength={100}
-                        />
-                        {errors.name && <span className={styles.error}>{errors.name}</span>}
+                    <div className={styles.header}>
+                        <h1 className={styles.title}>Manage Event #{eventId}</h1>
                     </div>
 
-                    <div className={styles.formField}>
-                        <label>Description</label>
-                        <textarea
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            maxLength={500}
-                            rows={4}
-                        />
-                        {errors.description && <span className={styles.error}>{errors.description}</span>}
-                    </div>
+                    <div className={styles.formGrid}>
+                        <div className={styles.formColumn}>
+                            <div className={styles.formField}>
+                                <label>Name</label>
+                                <input
+                                    type="text"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    maxLength={100}
+                                />
+                                {errors.name && <span className={styles.error}>{errors.name}</span>}
+                            </div>
 
-                    <div className={styles.formField}>
-                        <label>Start Time</label>
-                        <input
-                            type="datetime-local"
-                            value={startTime}
-                            onChange={(e) => setStartTime(e.target.value)}
-                        />
-                        {errors.startTime && <span className={styles.error}>{errors.startTime}</span>}
-                    </div>
+                            <div className={styles.formField}>
+                                <label>Description</label>
+                                <textarea
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                    maxLength={500}
+                                    rows={4}
+                                />
+                                {errors.description && <span className={styles.error}>{errors.description}</span>}
+                            </div>
 
-                    <div className={styles.formField}>
-                        <label>End Time</label>
-                        <input
-                            type="datetime-local"
-                            value={endTime}
-                            onChange={(e) => setEndTime(e.target.value)}
-                        />
-                        {errors.endTime && <span className={styles.error}>{errors.endTime}</span>}
-                    </div>
-                </div>
+                            <div className={styles.formField}>
+                                <label>Start Time</label>
+                                <input
+                                    type="datetime-local"
+                                    value={startTime}
+                                    onChange={(e) => setStartTime(e.target.value)}
+                                />
+                                {errors.startTime && <span className={styles.error}>{errors.startTime}</span>}
+                            </div>
 
-                <div className={styles.formColumn}>
-                    <div className={styles.formField}>
-                        <label>Location</label>
-                        <input
-                            type="text"
-                            value={location}
-                            onChange={(e) => setLocation(e.target.value)}
-                        />
-                    </div>
-
-                    <div className={styles.formField}>
-                        <label>Capacity</label>
-                        <input
-                            type="number"
-                            value={capacity}
-                            onChange={(e) => setCapacity(e.target.value)}
-                            min="0"
-                        />
-                        {errors.capacity && <span className={styles.error}>{errors.capacity}</span>}
-                    </div>
-
-                    <div className={styles.formField}>
-                        <label>Points Remaining</label>
-                        <input
-                            type="number"
-                            value={pointsRemain}
-                            onChange={(e) => setPointsRemain(e.target.value)}
-                            min="0"
-                            step="0.01"
-                            disabled={!canEditRestrictedFields}
-                        />
-                        {errors.pointsRemain && <span className={styles.error}>{errors.pointsRemain}</span>}
-                    </div>
-
-                    <div className={styles.formField}>
-                        <label>Points Awarded</label>
-                        <input
-                            type="number"
-                            value={pointsAwarded}
-                            onChange={(e) => setPointsAwarded(e.target.value)}
-                            min="0"
-                            step="0.01"
-                            disabled={!canEditRestrictedFields}
-                        />
-                        {errors.pointsAwarded && <span className={styles.error}>{errors.pointsAwarded}</span>}
-                    </div>
-                </div>
-
-                <div className={styles.formColumn}>
-                    <div className={styles.section}>
-                        <div className={styles.sectionHeader}>
-                            <h3>Organizers</h3>
+                            <div className={styles.formField}>
+                                <label>End Time</label>
+                                <input
+                                    type="datetime-local"
+                                    value={endTime}
+                                    onChange={(e) => setEndTime(e.target.value)}
+                                />
+                                {errors.endTime && <span className={styles.error}>{errors.endTime}</span>}
+                            </div>
                         </div>
-                            {canModifyOrganizers && (
-                                <button
-                                    className={styles.addButton}
-                                    onClick={() => setShowOrganizerPopup(true)}
-                                >
-                                    + Add Organizer
-                                </button>
-                            )}
 
-                        <div className={styles.list}>
-                            {organizers.map((organizer) => (
-                                <div key={organizer.id} className={styles.listItem}>
-                                    <span>{organizer.utorid}</span>
+                        <div className={styles.formColumn}>
+                            <div className={styles.formField}>
+                                <label>Location</label>
+                                <input
+                                    type="text"
+                                    value={location}
+                                    onChange={(e) => setLocation(e.target.value)}
+                                />
+                            </div>
+
+                            <div className={styles.formField}>
+                                <label>Capacity</label>
+                                <input
+                                    type="number"
+                                    value={capacity}
+                                    onChange={(e) => setCapacity(e.target.value)}
+                                    min="0"
+                                />
+                                {errors.capacity && <span className={styles.error}>{errors.capacity}</span>}
+                            </div>
+
+                            <div className={styles.formField}>
+                                <label>Points Remaining</label>
+                                <input
+                                    type="number"
+                                    value={pointsRemain}
+                                    onChange={(e) => setPointsRemain(e.target.value)}
+                                    min="0"
+                                    step="0.01"
+                                    disabled={!canEditRestrictedFields}
+                                />
+                                {errors.pointsRemain && <span className={styles.error}>{errors.pointsRemain}</span>}
+                            </div>
+
+                            <div className={styles.formField}>
+                                <label>Points Awarded</label>
+                                <input
+                                    type="number"
+                                    value={pointsAwarded}
+                                    onChange={(e) => setPointsAwarded(e.target.value)}
+                                    min="0"
+                                    step="0.01"
+                                    disabled={!canEditRestrictedFields}
+                                />
+                                {errors.pointsAwarded && <span className={styles.error}>{errors.pointsAwarded}</span>}
+                            </div>
+                        </div>
+
+                        <div className={styles.formColumn}>
+                            <div className={styles.section}>
+                                <div className={styles.sectionHeader}>
+                                    <h3>Organizers</h3>
                                     {canModifyOrganizers && (
                                         <button
-                                            className={styles.removeButton}
-                                            onClick={() => handleRemoveOrganizer(organizer.id)}
+                                            className={styles.addButton}
+                                            onClick={() => setShowOrganizerPopup(true)}
                                         >
-                                            ×
+                                            + Add Organizer
                                         </button>
                                     )}
                                 </div>
-                            ))}
-                            {organizers.length === 0 && (
-                                <div className={styles.emptyList}>No organizers</div>
-                            )}
-                        </div>
+
+                                <div className={styles.list}>
+                                    {organizers.map((organizer) => (
+                                        <div key={organizer.id} className={styles.listItem}>
+                                            <span>{organizer.utorid}</span>
+                                            {canModifyOrganizers && (
+                                                <button
+                                                    className={styles.removeButton}
+                                                    onClick={() => handleRemoveOrganizer(organizer.id)}
+                                                >
+                                                    ×
+                                                </button>
+                                            )}
+                                        </div>
+                                    ))}
+                                    {organizers.length === 0 && (
+                                        <div className={styles.emptyList}>No organizers</div>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className={styles.section}>
+                                <div className={styles.sectionHeader}>
+                                    <h3>Guests</h3>
+                                    <button className={styles.addButton} onClick={() => setShowGuestPopup(true)}>
+                                        + Add Guest
+                                    </button>
+                                </div>
+                                <div className={styles.list}>
+                                    {guests.map((guest) => (
+                                        <div key={guest.id} className={styles.listItem}>
+                                            <span>{guest.utorid}</span>
+                                            <button
+                                                className={styles.removeButton}
+                                                onClick={() => handleRemoveGuest(guest.id)}
+                                            >
+                                                ×
+                                            </button>
+                                        </div>
+                                    ))}
+                                    {guests.length === 0 && (
+                                        <div className={styles.emptyList}>No guests</div>
+                                    )}
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <div className={styles.section}>
-                        <div className={styles.sectionHeader}>
-                            <h3>Guests</h3>
-                            <button className={styles.addButton} onClick={() => setShowGuestPopup(true)}>
-                                + Add Guest
-                            </button>
-                        </div>
-                        <div className={styles.list}>
-                            {guests.map((guest) => (
-                                <div key={guest.id} className={styles.listItem}>
-                                    <span>{guest.utorid}</span>
-                                    <button
-                                        className={styles.removeButton}
-                                        onClick={() => handleRemoveGuest(guest.id)}
-                                    >
-                                        ×
-                                    </button>
-                                </div>
-                            ))}
-                            {guests.length === 0 && (
-                                <div className={styles.emptyList}>No guests</div>
-                            )}
-                        </div>
                         <div className={styles.checkboxContainer}>
                             <label>
                                 <input
@@ -364,27 +350,26 @@ function ManageEvent() {
                             </label>
                         </div>
                     </div>
-                </div>
-                </div>
 
-                <div className={styles.actions}>
-                {canDeleteEvent && (
-                    <button
-                        className={styles.deleteButton}
-                        onClick={() => setShowDeletePopup(true)}
-                        disabled={deleting}
-                    >
-                        🗑 Delete Event
-                    </button>
-                )}
-                <button
-                    className={styles.saveButton}
-                    onClick={handleSave}
-                    disabled={submitting}
-                >
-                    {submitting ? "Saving..." : "Save Changes"}
-                </button>
-            </div>
+                    <div className={styles.actions}>
+                        {canDeleteEvent && (
+                            <button
+                                className={styles.deleteButton}
+                                onClick={() => setShowDeletePopup(true)}
+                                disabled={deleting}
+                            >
+                                Delete Event
+                            </button>
+                        )}
+                        <button
+                            className={styles.saveButton}
+                            onClick={handleSave}
+                            disabled={submitting}
+                        >
+                            {submitting ? "Saving..." : "Save Changes"}
+                        </button>
+                    </div>
+                </div>
             </div>
 
             {toast && (

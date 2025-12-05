@@ -73,6 +73,8 @@ export default function RafflesTable({
         ? (typeof totalCount === "number" ? totalCount : rows.length)
         : processedRows.length;
     const maxPage = Math.max(0, Math.ceil(countForPagination / rowsPerPage) - 1);
+    const rangeStart = countForPagination === 0 ? 0 : page * rowsPerPage + 1;
+    const rangeEnd = countForPagination === 0 ? 0 : Math.min(countForPagination, page * rowsPerPage + rowsPerPage);
     
     const handleChangePage = (_, newPage) => {
         if (newPage < 0 || newPage > maxPage) return;
@@ -405,6 +407,9 @@ export default function RafflesTable({
                     </TableContainer>
 
                     <Box className={styles.tablePaginationBar}>
+                    <div className={styles.rangeInfo}>
+                        {countForPagination === 0 ? "0 of 0" : `${rangeStart}-${rangeEnd} of ${countForPagination}`}
+                    </div>
                     <Pagination
                         count={pageCount}
                         page={page + 1}
@@ -454,4 +459,3 @@ export default function RafflesTable({
         </>
     );
 }
-

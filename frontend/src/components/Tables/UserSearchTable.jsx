@@ -6,9 +6,9 @@ import {
     TableHead,
     TableRow,
     Paper,
-    TablePagination,
+    Pagination,
 } from "@mui/material";
-import { TextField, Box } from "@mui/material";
+import { TextField, Box, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { useState, useEffect } from "react";
 import api from "../../api/api";
 import styles from "./UserTable.module.css";
@@ -29,6 +29,9 @@ export default function UserSearchTable() {
     const [promotionsOptions, setPromotionsOptions] = useState([]);
     const [showRedemption, setShowRedemption] = useState(false);
     const [successModal, setSuccessModal] = useState(null);
+    const countForPagination = totalCount || rows.length;
+    const rangeStart = countForPagination === 0 ? 0 : page * rowsPerPage + 1;
+    const rangeEnd = countForPagination === 0 ? 0 : Math.min(countForPagination, page * rowsPerPage + rowsPerPage);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -88,7 +91,7 @@ export default function UserSearchTable() {
                         setPage(0);
                     }}
                     placeholder="Search by Name or UTORid"
-                    fullWidth
+                    sx={{ maxWidth: 360 }}
                 />
             </Box>
 
@@ -141,14 +144,33 @@ export default function UserSearchTable() {
                     </Table>
                 </TableContainer>
 
-                <TablePagination
-                    component="div"
-                    count={totalCount}
-                    page={page}
-                    rowsPerPage={rowsPerPage}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
+                <Box className={styles.tablePaginationBar}>
+                    <div className={styles.rangeInfo}>
+                        {countForPagination === 0 ? "0 of 0" : `${rangeStart}-${rangeEnd} of ${countForPagination}`}
+                    </div>
+                    <Pagination
+                        count={Math.max(1, Math.ceil(totalCount / rowsPerPage))}
+                        page={page + 1}
+                        onChange={(_, val) => handleChangePage(null, val - 1)}
+                        siblingCount={1}
+                        boundaryCount={1}
+                        className={styles.pagination}
+                        classes={{ ul: styles.paginationList }}
+                    />
+                    <FormControl size="small" sx={{ minWidth: 120 }} className={styles.rowsSelect}>
+                        <InputLabel id="usersearch-rows-label">Rows</InputLabel>
+                        <Select
+                            labelId="usersearch-rows-label"
+                            value={rowsPerPage}
+                            label="Rows"
+                            onChange={handleChangeRowsPerPage}
+                        >
+                            {[5, 10, 25, 50].map(opt => (
+                                <MenuItem key={opt} value={opt}>{opt}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Box>
             </Paper>
 
             {purchaseForUtorid && (

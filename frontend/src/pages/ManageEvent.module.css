@@ -63,9 +63,14 @@
 
 .formGrid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr 1fr 0.8fr;
     gap: 3em;
+    align-items: flex-start;
     margin-bottom: 2em;
+}
+
+.formGrid .formColumn:last-child {
+    align-self: flex-start;
 }
 
 .formColumn {
@@ -150,12 +155,17 @@
     display: flex;
     flex-direction: column;
     gap: 1em;
+    width: 100%;
+    align-items: flex-start;
 }
 
 .sectionHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 0.75em;
+    margin-bottom: 0.75em;
+    flex-wrap: wrap;
 }
 
 .sectionHeader h3 {
@@ -163,14 +173,6 @@
     font-weight: 600;
     color: #000;
     margin: 0;
-    margin-bottom: 0.5em;
-}
-
-.sectionHeader {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75em;
-    margin-bottom: 0.5em;
 }
 
 .addButton {
@@ -201,11 +203,13 @@
     gap: 0.6em;
     max-height: 180px;
     overflow-y: auto;
-    padding: 1em;
+    padding: 0.85em;
     min-height: 60px;
     background-color: #f9f9f9;
     border-radius: 2px;
     border: 1px solid #e5e5e5;
+    width: 90%;
+    max-width: 500px;
 }
 
 .listItem {
@@ -282,12 +286,10 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    width: fit-content;
-    margin-left: auto;
+    width: 100%;
     gap: 0.6em;
-    margin-top: 1.5em;
-    padding-top: 1.5em;
-    border-top: 1px solid #e5e5e5;
+    margin-top: 2em;
+    padding-top: 0;
 }
 
 .actions button {
@@ -301,7 +303,7 @@
     padding: 10px 16px;
     border-radius: 14px;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     display: inline-flex;
     align-items: center;
@@ -310,6 +312,7 @@
     transition: background-color 0.2s;
     min-width: auto;
     width: auto;
+    min-width: 140px;
     align-self: flex-end;
 }
 
@@ -334,6 +337,7 @@
     transition: background-color 0.2s;
     min-width: auto;
     width: auto;
+    min-width: 140px;
     align-self: flex-end;
 }
 

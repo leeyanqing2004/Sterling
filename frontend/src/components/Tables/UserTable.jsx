@@ -59,6 +59,10 @@ export default function UserTable({ userTableTitle }) {
         setPage(0);
     };
 
+    const countForPagination = typeof total === "number" ? total : processedRows.length;
+    const rangeStart = countForPagination === 0 ? 0 : page * rowsPerPage + 1;
+    const rangeEnd = countForPagination === 0 ? 0 : Math.min(countForPagination, page * rowsPerPage + rowsPerPage);
+
     const processedRows = rows
     // FILTER
     .filter((row) =>
@@ -210,10 +214,13 @@ export default function UserTable({ userTableTitle }) {
                     </TableBody>
                 </Table>
                 </TableContainer>
-        
+
                 <Box className={styles.tablePaginationBar}>
+                    <div className={styles.rangeInfo}>
+                        {countForPagination === 0 ? "0 of 0" : `${rangeStart}-${rangeEnd} of ${countForPagination}`}
+                    </div>
                     <Pagination
-                        count={Math.max(1, Math.ceil(total / rowsPerPage))}
+                        count={Math.max(1, Math.ceil(countForPagination / rowsPerPage))}
                         page={page + 1}
                         onChange={(_, val) => handleChangePage(null, val - 1)}
                         siblingCount={1}

@@ -9,8 +9,8 @@ Developed as the final project for **CSC309 – Programming on the Web (Universi
 
 | Name | UTORID |
 |------|--------|
-| Shah Kabir | kabirsh7 |
 | Gabriel Lee | leegab10 |
+| Shah Kabir | kabirsh7 |
 | Wendy Wan | wanwendy |
 | Yan Qing Lee | leeyan9 |
 

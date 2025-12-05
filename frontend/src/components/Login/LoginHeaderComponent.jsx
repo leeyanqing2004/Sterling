@@ -7,7 +7,7 @@ export default function LoginHeader({ pageType }) {
                 <>
                     <div className={styles.container}>
                         <h1>Welcome Back!</h1>
-                        <p>Enter your details to login to your account.</p>
+                        <p>Enter your details to login to your Sterling account.</p>
                     </div>
                 </>
             );

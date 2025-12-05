@@ -13,6 +13,11 @@ function Login() {
         <>
             <div className={styles.fullscreen}>
                 <div className={styles.container}>
+                    <img
+                      src="/logo.svg"
+                      alt="Sterling"
+                      className={styles.loginLogo}
+                    />
                     <LoginMainComponent pageType={pageType} setPageType={setPageType} />
                 </div>
             </div>

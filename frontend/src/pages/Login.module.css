@@ -7,10 +7,17 @@
     align-items: center;
 
     box-sizing: border-box;
-    
+
     background: #F7F7F7;
 }
 
 .container {
     width: 40%;
+}
+
+.loginLogo {
+    display: block;
+    margin: 0 auto;
+    height: 48px;
+    object-fit: contain;
 }

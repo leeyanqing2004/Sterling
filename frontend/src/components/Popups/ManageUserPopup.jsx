@@ -167,7 +167,11 @@ function ManageUserPopup({ show = true, onClose, user, onUserUpdate }) {
                         <div className="mup-utorid">{user.utorid || "--"}</div>
                     </div>
                     <div className="mup-header-row">
-                        <img src="/profile.png" alt="Profile" className="mup-avatar" />
+                        <img
+                            src={(user?.avatarUrl) || "/default-pfp.jpg"}
+                            alt="Profile"
+                            className="mup-avatar"
+                        />
                         {!verified && (
                             <button className="mup-verify" onClick={handleVerify} disabled={verifying}>
                                 {verifying ? "Verifying..." : "Verify"}

@@ -31,7 +31,7 @@ export default function EventsTable({ eventsTableTitle, managerViewBool, showReg
     const [loadingRsvp, setLoadingRsvp] = useState({});
     const [toast, setToast] = useState(null);
     const [organizerEvents, setOrganizerEvents] = useState({});
-    const [guestStatusChecked, setGuestStatusChecked] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     // Check for success message from navigation state
     const updateOrganizerStatus = useCallback(async (eventList) => {
@@ -64,8 +64,11 @@ export default function EventsTable({ eventsTableTitle, managerViewBool, showReg
 
     const updateGuestStatus = useCallback(async (eventList) => {
         if (!user || !Array.isArray(eventList) || !eventList.length) {
+            setLoading(false);
             return;
         }
+
+        setLoading(true);
         try {
             const statusPairs = await Promise.all(
                 eventList.map(async (event) => {
@@ -85,9 +88,10 @@ export default function EventsTable({ eventsTableTitle, managerViewBool, showReg
                 if (isGuest) map[id] = true;
             });
             setRsvps(map);
-            setGuestStatusChecked(true);
         } catch (err) {
             console.error("Failed to check RSVP status", err);
+        } finally {
+            setLoading(false);
         }
     }, [user]);
 
@@ -214,7 +218,7 @@ export default function EventsTable({ eventsTableTitle, managerViewBool, showReg
         }
     };
 
-    const filteredRows = (showRegisteredOnly && guestStatusChecked ? rows.filter(row => Boolean(rsvps[row.id])) : rows);
+    const filteredRows = (showRegisteredOnly && !loading ? rows.filter(row => Boolean(rsvps[row.id])) : rows);
     const processedRows = filteredRows
     // SORT
     .sort((a, b) => {
@@ -284,7 +288,7 @@ export default function EventsTable({ eventsTableTitle, managerViewBool, showReg
                     </TableHead>
         
                     <TableBody>
-                    {processedRows
+                    {(!showRegisteredOnly || !loading) && processedRows
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row) => (
                         <TableRow key={row.id}>

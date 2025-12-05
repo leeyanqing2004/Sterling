@@ -229,7 +229,7 @@ npx prisma db seed  # Seeds demo accounts
 Start the backend:
 
 ```bash
-npm start
+node index.js 3000
 ```
 
 ✅ Backend runs at: `http://localhost:3000`

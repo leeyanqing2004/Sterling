@@ -40,18 +40,28 @@
 .redeemPointsPopupCloseButton {
     /* Layout */
     position: absolute;
-    width: auto;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     
     /* Spacing */
     top: 1em;
     right: 1em;
-    padding: 0.5em;
+    padding: 0;
     line-height: 1em;
     
     /* Decorations */
     color: black;
     background: none;
     border: none;
+    border-radius: 50%;
+    transition: background 0.15s ease;
+}
+
+.redeemPointsPopupCloseButton:hover {
+    background: rgba(15, 23, 42, 0.06);
 }
 
 .redeemPointsPopupTitle {

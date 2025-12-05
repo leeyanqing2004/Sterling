@@ -285,100 +285,7 @@ export default function EventsTable({ eventsTableTitle, managerViewBool, showReg
                         </TableHead>
         
                         <TableBody>
-                    {processedRows
-                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                        .map((row) => (
-                        <TableRow key={row.id}>
-                            <TableCell>{row.id}</TableCell>
-                            <TableCell>{row.name}</TableCell>
-                            <TableCell>{row.location}</TableCell>
-                            <TableCell>{formatDateTime(row.startTime)}</TableCell>
-                            <TableCell>{formatDateTime(row.endTime)}</TableCell>
-                            <TableCell>{row.numGuests}</TableCell>
-
-                            {managerViewBool && <TableCell>{row.capacity}</TableCell>}
-                            {managerViewBool && <TableCell>{row.pointsRemain}</TableCell>}
-                            {managerViewBool && <TableCell>{row.pointsAwarded}</TableCell>}
-                            {managerViewBool && <TableCell>{row.published ? "Yes" : "No"}</TableCell>}
-
-                            <TableCell>
-                                {(() => {
-                                    const isOrganizerForEvent = Boolean(organizerEvents[row.id]);
-                                    if (isManagerOrSuperuser || isOrganizerForEvent) {
-                                        return (
-                                            <button
-                                                className={styles.manageEventBtn}
-                                                onClick={() => navigate(`/manage-event/${row.id}`)}
-                                            >
-                                                Manage Event
-                                            </button>
-                                        );
-                                    }
-                                    return <button className={styles.manageEventBtn}>More Details</button>;
-                                })()}
-                            </TableCell>
-                            <TableCell>
-                                {(() => {
-                                    const isRsvped = Boolean(rsvps[row.id]);
-                                    const isLoading = Boolean(loadingRsvp[row.id]);
-                                    const now = new Date();
-                                    const endTime = new Date(row.endTime);
-                                    const isEnded = now > endTime;
-                                    const isFull = row.capacity !== null && row.numGuests >= row.capacity;
-                                    const isOrganizerForEvent = Boolean(organizerEvents[row.id]);
-                                    const canRsvp = !isEnded && (!isFull || isRsvped) && !isOrganizerForEvent;
-                                    const shouldShowUnRsvp = isRsvped;
-
-                                    let disabledReason = "";
-                                    if (isEnded) {
-                                        disabledReason = "This event has ended";
-                                    } else if (isFull && !isRsvped) {
-                                        disabledReason = "This event is full";
-                                    } else if (isOrganizerForEvent) {
-                                        disabledReason = "Organizers cannot RSVP";
-                                    }
-
-                                    if (!guestStatusChecked && !isOrganizerForEvent) {
-                                        return (
-                                            <button
-                                                className={styles.rsvpBtnSecondary}
-                                                disabled
-                                            >
-                                                Loading...
-                                            </button>
-                                        );
-                                    }
-
-                                    return (
-                                        <button
-                                            className={
-                                                shouldShowUnRsvp
-                                                    ? styles.rsvpBtnSecondary
-                                                    : styles.rsvpBtn
-                                            }
-                                            onClick={() => handleRsvp(row)}
-                                            disabled={isLoading || (!shouldShowUnRsvp && !canRsvp)}
-                                            title={disabledReason || (shouldShowUnRsvp ? "Click to un-RSVP" : "Click to RSVP")}
-                                        >
-                                            {isLoading
-                                                ? "Loading..."
-                                                : isOrganizerForEvent
-                                                ? "Organizer"
-                                                : shouldShowUnRsvp
-                                                ? "Un-RSVP"
-                                                : isEnded
-                                                ? "Event Ended"
-                                                : isFull && !isRsvped
-                                                ? "Event Full"
-                                                : "RSVP"}
-                                        </button>
-                                    );
-                                })()}
-                            </TableCell>
-                            
-                        </TableRow>
-                        ))}
-                    {loading && (
+                    {loading && processedRows.length === 0 ? (
                         <TableRow>
                             <TableCell colSpan={managerViewBool ? 11 : 9}>
                                 <div className={styles.tableLoading}>
@@ -387,6 +294,108 @@ export default function EventsTable({ eventsTableTitle, managerViewBool, showReg
                                 </div>
                             </TableCell>
                         </TableRow>
+                    ) : !loading && processedRows.length === 0 ? (
+                        <TableRow>
+                            <TableCell colSpan={managerViewBool ? 11 : 9}>
+                                <div className={styles.tableLoading}>
+                                    <span>No events to display.</span>
+                                </div>
+                            </TableCell>
+                        </TableRow>
+                    ) : (
+                        processedRows
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((row) => (
+                            <TableRow key={row.id}>
+                                <TableCell>{row.id}</TableCell>
+                                <TableCell>{row.name}</TableCell>
+                                <TableCell>{row.location}</TableCell>
+                                <TableCell>{formatDateTime(row.startTime)}</TableCell>
+                                <TableCell>{formatDateTime(row.endTime)}</TableCell>
+                                <TableCell>{row.numGuests}</TableCell>
+
+                                {managerViewBool && <TableCell>{row.capacity}</TableCell>}
+                                {managerViewBool && <TableCell>{row.pointsRemain}</TableCell>}
+                                {managerViewBool && <TableCell>{row.pointsAwarded}</TableCell>}
+                                {managerViewBool && <TableCell>{row.published ? "Yes" : "No"}</TableCell>}
+
+                                <TableCell>
+                                    {(() => {
+                                        const isOrganizerForEvent = Boolean(organizerEvents[row.id]);
+                                        if (isManagerOrSuperuser || isOrganizerForEvent) {
+                                            return (
+                                                <button
+                                                    className={styles.manageEventBtn}
+                                                    onClick={() => navigate(`/manage-event/${row.id}`)}
+                                                >
+                                                    Manage Event
+                                                </button>
+                                            );
+                                        }
+                                        return <button className={styles.manageEventBtn}>More Details</button>;
+                                    })()}
+                                </TableCell>
+                                <TableCell>
+                                    {(() => {
+                                        const isRsvped = Boolean(rsvps[row.id]);
+                                        const isLoading = Boolean(loadingRsvp[row.id]);
+                                        const now = new Date();
+                                        const endTime = new Date(row.endTime);
+                                        const isEnded = now > endTime;
+                                        const isFull = row.capacity !== null && row.numGuests >= row.capacity;
+                                        const isOrganizerForEvent = Boolean(organizerEvents[row.id]);
+                                        const canRsvp = !isEnded && (!isFull || isRsvped) && !isOrganizerForEvent;
+                                        const shouldShowUnRsvp = isRsvped;
+
+                                        let disabledReason = "";
+                                        if (isEnded) {
+                                            disabledReason = "This event has ended";
+                                        } else if (isFull && !isRsvped) {
+                                            disabledReason = "This event is full";
+                                        } else if (isOrganizerForEvent) {
+                                            disabledReason = "Organizers cannot RSVP";
+                                        }
+
+                                        if (!guestStatusChecked && !isOrganizerForEvent) {
+                                            return (
+                                                <button
+                                                    className={styles.rsvpBtnSecondary}
+                                                    disabled
+                                                >
+                                                    Loading...
+                                                </button>
+                                            );
+                                        }
+
+                                        return (
+                                            <button
+                                                className={
+                                                    shouldShowUnRsvp
+                                                        ? styles.rsvpBtnSecondary
+                                                        : styles.rsvpBtn
+                                                }
+                                                onClick={() => handleRsvp(row)}
+                                                disabled={isLoading || (!shouldShowUnRsvp && !canRsvp)}
+                                                title={disabledReason || (shouldShowUnRsvp ? "Click to un-RSVP" : "Click to RSVP")}
+                                            >
+                                                {isLoading
+                                                    ? "Loading..."
+                                                    : isOrganizerForEvent
+                                                    ? "Organizer"
+                                                    : shouldShowUnRsvp
+                                                    ? "Un-RSVP"
+                                                    : isEnded
+                                                    ? "Event Ended"
+                                                    : isFull && !isRsvped
+                                                    ? "Event Full"
+                                                    : "RSVP"}
+                                            </button>
+                                        );
+                                    })()}
+                                </TableCell>
+                                
+                            </TableRow>
+                            ))
                     )}
                     </TableBody>
                 </Table>

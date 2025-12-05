@@ -23,7 +23,7 @@ router.all("/", async (req, res) => {
         }
 
         if (type) {
-            where.type = { contains: name };
+            where.type = { contains: type };
         }
 
         page = parseInt(page) || 1;
@@ -76,8 +76,9 @@ router.all("/", async (req, res) => {
             }
             
         } else {
+            // Regular/Cashier: only currently active promotions (started and not yet ended)
             where.startTime = { lte: now };
-            where.endTime = { lt: now };
+            where.endTime = { gte: now };
         }
 
         const skip = (parseInt(page) - 1) * parseInt(limit);

@@ -9,6 +9,7 @@ import { formatDateTime } from "../../utils/formatDateTime";
 import { Capitalize } from "../../utils/capitalize";
 import { formatField } from "../../utils/formatField";
 import { useAuth } from "../../contexts/AuthContext";
+import ManagePromotionPopup from "../ManagePromotionPopup";
   
 export default function PromotionsTable({
     promoTableTitle,
@@ -20,12 +21,14 @@ export default function PromotionsTable({
     onPageChange,
     onRowsPerPageChange,
     totalCount,
-    loading = false
+    loading = false,
+    onPromotionUpdate
 }) {
     const { user } = useAuth();
     const isManagerOrSuperuser = user?.role === "manager" || user?.role === "superuser";
     const rows = promotions || [];
     const [showAvailableOnly, setShowAvailableOnly] = useState(false);
+    const [activePromotion, setActivePromotion] = useState(null);
 
     //TODO: include logic that filters depending on availableOnlyBool
   
@@ -194,45 +197,56 @@ export default function PromotionsTable({
                     </TableHead>
         
                     <TableBody>
-                    {loading ? (
-                        <TableRow>
-                            <TableCell colSpan={9}>
-                                <div className={styles.tableLoading}>
-                                    <div className={styles.spinner} />
-                                    <span>Loading promotions...</span>
-                                </div>
+                {loading ? (
+                    <TableRow>
+                        <TableCell colSpan={9}>
+                            <div className={styles.tableLoading}>
+                                <div className={styles.spinner} />
+                                <span>Loading promotions...</span>
+                            </div>
+                        </TableCell>
+                    </TableRow>
+                ) : processedRows.length === 0 ? (
+                    <TableRow>
+                        <TableCell colSpan={9}>
+                            <div className={styles.tableLoading}>
+                                <span>No promotions to display.</span>
+                            </div>
+                        </TableCell>
+                    </TableRow>
+                ) : (
+                    processedRows
+                        .slice(
+                            serverPaging ? 0 : page * rowsPerPage,
+                            serverPaging ? undefined : page * rowsPerPage + rowsPerPage
+                        )
+                        .map((row) => (
+                        <TableRow key={row.id}>
+                            <TableCell>{row.id}</TableCell>
+                            <TableCell>{row.name}</TableCell>
+                            <TableCell>{Capitalize(row.type)}</TableCell>
+                            <TableCell>{formatDateTime(row.startTime)}</TableCell>
+                            <TableCell>{formatDateTime(row.endTime)}</TableCell>
+                            <TableCell>{formatField(row.minSpending)}</TableCell>
+                            <TableCell>{formatField(row.rate)}</TableCell>
+                            <TableCell>{formatField(row.points)}</TableCell>
+                            <TableCell>
+                                {isManagerOrSuperuser ? (
+                                    <button
+                                        className={styles.moreDetailsBtn}
+                                        onClick={() => setActivePromotion(row)}
+                                    >
+                                        Manage Promotion
+                                    </button>
+                                ) : (
+                                    <button className={styles.moreDetailsBtn}>
+                                        More Details
+                                    </button>
+                                )}
                             </TableCell>
                         </TableRow>
-                    ) : (
-                        processedRows
-                            .slice(
-                                serverPaging ? 0 : page * rowsPerPage,
-                                serverPaging ? undefined : page * rowsPerPage + rowsPerPage
-                            )
-                            .map((row) => (
-                            <TableRow key={row.id}>
-                                <TableCell>{row.id}</TableCell>
-                                <TableCell>{row.name}</TableCell>
-                                <TableCell>{Capitalize(row.type)}</TableCell>
-                                <TableCell>{formatDateTime(row.startTime)}</TableCell>
-                                <TableCell>{formatDateTime(row.endTime)}</TableCell>
-                                <TableCell>{formatField(row.minSpending)}</TableCell>
-                                <TableCell>{formatField(row.rate)}</TableCell>
-                                <TableCell>{formatField(row.points)}</TableCell>
-                                <TableCell>
-                                    {isManagerOrSuperuser ? (
-                                        <button className={styles.moreDetailsBtn}>
-                                            Manage Promotion
-                                        </button>
-                                    ) : (
-                                        <button className={styles.moreDetailsBtn}>
-                                            More Details
-                                        </button>
-                                    )}
-                                </TableCell>
-                            </TableRow>
-                            ))
-                    )}
+                        ))
+                )}
                     </TableBody>
                 </Table>
                 </TableContainer>
@@ -263,6 +277,17 @@ export default function PromotionsTable({
                     </FormControl>
                 </Box>
             </Paper>
+            {activePromotion && isManagerOrSuperuser && (
+                <ManagePromotionPopup
+                    show={!!activePromotion}
+                    promotion={activePromotion}
+                    onClose={() => setActivePromotion(null)}
+                    onPromotionUpdate={(updated) => {
+                        setActivePromotion(updated);
+                        if (onPromotionUpdate) onPromotionUpdate(updated);
+                    }}
+                />
+            )}
         </div>
     );
 }

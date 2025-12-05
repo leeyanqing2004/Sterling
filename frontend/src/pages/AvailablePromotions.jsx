@@ -1,5 +1,3 @@
-import Nav from "../components/Profile/Nav";
-import LeftNav from "../components/Profile/LeftNav";
 import styles from "./AvailablePromotions.module.css";
 import PromotionsTable from "../components/Tables/PromotionsTable";
 import { getPromotions } from "../api/getPromotionsApi";
@@ -27,42 +25,25 @@ function AvailablePromotions() {
         load();
     }, [page, rowsPerPage]);
 
-    return <div className={styles.availPromoPageContainer}>
-
-        {/* top Nav container */}
-        <div className={styles.availPromoNav}>
-            <Nav />
+    return (
+        <div className={styles.availPromoTableContainer}>
+            <PromotionsTable
+                promoTableTitle={"Available Promotions"}
+                availableOnlyBool={true}
+                promotions={promotions}
+                serverPaging
+                page={page}
+                rowsPerPage={rowsPerPage}
+                onPageChange={setPage}
+                onRowsPerPageChange={(val) => {
+                    setRowsPerPage(val);
+                    setPage(0);
+                }}
+                totalCount={count}
+                loading={loading}
+            />
         </div>
-
-        {/* everything under the top Nav container */}
-        <div className={styles.availPromoLeftNavAndTableContainer}>
-
-            {/* left Nav container */}
-            <div className={styles.availPromoleftNavContainer}>
-                <LeftNav />
-            </div>
-
-            {/* everything to the right of the left Nav container */}
-            <div className={styles.availPromoTableContainer}>
-                <PromotionsTable
-                    promoTableTitle={"Available Promotions"}
-                    availableOnlyBool={true}
-                    promotions={promotions}
-                    serverPaging
-                    page={page}
-                    rowsPerPage={rowsPerPage}
-                    onPageChange={setPage}
-                    onRowsPerPageChange={(val) => {
-                        setRowsPerPage(val);
-                        setPage(0);
-                    }}
-                    totalCount={count}
-                    loading={loading}
-                />
-                {loading && <div className={styles.loadingText}>Loading...</div>}
-            </div>
-        </div>
-    </div>;
+    );
 }
 
 export default AvailablePromotions;

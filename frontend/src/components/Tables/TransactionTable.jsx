@@ -218,6 +218,14 @@ export default function TransactionTable({
                                     </div>
                                 </TableCell>
                             </TableRow>
+                        ) : processedRows.length === 0 ? (
+                            <TableRow>
+                                <TableCell colSpan={includeManageButton ? 9 : 8}>
+                                    <div className={styles.tableLoading}>
+                                        <span>No transactions to display.</span>
+                                    </div>
+                                </TableCell>
+                            </TableRow>
                         ) : (
                             processedRows
                                 .slice(

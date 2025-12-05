@@ -52,6 +52,7 @@ function App() {
             <Route path="/past-transactions" element={<PastTransactions />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/user-search" element={<UserSearch />} />
+            <Route path="/my-events" element={<MyEvents />} />
           </Route>
         </Routes>
       </AuthProvider>

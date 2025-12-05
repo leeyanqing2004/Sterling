@@ -87,7 +87,7 @@ export default function UserSearchTable() {
                         setNameFilter(e.target.value);
                         setPage(0);
                     }}
-                    placeholder="Search by name or utorid"
+                    placeholder="Search by Name or UTORid"
                     fullWidth
                 />
             </Box>
@@ -97,7 +97,7 @@ export default function UserSearchTable() {
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Utorid</TableCell>
+                                <TableCell>UTORid</TableCell>
                                 <TableCell>Name</TableCell>
                                 <TableCell>Points</TableCell>
                                 <TableCell>Verified</TableCell>

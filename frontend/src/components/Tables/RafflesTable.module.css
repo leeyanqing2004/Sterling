@@ -1,0 +1,204 @@
+.raffleTableContainer {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffff;
+    padding: 30px;
+    gap: 20px;
+    border-radius: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.raffleTableContainer :global(.MuiTableContainer-root) {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.raffleTableTitle {
+    font-size: 20px;
+    color: #000000;
+    align-self: flex-start;
+}
+
+:global(.MuiTableCell-head) {
+    color: #2A73B7 !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+}
+
+:global(.MuiTableCell-body) {
+    text-align: center !important;
+}
+
+.tablePaginationBar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 12px 16px;
+    gap: 16px;
+}
+
+.paginationList {
+    justify-content: center;
+}
+
+.pagination {
+    justify-self: center;
+}
+
+.rowsSelect {
+    justify-self: end;
+}
+
+:global(.MuiPaginationItem-root.Mui-selected) {
+    background-color: #2A73B7 !important;
+    color: white !important;
+}
+
+.tableLoading {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-weight: 600;
+    color: #2A73B7;
+    padding: 8px 0;
+}
+
+.spinner {
+    width: 18px;
+    height: 18px;
+    border: 3px solid #d8e6f5;
+    border-top-color: #2A73B7;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.joinRaffleBtn {
+    color: white;
+    background: #2A73B7;
+    border: none;
+    cursor: pointer;
+    padding: 10px 16px;
+    border-radius: 14px;
+    font-weight: 600;
+    min-width: 120px;
+    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+
+.joinRaffleBtn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    background: #1f5a90;
+}
+
+.joinRaffleBtnSecondary {
+    color: #2A73B7;
+    background: #e8f0fe;
+    border: none;
+    cursor: pointer;
+    padding: 10px 16px;
+    border-radius: 14px;
+    font-weight: 600;
+    min-width: 120px;
+    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+
+.joinRaffleBtnSecondary:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    background: #d9e8ff;
+}
+
+.joinRaffleBtn:disabled,
+.joinRaffleBtnSecondary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.joinRaffleBtn:disabled:hover,
+.joinRaffleBtnSecondary:disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.drawWinnerBtn {
+    color: #2A73B7;
+    background: #e8f0fe;
+    border: none;
+    cursor: pointer;
+    padding: 10px 16px;
+    border-radius: 14px;
+    font-weight: 600;
+    min-width: 120px;
+    margin-left: 8px;
+    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+
+.drawWinnerBtn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    background: #d9e8ff;
+}
+
+.drawWinnerBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.drawWinnerBtn:disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.drawnStatus {
+    color: #2A73B7;
+    background: #e8f0fe;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 14px;
+    font-weight: 600;
+    display: inline-block;
+    font-size: 0.875rem;
+}
+
+.toast {
+    position: fixed;
+    bottom: 2em;
+    right: 2em;
+    padding: 1em 1.5em;
+    border-radius: 0.5em;
+    color: white;
+    font-weight: 600;
+    z-index: 2000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: slideIn 0.3s ease-out;
+}
+
+.toastSuccess {
+    background-color: rgba(24, 115, 62, 0.9);
+}
+
+.toastError {
+    background-color: rgba(139, 26, 26, 0.9);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+

@@ -14,8 +14,8 @@ function UserSearch() {
 
                 {/* main content area reusing table container styling */}
                 <div className={styles.allUsersTableContainer}>
-                    <BackLinkButton to="/dashboard" className={styles.backToDashboardButton}>
-                        {"< Back to dashboard"}
+                    <BackLinkButton to="/dashboard" className={styles.manageEventBackButton}>
+                        ← Back to Dashboard
                     </BackLinkButton>
                     <UserSearchTable />
                 </div>

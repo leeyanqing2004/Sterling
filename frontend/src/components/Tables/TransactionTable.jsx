@@ -5,7 +5,7 @@ import {
 import { TextField, FormControl, InputLabel, Select, MenuItem, Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import styles from "./TransactionTable.module.css";
-import ManageTransactionPopup from "../ManageTransactionPopup";
+import ManageTransactionPopup from "../Popups/ManageTransactionPopup";
 import { Capitalize } from "../../utils/capitalize";
 import { formatField } from "../../utils/formatField";
 
@@ -236,7 +236,7 @@ export default function TransactionTable({
                                         {includeManageButton && <TableCell>{row.utorid}</TableCell>}
                                         <TableCell>{Capitalize(row.type)}</TableCell>
                                         <TableCell>{row.amount}</TableCell>
-                                        <TableCell>{row.remark}</TableCell>
+                                        <TableCell>{formatField(row.remark)}</TableCell>
                                         <TableCell>{formatField(row.promotionIds)}</TableCell>
                                         <TableCell>{row.createdBy}</TableCell>
                                         {/* <TableCell>Additional Info Here</TableCell> */}

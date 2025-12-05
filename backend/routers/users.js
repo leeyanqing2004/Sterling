@@ -31,7 +31,7 @@ router.post('/new', async (req, res) => {
         return res.status(400).json({ error: "Missing required field(s)." });
     }
     if (typeof utorid !== 'string' || utorid.length < 7 || utorid.length > 8) {
-        return res.status(400).json({ error: "Utorid must contain 7-8 characters." });
+        return res.status(400).json({ error: "UTORid must contain 7-8 characters." });
     }
     if (typeof name !== 'string' || name.length < 1 || name.length > 50) {
         return res.status(400).json({ error: "Name must contain 1-50 characters." });
@@ -47,7 +47,7 @@ router.post('/new', async (req, res) => {
 
     const existingUser = await prisma.user.findUnique({ where: { utorid } });
     if (existingUser) {
-        return res.status(409).json({ error: "Utorid already in use." });
+        return res.status(409).json({ error: "UTORid already in use." });
     }
 
     const existingUser1 = await prisma.user.findUnique({ where: { email } });
@@ -102,7 +102,7 @@ router.post('/', clearanceRequired('cashier'), async (req, res) => {
         return res.status(400).json({ error: "Missing required field(s)" });
     }
     if (typeof utorid !== 'string' || utorid.length < 7 || utorid.length > 8) {
-        return res.status(400).json({ error: "Utorid must be an alphanumeric string of 7-8 characters" });
+        return res.status(400).json({ error: "UTORid must be an alphanumeric string of 7-8 characters" });
     }
     if (typeof name !== 'string' || name.length < 1 || name.length > 50) {
         return res.status(400).json({ error: "name must be a string of 1-50 characters" });
@@ -118,7 +118,7 @@ router.post('/', clearanceRequired('cashier'), async (req, res) => {
 
     const existingUser = await prisma.user.findUnique({ where: { utorid } });
     if (existingUser) {
-        return res.status(409).json({ error: "Utorid already in use" });
+        return res.status(409).json({ error: "UTORid already in use" });
     }
 
     const existingUser1 = await prisma.user.findUnique({ where: { email } });

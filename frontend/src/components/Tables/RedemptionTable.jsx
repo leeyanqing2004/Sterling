@@ -109,13 +109,34 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
             </Box>
             <Paper>
                 <TableContainer>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>ID</TableCell>
-                                <TableCell> {processedBool ? "Points Redeemed" : "Points to Redeem"} </TableCell>
-                                <TableCell>Remark</TableCell>
-                                <TableCell> {processedBool ? "Processed By" : null} </TableCell>
+                <Table>
+                    <TableHead>
+                    <TableRow>
+                        <TableCell>ID</TableCell>
+                        <TableCell> {processedBool ? "Points Redeemed" : "Points to Redeem"} </TableCell>
+                        <TableCell>Remark</TableCell>
+                        <TableCell> {processedBool ? "Processed By" : null} </TableCell>
+                    </TableRow>
+                    </TableHead>
+        
+                    <TableBody>
+                    {processedRows.length === 0 ? (
+                        <TableRow>
+                            <TableCell colSpan={4}>
+                                <div className={styles.tableLoading}>
+                                    <span>No redemptions to display.</span>
+                                </div>
+                            </TableCell>
+                        </TableRow>
+                    ) : (
+                        processedRows
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((row) => (
+                            <TableRow key={row.id}>
+                                <TableCell>{row.id || "---"}</TableCell>
+                                <TableCell> {processedBool ? row.redeemed : row.amount} </TableCell> {/* if not processed, the amount to be redeemed is the 'amount' of the redemption transaction */}
+                                <TableCell>{row.remark || "---"}</TableCell>
+                                <TableCell> {processedBool ? row.processedBy : null} </TableCell> 
                             </TableRow>
                         </TableHead>
 

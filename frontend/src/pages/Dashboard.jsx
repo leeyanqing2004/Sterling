@@ -5,8 +5,8 @@ import { getRecentTransactions } from "../api/getTransactionsApi";
 import { getMyPoints } from "../api/pointsAndQrApi.js";
 import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import TransferPointsPopup from "../components/TransferPoints";
-import RedeemPointsPopup from "../components/RedeemPointsPopup";
+import TransferPointsPopup from "../components/Popups/TransferPoints";
+import RedeemPointsPopup from "../components/Popups/RedeemPointsPopup";
 import PanelActionButton from "../components/Buttons/PanelActionButton";
 import RegisterUserPopup from "../components/Popups/RegisterUserPopup";
 import NewPurchasePopup from "../components/Popups/NewPurchasePopup";
@@ -24,6 +24,7 @@ function Dashboard() {
 
     const [recentTransactions, setRecentTransactions] = useState([]);
     const [count, setCount] = useState(0);
+    const [recentLoading, setRecentLoading] = useState(false);
     const [availablePoints, setavailablePoints] = useState(user?.points ?? null);
     // const [qrInfo, setQrInfo] = useState([]);
     const [showRegisterPopup, setShowRegisterPopup] = useState(false);
@@ -40,18 +41,26 @@ function Dashboard() {
         if (didLoadRef.current) return;
         didLoadRef.current = true;
         async function loadData() {
-            // Recent transactions
-            const data = await getRecentTransactions();
-            setRecentTransactions(data.results);
-            setCount(data.count);
+            setRecentLoading(true);
+            try {
+                const data = await getRecentTransactions();
+                setRecentTransactions(data.results);
+                setCount(data.count);
+            } catch (err) {
+                console.error("Failed to load recent transactions", err);
+                setRecentTransactions([]);
+                setCount(0);
+            } finally {
+                setRecentLoading(false);
+            }
 
-            // Points
-            if (availablePoints == null) {
-                setPointsLoading(true);
+            setPointsLoading(true);
+            try {
                 const pointsData = await getMyPoints();
                 if (typeof pointsData === "number") {
                     setavailablePoints(pointsData);
                 }
+            } finally {
                 setPointsLoading(false);
             }
 
@@ -65,7 +74,7 @@ function Dashboard() {
             }
         }
         loadData();
-    }, [availablePoints]);
+    }, []);
 
     return (
         <>
@@ -79,6 +88,7 @@ function Dashboard() {
                             loading={pointsLoading}
                             onTransfer={() => setShowTransfer(true)}
                             onRedeem={() => setShowRedeem(true)}
+                            onRaffleExploration={() => window.location.assign("/all-raffles")}
                         />
                     </div>
 
@@ -113,7 +123,13 @@ function Dashboard() {
                 </div>
 
                 <div className={styles.dashboardDashBottomContainer}>
-                    <TransactionTable transTableTitle={"Recent Transactions"} includeManageButton={false} recentOnlyBool={true} transactions={recentTransactions} />
+                    <TransactionTable
+                        transTableTitle={"Recent Transactions"}
+                        includeManageButton={false}
+                        recentOnlyBool={true}
+                        transactions={recentTransactions}
+                        loading={recentLoading}
+                    />
                 </div>
 
                 {showTransfer && <TransferPointsPopup onClose={() => setShowTransfer(false)} />}
@@ -146,7 +162,7 @@ function Dashboard() {
                     onClose={() => setRegisteredUser(null)}
                     title="User Registered!"
                     fields={[
-                        { label: "Utorid", value: registeredUser.utorid },
+                        { label: "UTORid", value: registeredUser.utorid },
                         { label: "Name", value: registeredUser.name },
                         { label: "Email", value: registeredUser.email },
                     ]}

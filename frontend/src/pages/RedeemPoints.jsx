@@ -1,6 +1,6 @@
 import styles from "./RedeemPoints.module.css";
 import RedemptionTable from "../components/Tables/RedemptionTable";
-import RedeemPointsPopup from "../components/RedeemPointsPopup";
+import RedeemPointsPopup from "../components/Popups/RedeemPointsPopup";
 import { useState } from "react";
 
 function RedeemPoints() {

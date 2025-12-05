@@ -7,6 +7,11 @@
     box-sizing: border-box;
 }
 
+.wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
 .backButton {
     padding: 1em;
     border-radius: 0.5em;
@@ -41,10 +46,17 @@
     margin: 0 auto;
 }
 
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2em;
+}
+
 .title {
     font-size: 28px;
     font-weight: 700;
-    margin-bottom: 2em;
+    margin: 0;
     color: #000;
     text-align: left;
 }

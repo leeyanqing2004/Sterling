@@ -1,0 +1,11 @@
+.myRafflesContainer {
+    display: flex;
+    flex-direction: column;
+    background-color: #F2F2F7;
+    width: 100%;
+    min-height: 100%;
+    padding: 20px;
+    gap: 20px;
+    box-sizing: border-box;
+}
+

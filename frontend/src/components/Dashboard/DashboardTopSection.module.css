@@ -31,6 +31,32 @@
     box-shadow: 0 6px 14px rgba(0,0,0,0.12);
 }
 
+.dashboardRaffleAction {
+    margin-top: 10px;
+}
+
+.dashboardRaffleAction .raffleButton {
+    width: 100%;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 10px;
+    background: #2A73B7;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.dashboardRaffleAction .raffleButton:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}
+
+.dashboardRaffleAction .raffleButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .dashboardStartTransQRContainer {
     display: flex;
     flex-direction: column;

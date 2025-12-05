@@ -50,6 +50,32 @@ body {
     box-sizing: border-box;
 }
 
+.manageEventBackButton {
+    padding: 1em;
+    border-radius: 0.5em;
+    opacity: 1;
+    color: #2A73B7;
+    background-color: white;
+    border: 1px solid #fafafa;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 1.5em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    transition: all 0.2s;
+    width: fit-content;
+    align-self: flex-start;
+}
+
+.manageEventBackButton:hover {
+    background-color: #f5f5f5;
+    border-color: #e0e0e0;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .loadingText {
     text-align: center;
     padding-bottom: 8px;

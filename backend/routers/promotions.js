@@ -71,10 +71,10 @@ router.all("/", async (req, res) => {
                 where.startTime = { gt: now };
             } else if (ended === "true") {
                 where.endTime = { lte: now };
-            } else {
+            } else if (ended === "false") {
                 where.endTime = { gt: now };
             }
-            
+            // Note: managers/superusers see all promotions by default when no filter is provided.
         } else {
             // Regular/Cashier: only currently active promotions (started and not yet ended)
             where.startTime = { lte: now };

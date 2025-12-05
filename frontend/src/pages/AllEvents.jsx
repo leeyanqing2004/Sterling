@@ -1,7 +1,7 @@
 import styles from "./AllEvents.module.css";
 import EventsTable from "../components/Tables/EventsTable";
 import React, { useState } from "react";
-import NewEventPopup from "../components/NewEventPopup";
+import NewEventPopup from "../components/Popups/NewEventPopup";
 
 function AllEvents() {
     const [showNewEvent, setShowNewEvent] = useState(false);
@@ -22,7 +22,6 @@ function AllEvents() {
                     show={showNewEvent}
                     onClose={() => setShowNewEvent(false)}
                     onCreated={() => {
-                        setShowNewEvent(false);
                         setRefreshKey((k) => k + 1);
                     }}
                 />

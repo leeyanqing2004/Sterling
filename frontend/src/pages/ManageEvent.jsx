@@ -3,9 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import api from "../api/api";
 import styles from "./ManageEvent.module.css";
 import { useAuth } from "../contexts/AuthContext";
-import NewGuestPopup from "../components/NewGuestPopup";
-import NewOrganizerPopup from "../components/NewOrganizerPopup";
-import ConfirmDeletePopup from "../components/ConfirmDeletePopup";
+import NewGuestPopup from "../components/Popups/NewGuestPopup";
+import NewOrganizerPopup from "../components/Popups/NewOrganizerPopup";
+import ConfirmDeletePopup from "../components/Popups/ConfirmDeletePopup";
 
 function ManageEvent() {
     const { eventId } = useParams();
@@ -190,12 +190,16 @@ function ManageEvent() {
 
     return (
         <div className={styles.container}>
-            <button className={styles.backButton} onClick={() => navigate("/all-events")}>
-                ← Back to Events
-            </button>
-            
-            <div className={styles.contentCard}>
-                <h1 className={styles.title}>Manage Event #{eventId}</h1>
+            <div className={styles.wrapper}>
+                <button className={styles.backButton} onClick={() => navigate("/all-events")}>
+                    ← Back to Events
+                </button>
+
+                <div className={styles.contentCard}>
+                <div className={styles.header}>
+                    <h1 className={styles.title}>Manage Event #{eventId}</h1>
+                </div>
+                
 
                 <div className={styles.formGrid}>
                 <div className={styles.formColumn}>
@@ -294,6 +298,7 @@ function ManageEvent() {
                     <div className={styles.section}>
                         <div className={styles.sectionHeader}>
                             <h3>Organizers</h3>
+                        </div>
                             {canModifyOrganizers && (
                                 <button
                                     className={styles.addButton}
@@ -302,7 +307,7 @@ function ManageEvent() {
                                     + Add Organizer
                                 </button>
                             )}
-                        </div>
+
                         <div className={styles.list}>
                             {organizers.map((organizer) => (
                                 <div key={organizer.id} className={styles.listItem}>
@@ -320,6 +325,7 @@ function ManageEvent() {
                             {organizers.length === 0 && (
                                 <div className={styles.emptyList}>No organizers</div>
                             )}
+                        </div>
                         </div>
                     </div>
 
@@ -418,4 +424,3 @@ function ManageEvent() {
 }
 
 export default ManageEvent;
-

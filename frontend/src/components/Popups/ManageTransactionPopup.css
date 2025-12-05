@@ -1,0 +1,375 @@
+.manage-transaction-popup {
+    /* Layout */
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1500;
+
+    /* Spacing */
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    /* Decorations */
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.manage-transaction-popup-content {
+    /* Layout */
+    position: relative;
+    width: auto;
+    max-width: 320px;
+    min-width: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6em;
+    box-sizing: border-box;
+
+    /* Spacing */
+    padding: 1.75em 1.75em 3em 1.75em;
+
+    /* Decorations */
+    background-color: white;
+    border-radius: 1em;
+}
+
+.manage-transaction-popup-close-button {
+    /* Layout */
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Spacing */
+    top: 1em;
+    right: 1em;
+    padding: 0;
+    line-height: 1em;
+    
+    /* Decorations */
+    color: black;
+    background: none;
+    border: none;
+    font-size: 16px;
+    border-radius: 50%;
+    transition: background 0.15s ease;
+    cursor: pointer;
+}
+
+.manage-transaction-popup-close-button:hover {
+    background: rgba(15, 23, 42, 0.06);
+}
+
+.manage-transaction-popup-title {
+    /* Spacing */
+    margin: 6px 0px 12px 0px;
+
+    /* Decorations */
+    color: black;
+}
+
+.manage-transaction-popup-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 10px 0px;
+}
+
+.manage-transaction-popup-label {
+    /* Layout */
+    display: block;
+    width: 100%;
+    color: black;
+    
+    /* Spacing */
+    margin: 10px 0px;
+}
+
+.manage-transaction-popup-field input {
+    /* Layout */
+    display: block;
+    width: 100%;
+
+    /* Spacing */
+    margin: 10px 0px;
+    padding: 1em;
+
+    /* Decorations */
+    border: 1px solid #ccc;
+    border-radius: 1em !important;
+}
+
+.mtp-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 10px 0;
+}
+
+.mtp-field textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.mtp-field textarea:focus {
+    outline: none;
+    border-color: #1976d2;
+    box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
+}
+
+.mtp-remark-field {
+    /* Tighter spacing for Remarks block */
+    margin-top: 4px;
+}
+
+/* Adjustment step fields – match TransferPoints input styling */
+#mtp-amount,
+#mtp-promos {
+    /* Layout */
+    display: block;
+    width: 100%;
+
+    /* Spacing */
+    margin: 10px 0px;
+    padding: 1em;
+
+    /* Decorations */
+    border: 1px solid #ccc;
+    border-radius: 1em !important;
+}
+
+.manage-transaction-popup-error {
+    /* Decorations */
+    color: #b3261e;
+    margin-top: 8px;
+}
+
+.manage-transaction-popup-confirm-button {
+    /* Layout */
+    padding: 1em;
+    margin: 1em 0em;
+
+    /* Decorations */
+    border: none;
+    border-radius: 0.5em;
+    color: white;
+    background-color: #2A73B7;
+}
+
+.mtp-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.mtp-header-main {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.mtp-title {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.mtp-actions {
+    display: inline-flex;
+    gap: 8px;
+}
+
+.mtp-flag {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #444;
+}
+
+.mtp-flag.active {
+    color: #d22b2b;
+}
+
+.mtp-details {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.mtp-detail-row {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.mtp-detail-label {
+    color: #777;
+    margin-bottom: 2px;
+}
+
+.mtp-detail-value {
+    color: #000;
+    font-weight: 600;
+}
+
+.mtp-primary {
+    padding: 1em;
+    margin: 1em 0 0 0;
+    border: none;
+    border-radius: 0.5em;
+    color: white;
+    background-color: #2A73B7;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.mtp-primary.loading {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+.mtp-readonly {
+    background: #f6f6f6;
+}
+
+.mtp-error {
+    color: #b3261e;
+    font-weight: 600;
+    margin-top: -4px;
+}
+
+.mtp-hint {
+    font-size: 12px;
+    color: #2a73b7;
+    margin-top: 4px;
+}
+
+.mtp-hint.error {
+    color: #b3261e;
+}
+
+.mtp-related-note {
+    font-size: 12px;
+    color: #666;
+    margin-top: -4px;
+    margin-bottom: 4px;
+}
+
+.mtp-toast {
+    position: absolute;
+    top: 3.25em;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.55em 0.85em;
+    border-radius: 0.75em;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+    font-size: 0.9em;
+    max-width: 90%;
+    text-align: center;
+    animation: fadeIn 120ms ease-out;
+}
+
+.mtp-toast.success {
+    background: rgba(24, 115, 62, 0.9);
+}
+
+.mtp-toast.error {
+    background: rgba(139, 26, 26, 0.9);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+#mtp-remark {
+    /* Layout */
+    display: block;
+    width: 90%;
+    max-width: 100%;
+    min-height: 90px;
+    max-height: 120px;
+    resize: none;
+
+    /* Spacing */
+    margin: 6px 0px 0px 0px;
+    padding: 0.75em 0.85em;
+
+    /* Decorations */
+    border: 1px solid #ccc;
+    border-radius: 1em !important;
+}
+
+.mtp-success-container {
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+}
+
+.mtp-success-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.5em 1.75em;
+    min-width: 320px;
+    max-width: 420px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+    position: relative;
+}
+
+.mtp-success-title {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 1em;
+    color: #000;
+    line-height: 1.4;
+}
+
+.mtp-success-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: #111;
+}
+
+.mtp-success-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.mtp-success-label {
+    color: #666;
+    font-size: 0.95em;
+}
+
+.mtp-success-value {
+    font-weight: 600;
+    color: #000;
+    text-align: right;
+}
+
+.mtp-success-updated {
+    margin-top: 1.25em;
+    padding-top: 1em;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.mtp-success-updated-title {
+    font-weight: 700;
+    color: #2a73b7;
+    margin-bottom: 4px;
+}

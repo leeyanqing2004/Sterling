@@ -6,7 +6,7 @@ import { getPromotions } from "../api/getPromotionsApi";
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import NewPromotionPopup from "../components/NewPromotionPopup";
+import NewPromotionPopup from "../components/Popups/NewPromotionPopup";
 
 function AllPromotions() {
 
@@ -79,7 +79,6 @@ function AllPromotions() {
                     show={showNewPromo}
                     onClose={() => setShowNewPromo(false)}
                     onCreated={() => {
-                        setShowNewPromo(false);
                         setPage(0);
                         setRefreshKey((k) => k + 1);
                     }}

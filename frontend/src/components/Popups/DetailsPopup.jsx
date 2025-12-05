@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import './DetailsPopup.css';
 
 function DetailsPopup({
@@ -14,7 +14,7 @@ function DetailsPopup({
   return (
     <div className="popup-overlay" onClick={onClose}>
       <div className="popup-content" onClick={e => e.stopPropagation()}>
-        <button className="close-btn" onClick={onClose}>×</button>
+        <button className="close-btn" onClick={onClose} aria-label="Close">×</button>
         <h2 className="popup-title">{title}</h2>
         {/* Render field-based layout if provided */}
         {fields.length > 0 && (
@@ -46,3 +46,4 @@ function DetailsPopup({
 }
 
 export default DetailsPopup;
+

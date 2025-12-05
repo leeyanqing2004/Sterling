@@ -9,7 +9,7 @@ import { formatDateTime } from "../../utils/formatDateTime";
 import { Capitalize } from "../../utils/capitalize";
 import { formatField } from "../../utils/formatField";
 import { useAuth } from "../../contexts/AuthContext";
-import ManagePromotionPopup from "../ManagePromotionPopup";
+import ManagePromotionPopup from "../Popups/ManagePromotionPopup";
 import PromotionDetailsPopup from "../Popups/PromotionDetailsPopup";
   
 export default function PromotionsTable({
@@ -244,7 +244,10 @@ export default function PromotionsTable({
                                         Manage Promotion
                                     </button>
                                 ) : (
-                                    <button className={styles.moreDetailsBtn}>
+                                    <button
+                                        className={styles.moreDetailsBtn}
+                                        onClick={() => handleShowDetails(row)}
+                                    >
                                         More Details
                                     </button>
                                 )}
@@ -291,6 +294,12 @@ export default function PromotionsTable({
                         setActivePromotion(updated);
                         if (onPromotionUpdate) onPromotionUpdate(updated);
                     }}
+                />
+            )}
+            {selectedPromotion && !isManagerOrSuperuser && (
+                <PromotionDetailsPopup
+                    promotion={selectedPromotion}
+                    onClose={handleCloseDetails}
                 />
             )}
         </div>

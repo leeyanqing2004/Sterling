@@ -11,15 +11,15 @@ function AllTransactions() {
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const loadTransactions = async () => {
-        setLoading(true);
-        try {
-            const data = await getAllTransactions({ limit: rowsPerPage, page: page + 1 });
-            setAllTransactions(data?.results || []);
-            setCount(data?.count || 0);
-        } finally {
-            setLoading(false);
-        }
-    };
+            setLoading(true);
+            try {
+                const data = await getAllTransactions({ limit: rowsPerPage, page: page + 1 });
+                setAllTransactions(data?.results || []);
+                setCount(data?.count || 0);
+            } finally {
+                setLoading(false);
+            }
+        };
 
     useEffect(() => {
         loadTransactions();

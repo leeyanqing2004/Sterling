@@ -1,6 +1,6 @@
 import styles from "./DashboardTopSection.module.css";
 
-export function AvailablePointsDisplay({ availablePoints, className, onTransfer, onRedeem, loading = false }) {
+export function AvailablePointsDisplay({ availablePoints, className, onTransfer, onRedeem, onRaffleExploration, loading = false }) {
     return (
         <div className={`${styles.dashboardAvailPointsContainer} ${className}`}>
             <p className={styles.dashboardAvailPointsTitle}>Available Points</p>
@@ -15,6 +15,13 @@ export function AvailablePointsDisplay({ availablePoints, className, onTransfer,
                 <button onClick={onTransfer} disabled={loading}>Transfer Points</button>
                 <button onClick={onRedeem} className={styles.secondary} disabled={loading}>Redeem Points</button>
             </div>
+            {onRaffleExploration && (
+                <div className={styles.dashboardRaffleAction}>
+                    <button onClick={onRaffleExploration} disabled={loading} className={styles.raffleButton}>
+                        View Raffles
+                    </button>
+                </div>
+            )}
         </div>
     );
 }

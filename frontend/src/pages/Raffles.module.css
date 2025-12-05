@@ -1,0 +1,42 @@
+.rafflesContainer {
+    display: flex;
+    flex-direction: column;
+    background-color: #F2F2F7;
+    width: 100%;
+    min-height: 100%;
+    padding: 20px;
+    gap: 20px;
+    box-sizing: border-box;
+}
+
+.allRafflesTableTopContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-self: flex-end;
+}
+
+.allRafflesTableTopContainerButton {
+    padding: 1em;
+    margin-right: 0;
+    border-radius: 0.5em;
+    opacity: 1;
+    color: #2A73B7;
+    font-weight: 600;
+    background-color: white;
+    border: 1px solid #fafafa;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    transition: all 0.2s;
+}
+
+.allRafflesTableTopContainerButton:hover {
+    background-color: #f5f5f5;
+    border-color: #e0e0e0;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+

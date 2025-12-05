@@ -5,6 +5,7 @@ export default function BackLinkButton({
     to = "/home",
     children = "< Back",
     onClick,
+    className,
 }) {
     const navigate = useNavigate();
 
@@ -19,7 +20,7 @@ export default function BackLinkButton({
     return (
         <button
             type="button"
-            className={styles.backLinkButton}
+            className={className || styles.backLinkButton}
             onClick={handleClick}
         >
             {children}

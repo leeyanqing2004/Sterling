@@ -34,19 +34,29 @@
     gap: var(--space-md);
 }
 
+.confirm-popup-content {
+    width: min(360px, 92vw);
+    max-width: 360px;
+    padding: 1.25em 1.5em;
+}
+
 .close-btn {
     position: absolute;
-    width: auto;
-    height: auto;
+    width: 32px;
+    height: 32px;
     top: 1em;
     right: 1em;
     border: none;
     background: none;
     color: var(--color-info);
-    font-size: 1.5em;
+    font-size: 16px;
     cursor: pointer;
-    padding: 0.25em 0.5em;
-    transition: 0.2s;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.15s ease;
 }
 
 .popup-title {

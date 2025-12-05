@@ -78,6 +78,10 @@ app.use('/events', eventsRoutes);
 const transactionRoutes = require('./routers/transactions');
 app.use('/transactions', transactionRoutes);
 
+// Import raffles router
+const raffleRoutes = require('./routers/raffles');
+app.use('/raffles', raffleRoutes);
+
 const server = app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

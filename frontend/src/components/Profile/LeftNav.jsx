@@ -34,14 +34,9 @@ function LeftMiddle({ endpoint }) {
     if (!user) {
         return null;
     }
-    const isPastTransactionsActive = matchPath({ path: "/past-transactions" }, endpoint);
-    const pastTransactionsTab = <div className="leftNavPastTransactionsTab">
-        <PageButton text="Past Transactions" active={isPastTransactionsActive} path={`/past-transactions`}/>
-    </div>;
-
     const isMyRedemptionsActive = matchPath({ path: "/redeem-points" }, endpoint);
     const myRedemptionsTab = <div className="leftNavMyRedemptionsTab">
-        <PageButton text="Redeem Points" active={isMyRedemptionsActive} path="/redeem-points"/>
+        <PageButton text="My Redemptions" active={isMyRedemptionsActive} path="/my-redemptions"/>
     </div>;
 
     const isMyEventsActive = matchPath({ path: "/my-events" }, endpoint);
@@ -49,10 +44,15 @@ function LeftMiddle({ endpoint }) {
         <PageButton text="My Events" active={isMyEventsActive} path="/my-events"/>
     </div>;
 
+    const isMyRafflesActive = matchPath({ path: "/my-raffles" }, endpoint);
+    const myRafflesTab = <div className="leftNavMyRafflesTab">
+        <PageButton text="My Raffles" active={isMyRafflesActive} path="/my-raffles"/>
+    </div>;
+
     return <div className={styles.leftNavLeftMiddle}>
-        {pastTransactionsTab}
         {myRedemptionsTab}
         {myEventsTab}
+        {myRafflesTab}
     </div>;
 }
 

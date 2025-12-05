@@ -4,8 +4,8 @@ import { useAuth } from "../../contexts/AuthContext.jsx";
 import { supabase } from "../../api/supabaseClient";
 import ProfileAvatar from "./ProfileAvatar.jsx";
 import api from "../../api/api";
-import RedeemPointsPopup from "../RedeemPointsPopup";
-import TransferPointsPopup from "../TransferPoints";
+import RedeemPointsPopup from "../Popups/RedeemPointsPopup";
+import TransferPointsPopup from "../Popups/TransferPoints";
 import Toast from "./Toast.jsx";
 import styles from "./ProfileSection.module.css";
 

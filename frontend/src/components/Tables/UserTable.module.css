@@ -90,6 +90,8 @@
 .actionBtnSecondary:disabled:hover {
     transform: none;
     box-shadow: none;
+}
+
 .tablePaginationBar {
     display: grid;
     grid-template-columns: 1fr auto;

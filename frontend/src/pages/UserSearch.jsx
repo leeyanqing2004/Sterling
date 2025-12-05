@@ -6,10 +6,6 @@ import BackLinkButton from "../components/Buttons/BackLinkButton";
 function UserSearch() {
     return (
         <div className={styles.allUsersPageContainer}>
-            {/* top Nav container */}
-            <div className={styles.allUsersNav}>
-                <Nav />
-            </div>
 
             {/* everything under the top Nav container */}
             <div className={styles.allUsersLeftNavAndTableContainer}>
@@ -18,7 +14,7 @@ function UserSearch() {
 
                 {/* main content area reusing table container styling */}
                 <div className={styles.allUsersTableContainer}>
-                    <BackLinkButton to="/home">
+                    <BackLinkButton to="/dashboard" className={styles.backToDashboardButton}>
                         {"< Back to dashboard"}
                     </BackLinkButton>
                     <UserSearchTable />

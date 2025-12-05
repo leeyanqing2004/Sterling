@@ -27,9 +27,10 @@ function AvailablePromotions() {
         load();
     }, [page, rowsPerPage]);
 
-    return <div className={styles.availPromoPageContainer}>
+    return (
+        <div className={styles.availPromoPageContainer}>
 
-        <PromotionsTable promoTableTitle={"Available Promotions"} availableOnlyBool={true} promotions={promotions}/>
+            <PromotionsTable promoTableTitle={"Available Promotions"} availableOnlyBool={true} promotions={promotions} />
 
             {/* everything to the right of the left Nav container */}
             <div className={styles.availPromoTableContainer}>
@@ -51,7 +52,7 @@ function AvailablePromotions() {
                 {loading && <div className={styles.loadingText}>Loading...</div>}
             </div>
         </div>
-    </div>;
+    );
 }
 
 export default AvailablePromotions;

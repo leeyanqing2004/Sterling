@@ -16,6 +16,7 @@ function Nav({ id, onToggleNav, navOpen = true, className = "" }) {
     const isProfile = path.startsWith("/profile");
     const isAllUsers = path.startsWith("/all-users");
     const isAllTransactions = path.startsWith("/all-transactions");
+    const isAllPromotions = path.startsWith("/all-promotions");
     const navClassNames = `${styles.nav} ${className}`.trim();
 
     return (

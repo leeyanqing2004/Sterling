@@ -2,19 +2,7 @@ import { matchPath, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext.jsx";
 import PageButton from "./PageButton.jsx";
 import styles from './LeftNav.module.css';
-
-function Menu() {
-    return <button className={styles.leftNavMenu}>
-        <span className={styles.leftNavMenuBar}></span>
-        <span className={styles.leftNavMenuBar}></span>
-        <span className={styles.leftNavMenuBar}></span>
-    </button>
-}
-
-function Capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
+import { capitalize } from "../../utils/capitalize";
 
 function LeftTop() {
     const { user } = useAuth();
@@ -28,7 +16,7 @@ function LeftTop() {
         <h1 className="left-nav-username">{name}</h1>
         <div className="left-nav-user-details">
             <p className="left-nav-UTORid">{utorid}</p>
-            <p className="left-nav-user-role">{Capitalize(role)}</p>
+            <p className="left-nav-user-role">{capitalize(role)}</p>
         </div>
     </div>;
 
@@ -43,11 +31,6 @@ function LeftMiddle({ endpoint }) {
     if (!user) {
         return null;
     }
-    const isHomeActive = matchPath({ path: "/home" }, endpoint) || matchPath({ path: "/home" }, endpoint);
-    const homeTab = <div className="leftNavHomeTab">
-        <PageButton text="Home" active={isHomeActive} path="/home"/>
-    </div>;
-
     const isPastTransactionsActive = matchPath({ path: "/past-transactions" }, endpoint);
     const pastTransactionsTab = <div className="leftNavPastTransactionsTab">
         <PageButton text="Past Transactions" active={isPastTransactionsActive} path={`/past-transactions`}/>
@@ -64,7 +47,6 @@ function LeftMiddle({ endpoint }) {
     </div>;
 
     return <div className={styles.leftNavLeftMiddle}>
-        {homeTab}
         {pastTransactionsTab}
         {myRedemptionsTab}
         {myEventsTab}

@@ -73,7 +73,7 @@ function RedeemPointsPopup({ show = true, setShow, onClose }) {
         setToast(null);
     };
 
-    return show && <div className={styles.redeemPointsPopupRedemptionPopup}>
+    return show && <div className={styles.redeemPointsPopupRedemptionPopup} onClick={handleClose}>
         <div className={styles.redeemPointsPopupContent} onClick={(e) => e.stopPropagation()}>
             <button className={styles.redeemPointsPopupCloseButton} onClick={handleClose}>X</button>
             <h2 className={styles.redeemPointsPopupTitle}>Redeem Points</h2>
@@ -122,7 +122,7 @@ function RedeemPointsPopup({ show = true, setShow, onClose }) {
             <div className={styles.redeemPointsPopupMessage}>
                 {!error && success && (
                     <div className={styles.redeemPointsPopupSuccessActions}>
-                        <button className={styles.redeemPointsPopupSubmitButton} onClick={handleClose}>Close</button>
+                        <button className={styles.redeemPointsPopupCancelButton} onClick={handleClose}>Close</button>
                         <button className={styles.redeemPointsPopupSubmitButton} onClick={handleReset}>Request another redemption</button>
                     </div>
                 )}

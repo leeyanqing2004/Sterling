@@ -356,7 +356,7 @@ router.all('/:eventId', async (req, res) => {
         }
 
         if (event.startTime <= now) {
-            return res.status(400).json({ error: "Bad Request" });
+            return res.status(400).json({ error: "Cannot update event that has started" });
         }
 
         if (startTime) {

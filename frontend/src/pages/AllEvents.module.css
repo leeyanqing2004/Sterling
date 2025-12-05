@@ -55,17 +55,27 @@ body {
 }
 
 .allEventsTableTopContainerButton {
-    /* Spacing */
     padding: 1em;
     margin-right: 0;
-
-    /* Decorations */
     border-radius: 0.5em;
     opacity: 1;
     color: #2A73B7;
-    font-weight: bold;
+    font-weight: 600;
     background-color: white;
-    border-color: #fafafa;
+    border: 1px solid #fafafa;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    transition: all 0.2s;
+}
+
+.allEventsTableTopContainerButton:hover {
+    background-color: #f5f5f5;
+    border-color: #e0e0e0;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .allEventsTableBottomContainer {

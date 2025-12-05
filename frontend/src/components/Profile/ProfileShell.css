@@ -21,37 +21,18 @@
 }
 
 .profile-shell-left {
-    position: relative;
+    position: absolute;
+    inset: 0 auto 0 0;
+    height: 100%;
     width: 250px;
-    flex-shrink: 0;
     transition: transform 180ms ease;
     overflow: hidden;
     background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 .profile-shell-left.collapsed {
-    transform: translateX(-110%);
-}
-
-.profile-shell-toggle {
-    position: fixed;
-    top: 16px;
-    left: 16px;
-    z-index: 3000;
-    background: #ffffff;
-    border: none;
-    border-radius: 8px;
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    cursor: pointer;
-    box-shadow: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    outline: none;
-    color: #333;
-    font-size: 18px;
+    transform: translateX(-100%);
 }
 
 .profile-shell-right {
@@ -65,7 +46,7 @@
 }
 
 .profile-shell-right.with-nav {
-    margin-left: 0;
+    margin-left: 250px;
     transition: margin 180ms ease;
 }
 

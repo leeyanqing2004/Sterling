@@ -69,8 +69,8 @@ function TransferPointsPopup({ onClose }) {
         setSuccess("");
     };
 
-    return <div className="transfer-points-redemption-popup">
-        <div className="transfer-points-content">
+    return <div className="transfer-points-redemption-popup" onClick={onClose}>
+        <div className="transfer-points-content" onClick={(e) => e.stopPropagation()}>
             <button className="transfer-points-close-button" onClick={onClose}>X</button>
             <h2 className="transfer-points-title">Transfer Points</h2>
             {!success && (
@@ -129,8 +129,8 @@ function TransferPointsPopup({ onClose }) {
             <div className="transfer-points-message">
                 {!error && success && (
                     <div className="transfer-points-success-actions">
-                        <button className="transfer-points-submit-button" onClick={onClose}>Close</button>
-                        <button className="transfer-points-submit-button secondary" onClick={handleReset}>Make another transfer</button>
+                        <button className="transfer-points-submit-button secondary" onClick={onClose}>Close</button>
+                        <button className="transfer-points-submit-button" onClick={handleReset}>Make another transfer</button>
                     </div>
                 )}
             </div>

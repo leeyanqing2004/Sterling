@@ -21,7 +21,7 @@ import MyEvents from "./pages/MyEvents.jsx";
 
 function RootRedirect() {
   const token = localStorage.getItem("token");
-  return token ? <Navigate to="/home" replace /> : <Navigate to="/login" replace />;
+  return token ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />;
 }
 
 function App() {
@@ -33,21 +33,24 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/set-password" element={<SetPassword />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/transfer-points" element={<Profile />} />
-          
-          <Route path="/home" element={<ProfileShell><Dashboard /></ProfileShell>} />
-          <Route path="/past-transactions" element={<ProfileShell><PastTransactions /></ProfileShell>} />
-          <Route path="/redeem-points" element={<ProfileShell><RedeemPoints /></ProfileShell>} />
-          <Route path="/my-events" element={<ProfileShell><MyEvents /></ProfileShell>} />
-          <Route path="/available-promotions" element={<ProfileShell><AvailablePromotions /></ProfileShell>} />
-          <Route path="/manage-event/:eventId" element={<ProfileShell><ManageEvent /></ProfileShell>} />
-          <Route path="/published-events" element={<ProfileShell><PublishedEvents /></ProfileShell>} />
+          <Route path="/profile/:utorid/dashboard" element={<Navigate to="/dashboard" replace />} />
 
-          <Route path="/all-users" element={<ProfileShell><AllUsers /></ProfileShell>} />
-          <Route path="/all-events" element={<ProfileShell><AllEvents /></ProfileShell>} />
-          <Route path="/all-promotions" element={<ProfileShell><AllPromotions /></ProfileShell>} />
-          <Route path="/all-transactions" element={<ProfileShell><AllTransactions /></ProfileShell>} />
+          <Route element={<ProfileShell />}>
+            <Route path="/transfer-points" element={<Profile />} />
+            <Route path="/redeem-points" element={<Profile />} />
+            <Route path="/past-transactions" element={<Profile />} />
+            <Route path="/all-users" element={<AllUsers />} />
+            <Route path="/all-promotions" element={<AllPromotions />} />
+            <Route path="/available-promotions" element={<AvailablePromotions />} />
+            <Route path="/all-events" element={<AllEvents />} />
+            <Route path="/manage-event/:eventId" element={<ManageEvent />} />
+            <Route path="/published-events" element={<PublishedEvents />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/redeem-points" element={<RedeemPoints />} />
+            <Route path="/all-transactions" element={<AllTransactions />} />
+            <Route path="/past-transactions" element={<PastTransactions />} />
+            <Route path="/profile" element={<Profile />} />
+          </Route>
         </Routes>
       </AuthProvider>
     </BrowserRouter>

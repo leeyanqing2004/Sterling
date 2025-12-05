@@ -1,6 +1,6 @@
 import { useState } from "react";
 import api from "../api/api";
-import "./NewGuestPopup.module.css";
+import styles from "./NewGuestPopup.module.css";
 
 function NewGuestPopup({ eventId, onClose, onSuccess }) {
     const [utorid, setUtorid] = useState("");
@@ -33,15 +33,15 @@ function NewGuestPopup({ eventId, onClose, onSuccess }) {
     };
 
     return (
-        <div className="new-guest-popup" onClick={onClose}>
-            <div className="new-guest-popup-content" onClick={(e) => e.stopPropagation()}>
-                <button className="new-guest-popup-close-button" onClick={onClose}>
+        <div className={styles.newGuestPopup} onClick={onClose}>
+            <div className={styles.newGuestPopupContent} onClick={(e) => e.stopPropagation()}>
+                <button className={styles.newGuestPopupCloseButton} onClick={onClose}>
                     X
                 </button>
-                <h2 className="new-guest-popup-title">New Guest</h2>
-                <div className="new-guest-popup-utorid">
+                <h2 className={styles.newGuestPopupTitle}>New Guest</h2>
+                <div className={styles.newGuestPopupUtorid}>
                     <label
-                        className="new-guest-popup-utorid-label"
+                        className={styles.newGuestPopupUtoridLabel}
                         htmlFor="new-guest-popup-utorid-input"
                     >
                         UTORid
@@ -54,11 +54,12 @@ function NewGuestPopup({ eventId, onClose, onSuccess }) {
                         value={utorid}
                         onChange={(e) => setUtorid(e.target.value)}
                         disabled={submitting}
+                        className={styles.newGuestPopupUtoridInput}
                     />
-                    {error && <span className="new-guest-popup-error">{error}</span>}
+                    {error && <span className={styles.newGuestPopupError}>{error}</span>}
                 </div>
                 <button
-                    className="new-guest-popup-add-guest-button"
+                    className={styles.newGuestPopupAddGuestButton}
                     onClick={handleSubmit}
                     disabled={submitting}
                 >

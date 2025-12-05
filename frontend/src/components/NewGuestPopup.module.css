@@ -53,6 +53,12 @@
     color: black;
 }
 
+.newGuestPopupUtorid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+}
+
 .newGuestPopupUtoridLabel {
     /* Layout */
     display: block;

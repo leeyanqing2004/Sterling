@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import TransactionTable from "../components/Tables/TransactionTable";
 import { getRecentTransactions } from "../api/getTransactionsApi";
 import { getMyPoints } from "../api/pointsAndQrApi.js";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import TransferPointsPopup from "../components/TransferPoints";
 import RedeemPointsPopup from "../components/RedeemPointsPopup";
@@ -19,19 +19,27 @@ function Dashboard() {
 
     const [recentTransactions, setRecentTransactions] = useState([]);
     const [count, setCount] = useState(0);
-    const [availablePoints, setavailablePoints] = useState(0);
+    const [availablePoints, setavailablePoints] = useState(null);
     {/* const [qrInfo, setQrInfo] = useState([]); */}
     const [showTransfer, setShowTransfer] = useState(false);
     const [showRedeem, setShowRedeem] = useState(false);
+    const [pointsLoading, setPointsLoading] = useState(true);
+    const didLoadRef = useRef(false);
 
     useEffect(() => {
+        if (didLoadRef.current) return;
+        didLoadRef.current = true;
         async function loadData() {
             const data = await getRecentTransactions();
             setRecentTransactions(data.results);
             setCount(data.count);
 
+            setPointsLoading(true);
             const pointsData = await getMyPoints();
-            setavailablePoints(pointsData);
+            if (typeof pointsData === "number") {
+                setavailablePoints(pointsData);
+            }
+            setPointsLoading(false);
         }
         loadData();
     }, []);
@@ -44,6 +52,7 @@ function Dashboard() {
                     <div className={styles.dashboardAvailPoints}>
                         <AvailablePointsDisplay 
                             availablePoints={availablePoints} 
+                            loading={pointsLoading}
                             onTransfer={() => setShowTransfer(true)}
                             onRedeem={() => setShowRedeem(true)}
                         />

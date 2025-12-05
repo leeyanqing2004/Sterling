@@ -14,7 +14,7 @@
     padding: 10px 12px;
     border: none;
     border-radius: 10px;
-    background: linear-gradient(135deg, #2A73B7, #1f5a90);
+    background: #2A73B7;
     color: #fff;
     font-weight: 600;
     cursor: pointer;
@@ -22,7 +22,8 @@
 }
 
 .dashboardPointsActions button.secondary {
-    background: linear-gradient(135deg, #1f5a90, #2A73B7);
+    background: #2A73B7;
+
 }
 
 .dashboardPointsActions button:hover {
@@ -47,6 +48,25 @@
     color: #000000;
 }
 
+.dashboardPointsAmountRow {
+    min-height: 54px;
+    display: flex;
+    align-items: center;
+}
+
+.pointsSpinner {
+    width: 32px;
+    height: 32px;
+    border: 4px solid #d8e6f5;
+    border-top-color: #2A73B7;
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
 .dashboardStartTransQRTitle {
     font-size: 20px;
     color: #000000;
@@ -57,4 +77,3 @@
     font-weight: bold;
     color: #000000;
 }
-

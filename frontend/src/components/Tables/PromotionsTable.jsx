@@ -1,12 +1,23 @@
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
-    TableRow, Paper, TablePagination, Checkbox
+    TableRow, Paper, Pagination, Checkbox
 } from "@mui/material";
 import { TextField, FormControl, InputLabel, Select, MenuItem, Box, FormControlLabel } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./PromotionsTable.module.css"
   
-export default function PromotionsTable({ promoTableTitle, availableOnlyBool, promotions }) {
+export default function PromotionsTable({
+    promoTableTitle,
+    availableOnlyBool,
+    promotions,
+    serverPaging = false,
+    page: controlledPage,
+    rowsPerPage: controlledRowsPerPage,
+    onPageChange,
+    onRowsPerPageChange,
+    totalCount,
+    loading = false
+}) {
     // dummy data
     // const rows = Array.from({ length: 50 }, (_, i) => ({
     //     id: i + 1,
@@ -20,24 +31,30 @@ export default function PromotionsTable({ promoTableTitle, availableOnlyBool, pr
     //     points: "[e.g. 50]"
     // }));
 
-    const rows = promotions;
+    const rows = promotions || [];
     const [showAvailableOnly, setShowAvailableOnly] = useState(false);
 
     //TODO: include logic that filters depending on availableOnlyBool
   
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [page, setPage] = useState(controlledPage ?? 0);
+    const [rowsPerPage, setRowsPerPage] = useState(controlledRowsPerPage ?? 10);
     const [nameFilter, setNameFilter] = useState("");
     const [idFilter, setIdFilter] = useState("");
     const [spentFilter, setSpentFilter] = useState("");
     const [promotionTypeFilter, setPromotionTypeFilter] = useState("");
     const [sortBy, setSortBy] = useState("");
   
-    const handleChangePage = (_, newPage) => setPage(newPage);
-    const handleChangeRowsPerPage = (e) => {
-        setRowsPerPage(parseInt(e.target.value, 10));
-        setPage(0);
-    };
+    useEffect(() => {
+        if (serverPaging && typeof controlledPage === "number") {
+            setPage(controlledPage);
+        }
+    }, [serverPaging, controlledPage]);
+
+    useEffect(() => {
+        if (serverPaging && typeof controlledRowsPerPage === "number") {
+            setRowsPerPage(controlledRowsPerPage);
+        }
+    }, [serverPaging, controlledRowsPerPage]);
 
     const processedRows = rows
     // Filter for available promotions only, if applicable
@@ -69,6 +86,32 @@ export default function PromotionsTable({ promoTableTitle, availableOnlyBool, pr
         if (sortBy === "name") return a.name.localeCompare(b.name);
         return 0;
     });
+
+    const countForPagination = serverPaging
+        ? (typeof totalCount === "number" ? totalCount : rows.length)
+        : processedRows.length;
+    const maxPage = Math.max(0, Math.ceil(countForPagination / rowsPerPage) - 1);
+    const handleChangePage = (_, newPage) => {
+        if (newPage < 0 || newPage > maxPage) return;
+        if (serverPaging && onPageChange) {
+            onPageChange(newPage);
+        } else {
+            setPage(newPage);
+        }
+    };
+
+    const handleChangeRowsPerPage = (e) => {
+        const next = parseInt(e.target.value, 10);
+        if (serverPaging && onRowsPerPageChange) {
+            onRowsPerPageChange(next);
+        } else {
+            setRowsPerPage(next);
+            setPage(0);
+        }
+    };
+    const backDisabled = loading || page <= 0;
+    const nextDisabled = loading || page >= maxPage;
+    const pageCount = Math.max(1, Math.ceil(countForPagination / rowsPerPage));
   
     return (
         <div className={styles.promoTableContainer}>
@@ -159,7 +202,10 @@ export default function PromotionsTable({ promoTableTitle, availableOnlyBool, pr
         
                     <TableBody>
                     {processedRows
-                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        .slice(
+                            serverPaging ? 0 : page * rowsPerPage,
+                            serverPaging ? undefined : page * rowsPerPage + rowsPerPage
+                        )
                         .map((row) => (
                         <TableRow key={row.id}>
                             <TableCell>{row.id}</TableCell>
@@ -177,14 +223,31 @@ export default function PromotionsTable({ promoTableTitle, availableOnlyBool, pr
                 </Table>
                 </TableContainer>
         
-                <TablePagination
-                component="div"
-                count={rows.length}
-                page={page}
-                rowsPerPage={rowsPerPage}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                />
+                <Box className={styles.tablePaginationBar}>
+                    <Pagination
+                        count={pageCount}
+                        page={page + 1}
+                        onChange={(_, val) => handleChangePage(null, val - 1)}
+                        siblingCount={1}
+                        boundaryCount={1}
+                        disabled={loading}
+                        className={styles.pagination}
+                        classes={{ ul: styles.paginationList }}
+                    />
+                    <FormControl size="small" sx={{ minWidth: 120 }} className={styles.rowsSelect}>
+                        <InputLabel id="promo-rows-label">Rows</InputLabel>
+                        <Select
+                            labelId="promo-rows-label"
+                            value={rowsPerPage}
+                            label="Rows"
+                            onChange={handleChangeRowsPerPage}
+                        >
+                            {[5, 10, 25, 50].map(opt => (
+                                <MenuItem key={opt} value={opt}>{opt} page</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Box>
             </Paper>
         </div>
     );

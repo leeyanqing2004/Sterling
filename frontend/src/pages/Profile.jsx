@@ -1,5 +1,3 @@
-import Nav from "../components/Profile/Nav";
-import LeftNav from "../components/Profile/LeftNav";
 import ProfileSection from "../components/Profile/ProfileSection";
 import AccountSection from "../components/Profile/AccountSection";
 import styles from "./Profile.module.css";
@@ -12,15 +10,7 @@ function RightSide() {
 }
 
 function Profile() {
-    return <div className={styles.profilePageContainer}>
-        <Nav className={styles.profileNav} />
-        <div className={styles.profileLeftNavAndContentContainer}>
-            <LeftNav className={styles.profileLeftNavContainer} />
-            <div className={styles.profileContentContainer}>
-                <RightSide />
-            </div>
-        </div>
-    </div>;
+    return <RightSide />;
 }
 
 export default Profile;

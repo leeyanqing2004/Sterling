@@ -366,7 +366,7 @@ router.all("/", async (req, res) => {
                 const newAmount = relatedTransaction.amount + amount;
                 const newEarned = relatedTransaction.earned + amount;
                 if (!relatedTransaction.suspicious && recipientId) {
-                    pointDelta = amount;
+                    pointDelta = -amount;
                 }
                 await prisma.transaction.update({
                     where: { id: parseInt(relatedId) },
@@ -398,23 +398,17 @@ router.all("/", async (req, res) => {
                             : undefined
                     }
                 });
-            } else { // TODO: IMPLEMENT FOR TRANSFER & REDEMPTION
-                await prisma.transaction.update({
-                    where: { id: parseInt(relatedId) },
-                    data: {
-                        promotions: promotionIds?.length
-                            ? {
-                                  create: promotionIds.map((promotionId) => ({
-                                      promotion: { connect: { id: promotionId } }
-                                  }))
-                              }
-                            : undefined
-                    }
-                });
+            } else if (relatedTransaction.type === 'redemption') {
+                pointDelta = -amount;
+            } else if (relatedTransaction.type === 'transfer') {
+                pointDelta = -amount;
             }
 
             // apply point delta after transaction adjustment
             if (recipientId && pointDelta !== 0) {
+                if (recipientPoints + pointDelta < 0) {
+                    return res.status(400).json({ error: "Resulting points would be negative; adjustment denied" });
+                }
                 await prisma.user.update({
                     where: { id: recipientId },
                     data: {
@@ -814,18 +808,6 @@ router.all("/:transactionId/processed", clearanceRequired('cashier'), async (req
         }
     })
 
-    let new_points = user.points - transaction.amount
-
-    // update the user's point balance, after redemption
-    await prisma.user.update({
-        where: {
-            utorid: transaction.utorid,
-        },
-        data: {
-            points: new_points,
-        }
-    })
-    
     results = await prisma.transaction.findUnique({
         where : { id: parseInt(transactionId) },
         select: {

@@ -43,7 +43,7 @@ export default function InputFields({ pageType, setPageType }){
             return (
                 <>
                     <form onSubmit={handleLogin}>
-                        <OneInputComponent inputName="Utorid" inputType="text" required={true} onChange={(e) => setInputUtorid(e.target.value)}/>
+                        <OneInputComponent inputName="UTORid" inputType="text" required={true} onChange={(e) => setInputUtorid(e.target.value)}/>
                         <OneInputComponent inputName="Password" inputType="password" required={true} onChange={(e) => setInputPassword(e.target.value)}/>
                         {error && Error(error)}
                         <a id={styles.forgotpass} href="#" onClick={() => setPageType("forgotPassword")}>Forgot Password?</a>

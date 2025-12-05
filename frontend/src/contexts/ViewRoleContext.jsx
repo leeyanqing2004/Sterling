@@ -5,7 +5,6 @@ const ViewRoleContext = createContext(null);
 
 export const ViewRoleProvider = ({ children }) => {
     const { user } = useAuth();
-    console.log(user?.role);
     const [viewRole, setViewRole] = useState(user?.role || "");
 
     useEffect(() => {

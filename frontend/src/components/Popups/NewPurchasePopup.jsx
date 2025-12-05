@@ -29,7 +29,7 @@ export default function NewPurchasePopup({ initialUtorid = "", promotionsOptions
     <DetailsPopup title="New Purchase" onClose={onClose}>
       <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         <PopupFormField
-          label="Utorid"
+          label="UTORid"
           value={utorid}
           onChange={(e) => setUtorid(e.target.value)}
           placeholder="e.g. johndoe1"

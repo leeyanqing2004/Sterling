@@ -5,8 +5,8 @@ import { getRecentTransactions } from "../api/getTransactionsApi";
 import { getMyPoints } from "../api/pointsAndQrApi.js";
 import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import TransferPointsPopup from "../components/TransferPoints";
-import RedeemPointsPopup from "../components/RedeemPointsPopup";
+import TransferPointsPopup from "../components/Popups/TransferPoints";
+import RedeemPointsPopup from "../components/Popups/RedeemPointsPopup";
 import PanelActionButton from "../components/Buttons/PanelActionButton";
 import RegisterUserPopup from "../components/Popups/RegisterUserPopup";
 import NewPurchasePopup from "../components/Popups/NewPurchasePopup";
@@ -44,16 +44,16 @@ function Dashboard() {
             setRecentTransactions(data.results);
             setCount(data.count);
 
-            if (availablePoints == null) {
-                setPointsLoading(true);
+            setPointsLoading(true);
+            try {
                 const pointsData = await getMyPoints();
                 if (typeof pointsData === "number") {
                     setavailablePoints(pointsData);
                 }
+            } finally {
                 setPointsLoading(false);
-            setPointsLoading(true);
-            const pointsData = await getMyPoints();
-            // load promotions for purchase popup
+            }
+
             try {
                 const promos = await getPromotions({ limit: 1000 });
                 setPromotionsOptions(promos.results || []);
@@ -61,12 +61,9 @@ function Dashboard() {
                 console.error("Failed to load promotions", err);
                 setPromotionsOptions([]);
             }
-            if (typeof pointsData === "number") {
-                setavailablePoints(pointsData);
-            }
         }
         loadData();
-    }, [availablePoints]);
+    }, []);
 
     return (
         <>
@@ -147,7 +144,7 @@ function Dashboard() {
                     onClose={() => setRegisteredUser(null)}
                     title="User Registered!"
                     fields={[
-                        { label: "Utorid", value: registeredUser.utorid },
+                        { label: "UTORid", value: registeredUser.utorid },
                         { label: "Name", value: registeredUser.name },
                         { label: "Email", value: registeredUser.email },
                     ]}

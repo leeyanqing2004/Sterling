@@ -9,7 +9,7 @@ import { formatDateTime } from "../../utils/formatDateTime";
 import { Capitalize } from "../../utils/capitalize";
 import { formatField } from "../../utils/formatField";
 import { useAuth } from "../../contexts/AuthContext";
-import ManagePromotionPopup from "../ManagePromotionPopup";
+import ManagePromotionPopup from "../Popups/ManagePromotionPopup";
 import PromotionDetailsPopup from "../Popups/PromotionDetailsPopup";
   
 export default function PromotionsTable({

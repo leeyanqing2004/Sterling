@@ -6,7 +6,7 @@ import { getPromotions } from "../api/getPromotionsApi";
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import NewPromotionPopup from "../components/NewPromotionPopup";
+import NewPromotionPopup from "../components/Popups/NewPromotionPopup";
 
 function AllPromotions() {
 

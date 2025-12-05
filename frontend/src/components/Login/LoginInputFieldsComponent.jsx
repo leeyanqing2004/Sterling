@@ -94,7 +94,7 @@ export default function InputFields({ pageType, setPageType }){
             return (
                 <>
                     <form onSubmit={handleForgotPassword}>
-                        <OneInputComponent inputName="Utorid" inputType="text" required={true} onChange={(e) => setInputUtorid(e.target.value)}/>
+                        <OneInputComponent inputName="UTORid" inputType="text" required={true} onChange={(e) => setInputUtorid(e.target.value)}/>
                         {error && Error(error)}
                         <PrimaryButtonComponent type="submit">Get Code</PrimaryButtonComponent>
                     </form>
@@ -154,7 +154,7 @@ export default function InputFields({ pageType, setPageType }){
                 <>
                     <form onSubmit={handleCreateAccount}>
                         <OneInputComponent inputName="Name" inputType="text" required={true} onChange={(e) => setInputName(e.target.value)}/>
-                        <OneInputComponent inputName="Utorid" inputType="text" required={true} onChange={(e) => setInputUtorid(e.target.value)}/>
+                        <OneInputComponent inputName="UTORid" inputType="text" required={true} onChange={(e) => setInputUtorid(e.target.value)}/>
                         <OneInputComponent inputName="Email" inputType="email" required={true} onChange={(e) => setInputEmail(e.target.value)}/>
                         {error && Error(error)}
                         <PrimaryButtonComponent type="submit">Create Account</PrimaryButtonComponent>

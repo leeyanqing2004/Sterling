@@ -3,9 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import api from "../api/api";
 import styles from "./ManageEvent.module.css";
 import { useAuth } from "../contexts/AuthContext";
-import NewGuestPopup from "../components/NewGuestPopup";
-import NewOrganizerPopup from "../components/NewOrganizerPopup";
-import ConfirmDeletePopup from "../components/ConfirmDeletePopup";
+import NewGuestPopup from "../components/Popups/NewGuestPopup";
+import NewOrganizerPopup from "../components/Popups/NewOrganizerPopup";
+import ConfirmDeletePopup from "../components/Popups/ConfirmDeletePopup";
 
 function ManageEvent() {
     const { eventId } = useParams();
@@ -418,4 +418,3 @@ function ManageEvent() {
 }
 
 export default ManageEvent;
-

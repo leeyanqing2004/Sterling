@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styles from "./NewEventPopup.module.css";
-import api from "../api/api";
+import api from "../../api/api";
 
 function NewEventPopup({ show = false, onClose, onCreated }) {
     const [name, setName] = useState("");

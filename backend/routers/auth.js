@@ -34,7 +34,7 @@ router.all('/tokens', async (req, res) => {
 
     // Check for missing fields
     if (!utorid) {
-        return res.status(400).json({ error: 'Utorid is required' });
+        return res.status(400).json({ error: 'UTORid is required' });
     }
     if (!password) {
         return res.status(400).json({ error: 'Password is required' });
@@ -44,7 +44,7 @@ router.all('/tokens', async (req, res) => {
 
     // 404 Not Found 
     if (!user || user.password !== password) {
-        return res.status(401).json({ error: 'Your Utorid or password is wrong.' });
+        return res.status(401).json({ error: 'Your UTORid or password is wrong.' });
     }
 
     // Create JWT payload

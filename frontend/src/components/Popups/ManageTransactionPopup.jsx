@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import api from "../api/api";
+import api from "../../api/api";
 import "./ManageTransactionPopup.css";
-import { Capitalize } from "../utils/capitalize";
+import { Capitalize } from "../../utils/capitalize";
 
 const formatDateTime = (value) => {
     if (!value) return "--";
@@ -244,7 +244,7 @@ function ManageTransactionPopup({ show = true, onClose, transaction, onTransacti
                         <span className="mtp-success-value">{successTx.id}</span>
                     </div>
                     <div className="mtp-success-row">
-                        <span className="mtp-success-label">Utorid</span>
+                        <span className="mtp-success-label">UTORid</span>
                         <span className="mtp-success-value">{successTx.utorid}</span>
                     </div>
                     <div className="mtp-success-row">

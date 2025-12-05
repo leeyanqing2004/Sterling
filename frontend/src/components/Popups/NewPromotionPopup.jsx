@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styles from "./NewPromotionPopup.module.css";
-import api from "../api/api";
+import api from "../../api/api";
 
 const typeOptions = [
     { value: "automatic", label: "Automatic" },

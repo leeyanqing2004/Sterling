@@ -6,7 +6,7 @@ import { TextField, FormControl, InputLabel, Select, MenuItem, Box } from "@mui/
 import { useEffect, useState } from "react";
 import api from "../../api/api";
 import styles from "./UserTable.module.css"
-import ManageUserPopup from "../ManageUserPopup";
+import ManageUserPopup from "../Popups/ManageUserPopup";
 import { Capitalize } from "../../utils/capitalize";
 import { formatDate, formatDateTime } from "../../utils/formatDateTime";
   
@@ -99,7 +99,7 @@ export default function UserTable({ userTableTitle }) {
             <Box display="flex" gap={2} mb={2}>
                 {/* Filter Input */}
                 <TextField
-                    label="Filter by Utorid"
+                    label="Filter by UTORid"
                     variant="outlined"
                     size="small"
                     value={utoridFilter}
@@ -162,7 +162,7 @@ export default function UserTable({ userTableTitle }) {
                     <TableRow>
                         <TableCell>ID</TableCell>
                         <TableCell>Role</TableCell>
-                        <TableCell>Utorid</TableCell>
+                        <TableCell>UTORid</TableCell>
                         <TableCell>Email</TableCell>
                         <TableCell>Birthday</TableCell>
                         <TableCell>Points</TableCell>

@@ -39,7 +39,7 @@ export default function ProcessRedemptionPopup({ onClose, onSuccess }) {
             const payload = {
                 title: "Redemption Processed",
                 lines: [
-                    `Utorid: ${res.utorid}`,
+                    `UTORid: ${res.utorid}`,
                     `Points deducted: ${res.redeemed}`,
                     `Processed by: ${res.processedBy || "n/a"}`,
                     res.remark ? `Remark: ${res.remark}` : null,

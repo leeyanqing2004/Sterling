@@ -130,7 +130,7 @@ export const AuthProvider = ({ children }) => {
             const data = await response.json();
 
             if (!response.ok) {
-                return data.error || "No account exists with this Utorid."
+                return data.error || "No account exists with this UTORid."
             }
 
             navigate("/login", { state: { pageType: "emailSent" } });
@@ -189,7 +189,7 @@ export const AuthProvider = ({ children }) => {
             const newUserData = await newUserRes.json()
 
             if (!newUserRes.ok) {
-                return newUserData.error || "Utorid or email already in use."
+                return newUserData.error || "UTORid or email already in use"
             }
 
             setUser(newUserData);
@@ -206,7 +206,7 @@ export const AuthProvider = ({ children }) => {
             const resetToken = data.resetToken;
 
             if (!response.ok) {
-                return data.error || "No account exists with this Utorid."
+                return data.error || "No account exists with this UTORid"
             }
 
             navigate(`/set-password?utorid=${utorid}&token=${resetToken}&fromCreate=true`);

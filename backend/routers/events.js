@@ -669,7 +669,7 @@ router.all('/:eventId/transactions', async (req, res) => {
         });
         if (!user) {
             console.log("FAILED: user can't be found");
-            return res.status(400).json({ error: "Utorid must be of a guest of the event." });
+            return res.status(400).json({ error: "UTORid must be of a guest of the event" });
         }
         const utoridIsGuest = await prisma.eventGuest.findUnique({
             where: {
@@ -681,12 +681,12 @@ router.all('/:eventId/transactions', async (req, res) => {
         });
         if (!utoridIsGuest){
             console.log("FAILED: utorid is not a guest of the event: ", user.id, eventId);
-            return res.status(400).json({ error: "Utorid must be of a guest of the event." });
+            return res.status(400).json({ error: "UTORid must be of a guest of the event" });
         }
     }
     if (amount <= 0 || !Number.isInteger(amount)) {
         console.log("FAILED: amount awarded is not a positive integer: ", amount);
-        return res.status(400).json({ error: "Amount rewarded must be a positive integer." });
+        return res.status(400).json({ error: "Amount rewarded must be a positive integer" });
     }
 
     // event has:
@@ -711,15 +711,15 @@ router.all('/:eventId/transactions', async (req, res) => {
     // }
 
     if (!utorid) {
-        console.log("running it with no utorid now");
+        console.log("running it with no UTORid now");
         const numGuests = event._count.guests;
         if (numGuests === 0) {
             console.log("FAILED: no guests to award points to");
-            return res.status(400).json({ error: "No guests to award points to." });
+            return res.status(400).json({ error: "No guests to award points to" });
         }
         if (event.pointsRemain <= 0 || (amount * numGuests) > event.pointsRemain) {
             console.log("FAILED: not enough points to hand out");
-            return res.status(400).json({ error: "Remaining points is less than requested amount." });
+            return res.status(400).json({ error: "Remaining points is less than requested amount" });
         }
 
         const eventGuests = await prisma.eventGuest.findMany({
@@ -777,8 +777,8 @@ router.all('/:eventId/transactions', async (req, res) => {
 
     } else {
         if (amount > event.pointsRemain) {
-            console.log("FAILED: Remaining points is less than requested amount.");
-            return res.status(400).json({ error: "Remaining points is less than requested amount." });
+            console.log("FAILED: Remaining points is less than requested amount");
+            return res.status(400).json({ error: "Remaining points is less than requested amount" });
         }
 
         const user = await prisma.user.findUnique({
@@ -786,7 +786,7 @@ router.all('/:eventId/transactions', async (req, res) => {
         });
         if (!user) {
             console.log("FAILED: User cannot be found");
-            return res.status(400).json({ error: "Utorid must be of a guest of the event." });
+            return res.status(400).json({ error: "UTORid must be of a guest of the event" });
         }
 
         const eventGuest = await prisma.eventGuest.findUnique({
@@ -802,8 +802,8 @@ router.all('/:eventId/transactions', async (req, res) => {
         });
 
         if (!eventGuest) {
-            console.log("FAILED: Utorid must be of a guest of the event.");
-            return res.status(400).json({ error: "Utorid must be of a guest of the event." });
+            console.log("FAILED: UTORid must be of a guest of the event");
+            return res.status(400).json({ error: "UTORid must be of a guest of the event" });
         }
 
         const newTransaction = await prisma.transaction.create({

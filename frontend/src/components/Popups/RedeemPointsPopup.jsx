@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
-import api from "../api/api";
+import { useAuth } from "../../contexts/AuthContext";
+import api from "../../api/api";
 import styles from "./RedeemPointsPopup.module.css";
 
 function RedeemPointsPopup({ show = true, setShow, onClose }) {

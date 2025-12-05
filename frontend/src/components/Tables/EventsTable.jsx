@@ -129,23 +129,29 @@ export default function EventsTable({ eventsTableTitle, managerViewBool, showReg
                     params.published = "true";
                 }
 
-                const response = await api.get("/events", {
-                    params: params
-                });
+                const response = await api.get("/events", { params });
                 const events = response.data.results || [];
                 setRows(events);
                 setTotalCount(response.data.count || 0);
-                // Refresh organizer and RSVP status for current page
-                await updateOrganizerStatus(events);
-                await updateGuestStatus(events);
+
+                // Organizer / guest status should not block table rendering
+                try {
+                    await updateOrganizerStatus(events);
+                    await updateGuestStatus(events);
+                } catch (statusErr) {
+                    console.error("Failed to refresh organizer/guest status", statusErr);
+                }
                 setGuestStatusChecked(true);
-                updateOrganizerStatus(events);
-                updateGuestStatus(events);
 
                 // Fetch RSVP status for all events in one call
-                const rsvpRes = await api.get("/users/me/guests");
-                const eventIds = rsvpRes.data.eventIds || [];
-                setRsvpedEventIds(new Set(eventIds));
+                try {
+                    const rsvpRes = await api.get("/users/me/guests");
+                    const eventIds = rsvpRes.data.eventIds || [];
+                    setRsvpedEventIds(new Set(eventIds));
+                } catch (rsvpErr) {
+                    console.error("Failed to fetch RSVP status", rsvpErr);
+                    setRsvpedEventIds(new Set());
+                }
             } catch (err) {
                 console.error(err);
                 setRows([]);

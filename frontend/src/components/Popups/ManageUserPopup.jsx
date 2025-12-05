@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import api from "../api/api";
+import api from "../../api/api";
 import "./ManageUserPopup.css";
-import { Capitalize } from "../utils/capitalize";
-import { useAuth } from "../contexts/AuthContext";
-import { formatDate } from "../utils/formatDateTime";
+import { Capitalize } from "../../utils/capitalize";
+import { useAuth } from "../../contexts/AuthContext";
+import { formatDate } from "../../utils/formatDateTime";
 
 function DetailRow({ label, value }) {
     return (

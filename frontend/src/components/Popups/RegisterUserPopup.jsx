@@ -25,7 +25,7 @@ export default function RegisterUserPopup({ open, onClose, onSuccess }) {
     const validate = () => {
         const nextErrors = {};
         if (!/^[a-z][a-z0-9]{6,7}$/i.test(form.utorid.trim())) {
-            nextErrors.utorid = "Utorid must be 7-8 characters.";
+            nextErrors.utorid = "UTORid must be 7-8 characters.";
         }
         if (!form.name.trim()) {
             nextErrors.name = "Name is required.";
@@ -66,15 +66,15 @@ export default function RegisterUserPopup({ open, onClose, onSuccess }) {
         <DetailsPopup
             open={open}
             onClose={onClose}
-            title="New user"
+            title="New User"
         >
             <form className="popup-form" onSubmit={handleSubmit}>
                 <PopupFormField
-                    label="Utorid"
+                    label="UTORid"
                     name="utorid"
                     value={form.utorid}
                     onChange={setField("utorid")}
-                    placeholder="johndoe"
+                    placeholder="leeyan9"
                     helperText="" //maybe add a little message for help to user?
                     error={errors.utorid}
                 />

@@ -1,16 +1,27 @@
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
-    TableRow, Paper, TablePagination
+    TableRow, Paper, Pagination
 } from "@mui/material";
 import { TextField, FormControl, InputLabel, Select, MenuItem, Box } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./TransactionTable.module.css";
 import ManageTransactionPopup from "../ManageTransactionPopup";
 import { capitalize } from "../../utils/capitalize";
 
   
 export default function TransactionTable({ 
-    transTableTitle, includeManageButton, recentOnlyBool, transactions }) {
+    transTableTitle,
+    includeManageButton,
+    recentOnlyBool,
+    transactions,
+    serverPaging = false,
+    page: controlledPage,
+    rowsPerPage: controlledRowsPerPage,
+    onPageChange,
+    onRowsPerPageChange,
+    totalCount,
+    loading = false
+}) {
     // dummy data
     // const rows = Array.from({ length: 50 }, (_, i) => ({
     //     id: i + 1,
@@ -25,10 +36,10 @@ export default function TransactionTable({
 
     // transactions = an array of transactions = [{"id": 123, "utorid": ...}, {"id": 124, "utorid": ...}]
   
-    const rows = transactions;
+    const rows = transactions || [];
 
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [page, setPage] = useState(controlledPage ?? 0);
+    const [rowsPerPage, setRowsPerPage] = useState(controlledRowsPerPage ?? 10);
 
 
     const [createdByFilter, setCreatedByFilter] = useState("");
@@ -39,11 +50,17 @@ export default function TransactionTable({
     const [sortBy, setSortBy] = useState("");
     const [activeTransaction, setActiveTransaction] = useState(null);
   
-    const handleChangePage = (_, newPage) => setPage(newPage);
-    const handleChangeRowsPerPage = (e) => {
-        setRowsPerPage(parseInt(e.target.value, 10));
-        setPage(0);
-    };
+    useEffect(() => {
+        if (serverPaging && typeof controlledPage === "number") {
+            setPage(controlledPage);
+        }
+    }, [serverPaging, controlledPage]);
+
+    useEffect(() => {
+        if (serverPaging && typeof controlledRowsPerPage === "number") {
+            setRowsPerPage(controlledRowsPerPage);
+        }
+    }, [serverPaging, controlledRowsPerPage]);
 
     const processedRows = rows
     // FILTER
@@ -60,6 +77,32 @@ export default function TransactionTable({
         if (sortBy === "amount") return a.amount - b.amount;
         return 0;
     });
+
+    const countForPagination = serverPaging
+        ? (typeof totalCount === "number" ? totalCount : rows.length)
+        : processedRows.length;
+    const maxPage = Math.max(0, Math.ceil(countForPagination / rowsPerPage) - 1);
+    const handleChangePage = (_, newPage) => {
+        if (newPage < 0 || newPage > maxPage) return;
+        if (serverPaging && onPageChange) {
+            onPageChange(newPage);
+        } else {
+            setPage(newPage);
+        }
+    };
+
+    const handleChangeRowsPerPage = (e) => {
+        const next = parseInt(e.target.value, 10);
+        if (serverPaging && onRowsPerPageChange) {
+            onRowsPerPageChange(next);
+        } else {
+            setRowsPerPage(next);
+            setPage(0);
+        }
+    };
+    const backDisabled = loading || page <= 0;
+    const nextDisabled = loading || page >= maxPage;
+    const pageCount = Math.max(1, Math.ceil(countForPagination / rowsPerPage));
   
     return (
         <>
@@ -146,7 +189,10 @@ export default function TransactionTable({
             
                         <TableBody>
                         {processedRows
-                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .slice(
+                                serverPaging ? 0 : page * rowsPerPage,
+                                serverPaging ? undefined : page * rowsPerPage + rowsPerPage
+                            )
                             .map((row) => (
                             <TableRow key={row.id}>
                                 <TableCell>{row.id}</TableCell>
@@ -180,20 +226,49 @@ export default function TransactionTable({
                                     ) : null}
                                 </TableCell>
                             </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                    </TableContainer>
-            
-                    <TablePagination
-                    component="div"
-                    count={rows.length}
-                    page={page}
-                    rowsPerPage={rowsPerPage}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
+                        ))}
+                    {loading && (
+                        <TableRow>
+                            <TableCell colSpan={includeManageButton ? 9 : 8}>
+                                <div className={styles.tableLoading}>
+                                    <div className={styles.spinner} />
+                                    <span>Loading transactions...</span>
+                                </div>
+                            </TableCell>
+                        </TableRow>
+                    )}
+                    </TableBody>
+                </Table>
+                </TableContainer>
+        
+                <Box className={styles.tablePaginationBar}>
+                    <Pagination
+                        count={pageCount}
+                        page={page + 1}
+                        onChange={(_, val) => handleChangePage(null, val - 1)}
+                        siblingCount={1}
+                        boundaryCount={1}
+                        hidePrevButton={false}
+                        hideNextButton={false}
+                        disabled={loading}
+                        className={styles.pagination}
+                        classes={{ ul: styles.paginationList }}
                     />
-                </Paper>
+                    <FormControl size="small" sx={{ minWidth: 120 }} className={styles.rowsSelect}>
+                        <InputLabel id="trans-rows-label">Rows</InputLabel>
+                        <Select
+                            labelId="trans-rows-label"
+                            value={rowsPerPage}
+                            label="Rows"
+                            onChange={handleChangeRowsPerPage}
+                        >
+                            {[5, 10, 25, 50].map(opt => (
+                                <MenuItem key={opt} value={opt}>{opt}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Box>
+            </Paper>
             </div>
             {activeTransaction && (
                 <ManageTransactionPopup

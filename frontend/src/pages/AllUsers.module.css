@@ -50,6 +50,13 @@ body {
     box-sizing: border-box;
 }
 
+.loadingText {
+    text-align: center;
+    padding-bottom: 8px;
+    color: #2A73B7;
+    font-weight: 600;
+}
+
 :global(.MuiTableCell-head) {
     color: #2A73B7;
     font-weight: bold;

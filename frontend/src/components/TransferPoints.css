@@ -149,7 +149,9 @@
 }
 
 .transfer-points-submit-button.secondary {
-    background-color: #2A73B7;
+    background-color: #f2f3f8;
+    color: #1f2a3d;
+    border: 1px solid #e5e7ef;
 }
 
 button {

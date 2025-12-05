@@ -14,7 +14,7 @@
     padding: 10px 12px;
     border: none;
     border-radius: 10px;
-    background: linear-gradient(135deg, #2A73B7, #1f5a90);
+    background: #2A73B7;
     color: #fff;
     font-weight: 600;
     cursor: pointer;
@@ -22,7 +22,8 @@
 }
 
 .dashboardPointsActions button.secondary {
-    background: linear-gradient(135deg, #1f5a90, #2A73B7);
+    background: #2A73B7;
+
 }
 
 .dashboardPointsActions button:hover {

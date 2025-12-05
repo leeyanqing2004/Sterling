@@ -121,3 +121,51 @@
 :global(.MuiTableCell-body) {
     text-align: center !important;
 }
+
+.tablePaginationBar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 12px 16px;
+    gap: 16px;
+}
+
+.paginationList {
+    justify-content: center;
+}
+
+.pagination {
+    justify-self: center;
+}
+
+.rowsSelect {
+    justify-self: end;
+}
+
+:global(.MuiPaginationItem-root.Mui-selected) {
+    background-color: #2A73B7 !important;
+    color: white !important;
+}
+
+.tableLoading {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-weight: 600;
+    color: #2A73B7;
+    padding: 8px 0;
+}
+
+.spinner {
+    width: 18px;
+    height: 18px;
+    border: 3px solid #d8e6f5;
+    border-top-color: #2A73B7;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

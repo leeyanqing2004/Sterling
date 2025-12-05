@@ -1,5 +1,5 @@
 import { useState } from "react";
-import api from "../api/api";
+import api from "../../api/api";
 import "./NewGuestPopup.module.css";
 
 function NewOrganizerPopup({ eventId, onClose, onSuccess }) {

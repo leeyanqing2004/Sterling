@@ -3,6 +3,14 @@
     background-color: white;
 }
 
+.navListContainer {
+    /* Layout */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px;
+}
+
 .navList {
     /* Spacing */
     margin: 0px;
@@ -32,4 +40,9 @@
 .active {
     background-color: #2A73B7;
     color: white;
+}
+
+.navViewRoleSelector {
+    padding-top: 10px;
+    padding-bottom: 10px;
 }

@@ -237,6 +237,7 @@ export default function EventsTable({ eventsTableTitle, managerViewBool, showReg
         }
     });
   
+    const displayRegistered = (!showRegisteredOnly || !loading);
     return (
         <div className={styles.eventsTableContainer}>
             <div className={styles.eventsTableTitle}>{eventsTableTitle}</div>
@@ -288,7 +289,7 @@ export default function EventsTable({ eventsTableTitle, managerViewBool, showReg
                     </TableHead>
         
                     <TableBody>
-                    {(!showRegisteredOnly || !loading) && processedRows
+                    {displayRegistered && processedRows
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row) => (
                         <TableRow key={row.id}>

@@ -1,13 +1,12 @@
 import { AvailablePointsDisplay, StartTransactionQR } from "../components/Dashboard/DashboardTopSection";
 import styles from "./Dashboard.module.css";
-import Button from '@mui/material/Button';
 import TransactionTable from "../components/Tables/TransactionTable";
 import { getRecentTransactions } from "../api/getTransactionsApi";
 import { getMyPoints } from "../api/pointsAndQrApi.js";
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import TransferPointsPopup from "../components/TransferPoints";
-import RedeemPointsPopup from "../components/RedeemPointsPopup";
+import RedeemPointsPopup from "../components/Popups/RedeemPointsPopup";
 
 // TODO: should we move the Nav and LeftNav components out of the Profile folder, since we'll use it
 // for multiple pages?

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import api from "../api/api";
+import api from "../../api/api";
 import "./ManageTransactionPopup.css";
-import { capitalize } from "../utils/capitalize";
+import { capitalize } from "../../utils/capitalize";
 
 const formatDateTime = (value) => {
     if (!value) return "--";

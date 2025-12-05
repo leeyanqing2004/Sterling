@@ -1,7 +1,7 @@
 import { useMatch, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import api from "../../api/api";
-import RedeemPointsPopup from "../RedeemPointsPopup";
+import RedeemPointsPopup from "../Popups/RedeemPointsPopup";
 import TransferPointsPopup from "../TransferPoints";
 import styles from "./ProfileSection.module.css";
 

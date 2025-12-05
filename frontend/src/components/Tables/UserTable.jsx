@@ -6,7 +6,7 @@ import { TextField, FormControl, InputLabel, Select, MenuItem, Box } from "@mui/
 import { useEffect, useState } from "react";
 import api from "../../api/api";
 import styles from "./UserTable.module.css"
-import ManageUserPopup from "../ManageUserPopup";
+import ManageUserPopup from "../Popups/ManageUserPopup";
 import { capitalize } from "../../utils/capitalize";
   
 export default function UserTable({ userTableTitle }) {

@@ -5,7 +5,7 @@ import {
 import { TextField, FormControl, InputLabel, Select, MenuItem, Box } from "@mui/material";
 import { useState } from "react";
 import styles from "./TransactionTable.module.css";
-import ManageTransactionPopup from "../ManageTransactionPopup";
+import ManageTransactionPopup from "../Popups/ManageTransactionPopup";
 
   
 export default function TransactionTable({ 

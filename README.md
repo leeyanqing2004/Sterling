@@ -99,7 +99,7 @@ Developed as the final project for **CSC309 – Programming on the Web (Universi
 1. Push your repository to GitHub (ensure `.env` is in `.gitignore`)
 2. Your repository structure should be:
    ```
-   LoyaltyProgram309/
+   Sterling/
    ├── backend/
    ├── frontend/
    └── .gitignore
@@ -189,8 +189,8 @@ Push this change to GitHub. Railway will automatically redeploy.
 ### **Step 1: Clone the Repository**
 
 ```bash
-git clone https://github.com/yourusername/LoyaltyProgram309.git
-cd LoyaltyProgram309
+git clone https://github.com/leeyanqing2004/Sterling.git
+cd Sterling
 ```
 
 ### **Step 2: Backend Setup**
@@ -320,28 +320,28 @@ DELETE /users/:id                     Delete user (Superuser)
 ```
 GET    /transactions                  List transactions (with filters)
 POST   /transactions                  Create transaction (cashier+)
-GET    /transactions/:id              Get transaction details
-PATCH  /transactions/:id              Update transaction (Manager+)
-PATCH  /transactions/:id/suspicious   Flag/unflag suspicious (Manager+)
-PATCH  /transactions/:id/processed    Mark redemption processed (Cashier+)
+GET    /transactions/:Id              Get transaction details
+PATCH  /transactions/:Id              Update transaction (Manager+)
+PATCH  /transactions/:Id/suspicious   Flag/unflag suspicious (Manager+)
+PATCH  /transactions/:Id/processed    Mark redemption processed (Cashier+)
 ```
 
 ### **Promotions**
 ```
 GET    /promotions                    List all promotions
 POST   /promotions                    Create promotion (Manager+)
-GET    /promotions/:id                Get promotion details
-PATCH  /promotions/:id                Update promotion (Manager+)
-DELETE /promotions/:id                Delete promotion (Manager+)
+GET    /promotions/:Id                Get promotion details
+PATCH  /promotions/:Id                Update promotion (Manager+)
+DELETE /promotions/:Id                Delete promotion (Manager+)
 ```
 
 ### **Events**
 ```
 GET    /events                        List all events
 POST   /events                        Create event (Manager+)
-GET    /events/:id                    Get event details
-PATCH  /events/:id                    Update event (Manager+)
-DELETE /events/:id                    Delete event (Manager+)
+GET    /events/:Id                    Get event details
+PATCH  /events/:Id                    Update event (Manager+)
+DELETE /events/:Id                    Delete event (Manager+)
 ```
 
 ---
@@ -428,7 +428,7 @@ The system implements **4-tier hierarchical permissions**:
 ## Project Structure
 
 ```
-LoyaltyProgram309/
+Sterling/
 ├── frontend/
 │   ├── src/
 │   │   ├── pages/

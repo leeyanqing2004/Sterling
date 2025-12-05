@@ -1,0 +1,133 @@
+.transferPointsPopupRedemptionPopup {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1500;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.transferPointsPopupContent {
+    position: relative;
+    width: auto;
+    max-width: 320px;
+    min-width: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6em;
+    box-sizing: border-box;
+    padding: 1.75em 1.75em 3em 1.75em;
+    background-color: white;
+    border-radius: 1em;
+}
+
+.transferPointsPopupCloseButton {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    padding: 0.5em;
+    line-height: 1em;
+    color: black;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.transferPointsPopupTitle {
+    margin: 6px 0px 12px 0px;
+    color: black;
+}
+
+.transferPointsPopupField {
+    display: block;
+    width: 100%;
+}
+
+.transferPointsPopupLabel {
+    display: block;
+    color: black;
+    margin: 10px 0px 6px 0px;
+}
+
+.transferPointsPopupInput,
+.transferPointsPopupTextarea {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 6px 0px 0 0;
+    padding: 0.85em;
+    border: 1px solid #ccc;
+    border-radius: 1em;
+}
+
+.transferPointsPopupTextarea {
+    resize: none;
+    min-height: 90px;
+    max-height: 120px;
+}
+
+.transferPointsPopupSubmitButton {
+    padding: 1em;
+    margin: 1em 0em;
+    border: none;
+    border-radius: 0.5em;
+    color: white;
+    background-color: #2A73B7;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.transferPointsPopupSubmitButton.secondary {
+    background: #e8f0fe;
+    color: #2A73B7;
+    border: 1px solid #e5e7ef;
+}
+
+.transferPointsPopupSubmitButton.loading {
+    opacity: 0.8;
+    cursor: not-allowed;
+}
+
+.transferPointsPopupMessage {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    margin: 0.15em 0 0 0;
+    gap: 0.15em;
+}
+
+.transferPointsPopupError {
+    color: #b3261e;
+    max-width: 100%;
+    word-break: break-word;
+    text-align: center;
+    animation: fadeIn 120ms ease-out;
+}
+
+.transferPointsPopupSuccessActions {
+    display: flex;
+    gap: 0.5em;
+    margin-top: 0.5em;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.transferPointsPopupSuccessActions .transferPointsPopupSubmitButton {
+    margin: 0;
+    padding: 0.75em 1.25em;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

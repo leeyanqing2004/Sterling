@@ -17,9 +17,8 @@ const formatDateTime = (value) => {
     if (isNaN(d.getTime())) return value;
     return `${d.toLocaleDateString()} ${d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
 };
-
-export default function EventsTable({ eventsTableTitle, managerViewBool }) {
-
+  
+export default function EventsTable({ eventsTableTitle, managerViewBool, showRegisteredOnly = false }) {
     const { user } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
@@ -34,7 +33,7 @@ export default function EventsTable({ eventsTableTitle, managerViewBool }) {
     const [loadingRsvp, setLoadingRsvp] = useState({});
     const [toast, setToast] = useState(null);
     const [organizerEvents, setOrganizerEvents] = useState({});
-    const [guestStatusChecked, setGuestStatusChecked] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     // Check for success message from navigation state
     const updateOrganizerStatus = useCallback(async (eventList) => {
@@ -67,8 +66,11 @@ export default function EventsTable({ eventsTableTitle, managerViewBool }) {
 
     const updateGuestStatus = useCallback(async (eventList) => {
         if (!user || !Array.isArray(eventList) || !eventList.length) {
+            setLoading(false);
             return;
         }
+
+        setLoading(true);
         try {
             const statusPairs = await Promise.all(
                 eventList.map(async (event) => {
@@ -88,9 +90,10 @@ export default function EventsTable({ eventsTableTitle, managerViewBool }) {
                 if (isGuest) map[id] = true;
             });
             setRsvps(map);
-            setGuestStatusChecked(true);
         } catch (err) {
             console.error("Failed to check RSVP status", err);
+        } finally {
+            setLoading(false);
         }
     }, [user]);
 
@@ -107,6 +110,12 @@ export default function EventsTable({ eventsTableTitle, managerViewBool }) {
         const timer = setTimeout(() => setToast(null), 3000);
         return () => clearTimeout(timer);
     }, [toast]);
+
+    useEffect(() => {
+        if (showRegisteredOnly) {
+            setPage(0);
+        }
+    }, [showRegisteredOnly]);
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [rsvpedEventIds, setRsvpedEventIds] = useState(new Set());
 
@@ -114,14 +123,21 @@ export default function EventsTable({ eventsTableTitle, managerViewBool }) {
         const fetchEvents = async () => {
             try {
                 const params = {
-                    page: page + 1,
-                    limit: rowsPerPage,
-                };
-                if (filter) params.name = filter;
-                if (!managerViewBool) params.published = "true";
+                    page: showRegisteredOnly ? 1 : page + 1,
+                    limit: showRegisteredOnly ? 1000 : rowsPerPage
+                }
 
-                // Fetch events
-                const response = await api.get("/events", { params });
+                if (filter) {
+                    params.name = filter;
+                }
+
+                if (!managerViewBool) {
+                    params.published = "true";
+                }
+
+                const response = await api.get("/events", {
+                    params: params
+                });
                 const events = response.data.results || [];
                 setRows(events);
                 setTotalCount(response.data.count || 0);
@@ -141,7 +157,7 @@ export default function EventsTable({ eventsTableTitle, managerViewBool }) {
             }
         };
         fetchEvents();
-    }, [page, rowsPerPage, filter, managerViewBool, updateOrganizerStatus, updateGuestStatus]);
+    }, [page, rowsPerPage, filter, managerViewBool, showRegisteredOnly, updateOrganizerStatus, updateGuestStatus]);
     const handleChangePage = (_, newPage) => setPage(newPage);
     const handleChangeRowsPerPage = (e) => {
         setRowsPerPage(parseInt(e.target.value, 10));
@@ -232,23 +248,25 @@ export default function EventsTable({ eventsTableTitle, managerViewBool }) {
 
     // Note: unified RSVP toggle via handleRsvp(event). No duplicate handlers.
 
-    const processedRows = rows
-        .sort((a, b) => {
-            if (!sortBy) {
-                return 0;
-            } else if (sortBy === "id") {
-                return a.id - b.id;
-            } else if (sortBy === "earned") {
-                return a.earned - b.earned;
-            } else if (sortBy === "spent") {
-                return a.spent - b.spent;
-            } else if (sortBy === "utorid") {
-                return a.utorid.localeCompare(b.utorid);
-            } else {
-                return 0;
-            }
-        });
-
+    const filteredRows = (showRegisteredOnly && !loading ? rows.filter(row => Boolean(rsvps[row.id])) : rows);
+    const processedRows = filteredRows
+    // SORT
+    .sort((a, b) => {
+        if (!sortBy) {
+            return 0;
+        } else if (sortBy === "id") {
+            return a.id - b.id;
+        } else if (sortBy === "earned") {
+            return a.earned - b.earned;
+        } else if (sortBy === "spent") {
+            return a.spent - b.spent;
+        } else if (sortBy === "utorid") {
+            return a.utorid.localeCompare(b.utorid);
+        } else {
+            return 0;
+        }
+    });
+  
     return (
         <div className={styles.eventsTableContainer}>
             <div className={styles.eventsTableTitle}>{eventsTableTitle}</div>
@@ -278,35 +296,35 @@ export default function EventsTable({ eventsTableTitle, managerViewBool }) {
             </Box>
             <Paper>
                 <TableContainer>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>ID</TableCell>
-                                <TableCell>Name</TableCell>
-                                <TableCell>Location</TableCell>
-                                <TableCell>Start Time</TableCell>
-                                <TableCell>End Time</TableCell>
-                                <TableCell>Number of Guests</TableCell>
-                                {managerViewBool && <TableCell>Capacity</TableCell>}
-                                {managerViewBool && <TableCell>Remaining Points</TableCell>}
-                                {managerViewBool && <TableCell>Points Awarded</TableCell>}
-                                {managerViewBool && <TableCell>Published</TableCell>}
-                                <TableCell></TableCell>
-                                <TableCell></TableCell>
-                            </TableRow>
-                        </TableHead>
-
-                        <TableBody>
-                            {processedRows
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row) => (
-                                    <TableRow key={row.id}>
-                                        <TableCell>{row.id}</TableCell>
-                                        <TableCell>{row.name}</TableCell>
-                                        <TableCell>{row.location}</TableCell>
-                                        <TableCell>{formatDateTime(row.startTime)}</TableCell>
-                                        <TableCell>{formatDateTime(row.endTime)}</TableCell>
-                                        <TableCell>{row.numGuests}</TableCell>
+                <Table>
+                    <TableHead>
+                    <TableRow>
+                        <TableCell>ID</TableCell>
+                        <TableCell>Name</TableCell>
+                        <TableCell>Location</TableCell>
+                        <TableCell>Start Time</TableCell>
+                        <TableCell>End Time</TableCell>
+                        <TableCell>Number of Guests</TableCell>
+                        {managerViewBool && <TableCell>Capacity</TableCell>}
+                        {managerViewBool && <TableCell>Remaining Points</TableCell>}
+                        {managerViewBool && <TableCell>Points Awarded</TableCell>}
+                        {managerViewBool && <TableCell>Published</TableCell>}
+                        <TableCell></TableCell>
+                        <TableCell></TableCell>
+                    </TableRow>
+                    </TableHead>
+        
+                    <TableBody>
+                    {(!showRegisteredOnly || !loading) && processedRows
+                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        .map((row) => (
+                        <TableRow key={row.id}>
+                            <TableCell>{row.id}</TableCell>
+                            <TableCell>{row.name}</TableCell>
+                            <TableCell>{row.location}</TableCell>
+                            <TableCell>{formatDateTime(row.startTime)}</TableCell>
+                            <TableCell>{formatDateTime(row.endTime)}</TableCell>
+                            <TableCell>{row.numGuests}</TableCell>
 
                                         {managerViewBool && <TableCell>{row.capacity}</TableCell>}
                                         {managerViewBool && <TableCell>{row.pointsRemain}</TableCell>}
@@ -390,12 +408,12 @@ export default function EventsTable({ eventsTableTitle, managerViewBool }) {
                     
                 </TableContainer>
                 <TablePagination
-                    component="div"
-                    count={totalCount}
-                    page={page}
-                    rowsPerPage={rowsPerPage}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
+                component="div"
+                count={showRegisteredOnly ? processedRows.length : totalCount}
+                page={page}
+                rowsPerPage={rowsPerPage}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
                 />
             </Paper>
             {toast && (

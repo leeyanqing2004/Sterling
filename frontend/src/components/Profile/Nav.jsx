@@ -10,10 +10,11 @@ function Nav({ id }) {
     const eventsPath = isManager ? "/all-events" : "/published-events";
 
     const isEvents = path.startsWith("/published-events") || path.startsWith("/all-events");
-    const profilePath = user ? `/profile/${user.utorid}/account` : "/login";
-    const isProfile = path.startsWith("/profile/") || path === "/home";
+    const profilePath = user ? "/profile" : "/login";
+    const isProfile = path.startsWith("/profile") || path === "/home";
     const isAllUsers = path.startsWith("/all-users");
     const isAllTransactions = path.startsWith("/all-transactions");
+    const isAllPromotions = path.startsWith("/all-promotions");
 
     return (
         <nav id={id} className={styles.nav}>
@@ -33,6 +34,9 @@ function Nav({ id }) {
                 )}
                 <li className={styles.navListItem}>
                     <Link className={`${styles.navListItemLink} ${isProfile ? styles.active : ""}`} to={profilePath}>Profile</Link>
+                </li>
+                <li className={styles.navListItem}>
+                    <Link className={`${styles.navListItemLink} ${isAllPromotions ? styles.active : ""}`} to="/all-promotions">Promotions</Link>
                 </li>
             </ul>
         </nav>

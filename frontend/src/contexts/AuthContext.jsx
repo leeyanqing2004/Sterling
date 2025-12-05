@@ -110,7 +110,7 @@ export const AuthProvider = ({ children }) => {
             const userData = userRes.data;
             setUser(userData);
 
-            navigate(`/profile/${userData.utorid}/home`); // TODO: hypothetical "/home" page right now
+            navigate(`/home`); // TODO: hypothetical "/home" page right now
             return null;
         } catch (err) {
             return "Network error"

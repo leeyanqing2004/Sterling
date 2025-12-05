@@ -43,27 +43,31 @@ function LeftMiddle({ endpoint }) {
     if (!user) {
         return null;
     }
-    const isHomeActive = matchPath({ path: "/profile/:utorid/home" }, endpoint) || matchPath({ path: "/home" }, endpoint);
-    const homeTab = <div className="left-nav-home-tab">
+    const isHomeActive = matchPath({ path: "/home" }, endpoint) || matchPath({ path: "/home" }, endpoint);
+    const homeTab = <div className="leftNavHomeTab">
         <PageButton text="Home" active={isHomeActive} path="/home"/>
     </div>;
 
-    const isMyAccountActive =
-        matchPath({ path: "/profile/:utorid/account" }, endpoint) ||
-        endpoint === "/profile";
-    const myAccountTab = <div className={styles.leftNavMyAccountTab}>
-        <PageButton text="My Account" active={isMyAccountActive} path={user ? `/profile/${user.utorid}/account` : "/profile"}/>
+    const isPastTransactionsActive = matchPath({ path: "/past-transactions" }, endpoint);
+    const pastTransactionsTab = <div className="leftNavPastTransactionsTab">
+        <PageButton text="Past Transactions" active={isPastTransactionsActive} path={`/past-transactions`}/>
     </div>;
 
-    const isPastTransactionsActive = matchPath({ path: "/past-transactions" }, endpoint);
-    const pastTransactionsTab = <div className="left-nav-past-transactions-tab">
-        <PageButton text="Past Transactions" active={isPastTransactionsActive} path={`/past-transactions`}/>
+    const isMyRedemptionsActive = matchPath({ path: "/redeem-points" }, endpoint);
+    const myRedemptionsTab = <div className="leftNavMyRedemptionsTab">
+        <PageButton text="Redeem Points" active={isMyRedemptionsActive} path="/redeem-points"/>
+    </div>;
+
+    const isMyEventsActive = matchPath({ path: "/my-events" }, endpoint);
+    const myEventsTab = <div className="leftNavMyEventsTab">
+        <PageButton text="My Events" active={isMyEventsActive} path="/my-events"/>
     </div>;
 
     return <div className={styles.leftNavLeftMiddle}>
         {homeTab}
-        {myAccountTab}
         {pastTransactionsTab}
+        {myRedemptionsTab}
+        {myEventsTab}
     </div>;
 }
 

@@ -75,8 +75,8 @@ function ProfileSection({ id, className }) {
     const navigate = useNavigate();
     const { utorid } = useParams();
     
-    const isRedeemRoute = Boolean(useMatch("/profile/:utorid/redeem-points"));
-    const isTransferRoute = Boolean(useMatch("/profile/:utorid/transfer-points"));
+    const isRedeemRoute = Boolean(useMatch("/redeem-points"));
+    const isTransferRoute = Boolean(useMatch("/transfer-points"));
 
     const profileSectionSettingsStyle = locked ? styles.profileSectionSettingsLocked : styles.profileSectionSettingsUnlocked;
     const profileSectionNewImageButtonStyle = locked ? "" : styles.profileSectionNewImageButtonUnlocked;
@@ -99,7 +99,7 @@ function ProfileSection({ id, className }) {
 
     const handleCloseRedeem = () => {
         if (utorid) {
-            navigate(`/profile/${utorid}/dashboard`);
+            navigate(`/dashboard`);
         } else {
             navigate("/profile");
         }
@@ -107,7 +107,7 @@ function ProfileSection({ id, className }) {
 
         const handleCloseTransfer = () => {
         if (utorid) {
-            navigate(`/profile/${utorid}/dashboard`);
+            navigate(`/dashboard`);
         } else {
             navigate("/profile");
         }

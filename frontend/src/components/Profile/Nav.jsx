@@ -10,10 +10,10 @@ function Nav({ id, onToggleNav, navOpen = true, className = "" }) {
     const eventsPath = isManager ? "/all-events" : "/published-events";
 
     const isEvents = path.startsWith("/published-events") || path.startsWith("/all-events");
-    const profilePath = user ? `/profile/${user.utorid}/account` : "/login";
+    const profilePath = user ? `/profile` : "/login";
     const dashboardPath = user ? `/dashboard` : "/login";
     const isDashboard = path === "/dashboard";
-    const isProfile = path.startsWith("/profile/");
+    const isProfile = path.startsWith("/profile");
     const isAllUsers = path.startsWith("/all-users");
     const isAllTransactions = path.startsWith("/all-transactions");
     const navClassNames = `${styles.nav} ${className}`.trim();
@@ -51,6 +51,9 @@ function Nav({ id, onToggleNav, navOpen = true, className = "" }) {
                 )}
                 <li className={styles.navListItem}>
                     <Link className={`${styles.navListItemLink} ${isProfile ? styles.active : ""}`} to={profilePath}>Profile</Link>
+                </li>
+                <li className={styles.navListItem}>
+                    <Link className={`${styles.navListItemLink} ${isAllPromotions ? styles.active : ""}`} to="/all-promotions">Promotions</Link>
                 </li>
             </ul>
         </nav>

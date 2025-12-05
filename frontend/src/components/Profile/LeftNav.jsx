@@ -32,12 +32,24 @@ function LeftMiddle({ endpoint }) {
         return null;
     }
     const isPastTransactionsActive = matchPath({ path: "/past-transactions" }, endpoint);
-    const pastTransactionsTab = <div className="left-nav-past-transactions-tab">
+    const pastTransactionsTab = <div className="leftNavPastTransactionsTab">
         <PageButton text="Past Transactions" active={isPastTransactionsActive} path={`/past-transactions`}/>
+    </div>;
+
+    const isMyRedemptionsActive = matchPath({ path: "/redeem-points" }, endpoint);
+    const myRedemptionsTab = <div className="leftNavMyRedemptionsTab">
+        <PageButton text="Redeem Points" active={isMyRedemptionsActive} path="/redeem-points"/>
+    </div>;
+
+    const isMyEventsActive = matchPath({ path: "/my-events" }, endpoint);
+    const myEventsTab = <div className="leftNavMyEventsTab">
+        <PageButton text="My Events" active={isMyEventsActive} path="/my-events"/>
     </div>;
 
     return <div className={styles.leftNavLeftMiddle}>
         {pastTransactionsTab}
+        {myRedemptionsTab}
+        {myEventsTab}
     </div>;
 }
 

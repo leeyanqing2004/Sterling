@@ -17,6 +17,7 @@ import AllPromotions from './pages/AllPromotions';
 import AllUsers from './pages/AllUsers';
 import ManageEvent from './pages/ManageEvent';
 import ProfileShell from "./components/Profile/ProfileShell.jsx";
+import MyEvents from "./pages/MyEvents.jsx";
 
 function RootRedirect() {
   const token = localStorage.getItem("token");
@@ -35,11 +36,9 @@ function App() {
           <Route path="/profile/:utorid/dashboard" element={<Navigate to="/dashboard" replace />} />
 
           <Route element={<ProfileShell />}>
-            <Route path="/profile/:utorid/account" element={<Profile />} />
-            <Route path="/profile/:utorid/transfer-points" element={<Profile />} />
-            <Route path="/profile/:utorid/redeem-points" element={<Profile />} />
-            <Route path="/profile/:utorid/past-transactions" element={<Profile />} />
-
+            <Route path="/transfer-points" element={<Profile />} />
+            <Route path="/redeem-points" element={<Profile />} />
+            <Route path="/past-transactions" element={<Profile />} />
             <Route path="/all-users" element={<AllUsers />} />
             <Route path="/all-promotions" element={<AllPromotions />} />
             <Route path="/available-promotions" element={<AvailablePromotions />} />

@@ -41,7 +41,6 @@ export default function InputFields({ pageType, setPageType }){
             return setError("'Password' and 'Confirm Password' must match.");
         }
         
-        console.log(`setPassUtorid = ${setPassUtorid}, inputPassword = ${inputPassword}, resetToken = ${resetToken}`)
         setPassword(setPassUtorid, inputPassword, resetToken)
         .then(message => {
             if (message) {

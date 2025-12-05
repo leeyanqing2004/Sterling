@@ -63,6 +63,7 @@ router.post('/new', async (req, res) => {
             password: null,
             verified: false,
             role: 'regular',
+            avatarUrl: '/default-pfp.jpg',
             resetToken: resetToken,
             expiresAt: expiresAt
         }
@@ -133,6 +134,7 @@ router.post('/', clearanceRequired('cashier'), async (req, res) => {
             password: null,
             verified: false,
             role: 'regular',
+            avatarUrl: '/default-pfp.jpg',
             resetToken: resetToken,
             expiresAt: expiresAt
         }
@@ -256,15 +258,15 @@ router.patch('/me', clearanceRequired('regular'), upload.single('avatar'), async
     }
 
     const userId = req.auth.id;
-    const { name, email, birthday } = req.body;
+    const { name, email, birthday, avatarUrl } = req.body;
     const updateData = {};
 
-    // Check if all provided fields are null (or undefined)
-    const allFieldsNull = Object.keys(req.body).length > 0 &&
-        Object.values(req.body).every(v => v === null || v === undefined);
-    if (allFieldsNull && !req.file) {
-        return res.status(400).json({ error: "No update fields provided" });
+    // Allow setting avatarUrl including null (to clear avatar)
+    if (Object.prototype.hasOwnProperty.call(req.body, 'avatarUrl')) {
+        updateData.avatarUrl = avatarUrl === null ? null : avatarUrl;
     }
+
+    // Build updateData for other fields; avatarUrl may legitimately be null
 
     // Skip null/undefined fields and validate non-null values
     if (name !== undefined && name !== null) {
@@ -294,8 +296,13 @@ router.patch('/me', clearanceRequired('regular'), upload.single('avatar'), async
         // Store as Date in database
         updateData.birthday = date;
     }    // File Upload
-    if (req.file) {
-        updateData.avatarUrl = `/uploads/avatars/${req.file.filename}`;
+    // if (req.file) {
+    //     updateData.avatarUrl = `/uploads/avatars/${req.file.filename}`;
+    // }
+
+    // If nothing to update and no file uploaded, reject
+    if (Object.keys(updateData).length === 0 && !req.file) {
+        return res.status(400).json({ error: "No update fields provided" });
     }
 
     // Update user

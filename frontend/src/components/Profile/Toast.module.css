@@ -1,0 +1,42 @@
+.toastContainer {
+    position: fixed;
+    right: 2em;
+    bottom: 2em;
+    z-index: 2000;
+}
+
+.toast {
+    padding: 1em 1.5em;
+    border-radius: 0.5em;
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: slideIn 0.3s ease-out;
+    display: flex;
+    align-items: center;
+}
+
+.toastSuccess {
+    background-color: rgba(24, 115, 62, 0.9);
+}
+
+.toastError {
+    background-color: rgba(139, 26, 26, 0.9);
+}
+
+.toastMessage {
+    flex: 1;
+}
+
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

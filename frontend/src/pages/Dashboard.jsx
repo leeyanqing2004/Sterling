@@ -25,12 +25,12 @@ function Dashboard() {
     const [recentTransactions, setRecentTransactions] = useState([]);
     const [count, setCount] = useState(0);
     const [availablePoints, setavailablePoints] = useState(user?.points ?? null);
-    {/* const [qrInfo, setQrInfo] = useState([]); */}
+    // const [qrInfo, setQrInfo] = useState([]);
     const [showRegisterPopup, setShowRegisterPopup] = useState(false);
     const [showPurchasePopup, setShowPurchasePopup] = useState(false);
     const [promotionsOptions, setPromotionsOptions] = useState([]);
     const [registeredUser, setRegisteredUser] = useState(null);
-    {/* const [qrInfo, setQrInfo] = useState([]); */ }
+    // const [qrInfo, setQrInfo] = useState([]);
     const [showTransfer, setShowTransfer] = useState(false);
     const [showRedeem, setShowRedeem] = useState(false);
     const [pointsLoading, setPointsLoading] = useState(user?.points == null);
@@ -40,10 +40,12 @@ function Dashboard() {
         if (didLoadRef.current) return;
         didLoadRef.current = true;
         async function loadData() {
+            // Recent transactions
             const data = await getRecentTransactions();
             setRecentTransactions(data.results);
             setCount(data.count);
 
+            // Points
             if (availablePoints == null) {
                 setPointsLoading(true);
                 const pointsData = await getMyPoints();
@@ -51,18 +53,15 @@ function Dashboard() {
                     setavailablePoints(pointsData);
                 }
                 setPointsLoading(false);
-            setPointsLoading(true);
-            const pointsData = await getMyPoints();
-            // load promotions for purchase popup
+            }
+
+            // Promotions for purchase popup
             try {
                 const promos = await getPromotions({ limit: 1000 });
                 setPromotionsOptions(promos.results || []);
             } catch (err) {
                 console.error("Failed to load promotions", err);
                 setPromotionsOptions([]);
-            }
-            if (typeof pointsData === "number") {
-                setavailablePoints(pointsData);
             }
         }
         loadData();

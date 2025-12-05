@@ -1,8 +1,12 @@
 import { useMatch, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
+import { useAuth } from "../../contexts/AuthContext.jsx";
+import { supabase } from "../../api/supabaseClient";
+import ProfileAvatar from "./ProfileAvatar.jsx";
 import api from "../../api/api";
 import RedeemPointsPopup from "../RedeemPointsPopup";
 import TransferPointsPopup from "../TransferPoints";
+import Toast from "./Toast.jsx";
 import styles from "./ProfileSection.module.css";
 
 function isValidName(name) {
@@ -72,8 +76,13 @@ function ProfileSection({ id, className }) {
     const [birthdayError, setBirthdayError] = useState("");
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
+    const [uploading, setUploading] = useState(false);
+    const [toast, setToast] = useState({ message: "", type: "success" });
+    // Preview avatar changes locally until saved
+    const [pendingAvatarUrl, setPendingAvatarUrl] = useState(undefined);
     const navigate = useNavigate();
     const { utorid } = useParams();
+    const { user, updateUser } = useAuth();
     
     const isRedeemRoute = Boolean(useMatch("/redeem-points"));
     const isTransferRoute = Boolean(useMatch("/transfer-points"));
@@ -95,6 +104,8 @@ function ProfileSection({ id, className }) {
         setBirthdayError("");
         setEmailError("");
         setPasswordError("");
+        // discard any pending avatar change
+        setPendingAvatarUrl(undefined);
     }
 
     const handleCloseRedeem = () => {
@@ -153,9 +164,18 @@ function ProfileSection({ id, className }) {
                 update.email = email;
             }
 
+            // Include avatar only if a change was made in this session
+            if (pendingAvatarUrl !== undefined) {
+                update.avatarUrl = pendingAvatarUrl;
+            }
+
             if (Object.keys(update).length > 0) {
                 await api.patch('/users/me', update);
-                alert("Profile updated successfully.");
+                setToast({ message: "Profile updated successfully.", type: "success" });
+                if (pendingAvatarUrl !== undefined) {
+                    updateUser({ avatarUrl: pendingAvatarUrl });
+                    setPendingAvatarUrl(undefined);
+                }
             }
 
             setLocked(true);
@@ -196,15 +216,81 @@ function ProfileSection({ id, className }) {
         }
     }
 
+    // Handle profile image upload
+    const handleImageUpload = async (event) => {
+        try {
+            setUploading(true);
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Create a unique file name using the user's utorid
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${user.utorid}_avatar.${fileExt}`;
+            const filePath = `${fileName}`;
+
+            const { error: uploadError } = await supabase.storage
+                .from('avatars')
+                .upload(filePath, file, {
+                    upsert: true,
+                    contentType: file.type || 'image/jpeg',
+                    cacheControl: '3600'
+                });
+            if (uploadError) throw uploadError;
+
+            const { data } = supabase.storage.from('avatars').getPublicUrl(filePath);
+            const publicUrl = data.publicUrl;
+            const publicUrlWithTime = `${publicUrl}?t=${new Date().getTime()}`;
+            // preview only; commit on Save Changes
+            setPendingAvatarUrl(publicUrlWithTime);
+        } catch (error) {
+            console.error(error);
+            setToast({ message: "Error uploading profile picture.", type: "error" });
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    const handleRemoveImage = () => {
+        // Set preview to default; commit on Save Changes
+        setPendingAvatarUrl('/default-pfp.jpg');
+    };
+
     return <div id={id} className={`${styles.profileSection} ${className || ''}`}>
         <div className={styles.profileSectionDetails}>
             <div className={`${styles.profileSectionSettings} ${profileSectionSettingsStyle}`}>
                 <h2 className={styles.profileSectionTitle}>My Profile</h2>
                 <div className={styles.profileSectionImageSettings}>
-                    <img src="/profile.png" alt="Profile Picture" />
-                    <button className={`${styles.profileSectionNewImageButton} ${profileSectionNewImageButtonStyle}`}>Upload New Image</button>
-                    <button className={`${styles.profileSectionRemoveImageButton} ${profileSectionRemoveImageButtonStyle}`}>Remove Image</button>
+                    <ProfileAvatar
+                            src={(pendingAvatarUrl !== undefined ? pendingAvatarUrl : user?.avatarUrl) || "/default-pfp.jpg"}
+                            alt="Profile Picture"
+                            size={80}
+                        />
+                    <input
+                        type="file"
+                        id="avatar-upload"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        disabled={uploading || locked} // Disable if uploading OR if profile is locked
+                        style={{ display: 'none' }} 
+                    />
+                    <div className={styles.profileSectionImageButtons}>
+                        <label 
+                            htmlFor="avatar-upload"
+                            className={`${styles.profileSectionNewImageButton} ${profileSectionNewImageButtonStyle}`}
+                        >
+                            {uploading ? "Uploading..." : "Upload New Image"}
+                        </label>
+                        <button 
+                            className={`${styles.profileSectionRemoveImageButton} ${profileSectionRemoveImageButtonStyle}`}
+                            onClick={handleRemoveImage}
+                            disabled={locked || uploading}
+                        >
+                            Remove Image
+                        </button>
+                    </div>
                 </div>
+
+                
                 <div className={styles.profileSectionPublicSettings}>
                     <ProfileField type="text" label="Name" field={name} setField={setName} error={nameError} />
                     <ProfileField type="date" label="Birthday" field={birthday} setField={setBirthday} error={birthdayError}/>
@@ -228,6 +314,7 @@ function ProfileSection({ id, className }) {
             {isRedeemRoute && <RedeemPointsPopup onClose={handleCloseRedeem} />}
             {isTransferRoute && <TransferPointsPopup onClose={handleCloseTransfer} />}
         </div>
+        <Toast message={toast.message} type={toast.type} onClose={() => setToast({ message: "", type: toast.type })} />
     </div>;
 }
 

@@ -6,7 +6,7 @@ import { TextField, FormControl, InputLabel, Select, MenuItem, Box } from "@mui/
 import { useState, useEffect } from "react";
 import api from "../../api/api";
 import styles from "./RedemptionTable.module.css"
-  
+
 export default function RedemptionTable({ redempTableTitle, processedBool }) {
     // this is make a fake table with 50 rows, just to see
     // const rows = Array.from({ length: 50 }, (_, i) => ({
@@ -19,7 +19,7 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
     //     remark: "[remark here]",
     //     createdBy: "[createdBy utorid here]"
     // }));
-  
+
     const [rows, setRows] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -48,7 +48,7 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
 
         fetchRedemptions();
     }, [filter, sortBy]);
-  
+
     const handleChangePage = (_, newPage) => setPage(newPage);
     const handleChangeRowsPerPage = (e) => {
         setRowsPerPage(parseInt(e.target.value, 10));
@@ -56,27 +56,27 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
     };
 
     const processedRows = rows
-    // FILTER
-    .filter((row) =>
-        row.utorid.toLowerCase().includes(filter.toLowerCase())
-    )
-    // SORT
-    .sort((a, b) => {
-        if (!sortBy) {
-            return 0;
-        } else if (sortBy === "id") {
-            return a.id - b.id;
-        } else if (sortBy === "earned") {
-            return a.earned - b.earned;
-        } else if (sortBy === "spent") {
-            return a.spent - b.spent;
-        } else if (sortBy === "utorid") {
-            return a.utorid.localeCompare(b.utorid);
-        } else {
-            return 0;
-        }
-    });
-  
+        // FILTER
+        .filter((row) =>
+            row.utorid.toLowerCase().includes(filter.toLowerCase())
+        )
+        // SORT
+        .sort((a, b) => {
+            if (!sortBy) {
+                return 0;
+            } else if (sortBy === "id") {
+                return a.id - b.id;
+            } else if (sortBy === "earned") {
+                return a.earned - b.earned;
+            } else if (sortBy === "spent") {
+                return a.spent - b.spent;
+            } else if (sortBy === "utorid") {
+                return a.utorid.localeCompare(b.utorid);
+            } else {
+                return 0;
+            }
+        });
+
     return (
         <div className={styles.redempTableContainer}>
             <div className={styles.redempTableTitle}>{redempTableTitle}</div>
@@ -109,49 +109,41 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
             </Box>
             <Paper>
                 <TableContainer>
-                <Table>
-                    <TableHead>
-                    <TableRow>
-                        <TableCell>ID</TableCell>
-                        <TableCell> {processedBool ? "Points Redeemed" : "Points to Redeem"} </TableCell>
-                        <TableCell>Remark</TableCell>
-                        <TableCell> {processedBool ? "Processed By" : null} </TableCell>
-                    </TableRow>
-                    </TableHead>
-        
-                    <TableBody>
-                    {processedRows.length === 0 ? (
-                        <TableRow>
-                            <TableCell colSpan={4}>
-                                <div className={styles.tableLoading}>
-                                    <span>No redemptions to display.</span>
-                                </div>
-                            </TableCell>
-                    {processedRows
-                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                        .map((row) => (
-                        <TableRow key={row.id}>
-                            <TableCell>{row.id || "---"}</TableCell>
-                            <TableCell> {processedBool ? row.redeemed : row.amount} </TableCell> {/* if not processed, the amount to be redeemed is the 'amount' of the redemption transaction */}
-                            <TableCell>{row.remark || "---"}</TableCell>
-                            <TableCell> {processedBool ? row.processedBy : null} </TableCell> 
-                        </TableRow>
-                    ) : (
-                        processedRows
-                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row) => (
-                            <TableRow key={row.id}>
-                                <TableCell>{row.id}</TableCell>
-                                <TableCell> {processedBool ? row.redeemed : row.amount} </TableCell> {/* if not processed, the amount to be redeemed is the 'amount' of the redemption transaction */}
-                                <TableCell>{row.remark}</TableCell>
-                                <TableCell> {processedBool ? row.processedBy : null} </TableCell> 
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>ID</TableCell>
+                                <TableCell> {processedBool ? "Points Redeemed" : "Points to Redeem"} </TableCell>
+                                <TableCell>Remark</TableCell>
+                                <TableCell> {processedBool ? "Processed By" : null} </TableCell>
                             </TableRow>
-                            ))
-                    )}
-                    </TableBody>
-                </Table>
+                        </TableHead>
+
+                        <TableBody>
+                            {processedRows.length === 0 ? (
+                                <TableRow>
+                                    <TableCell colSpan={4}>
+                                        <div className={styles.tableLoading}>
+                                            <span>No redemptions to display.</span>
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            ) : (
+                                processedRows
+                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                    .map((row) => (
+                                        <TableRow key={row.id}>
+                                            <TableCell>{row.id ?? "---"}</TableCell>
+                                            <TableCell>{processedBool ? row.redeemed : row.amount}</TableCell>
+                                            <TableCell>{row.remark ?? "---"}</TableCell>
+                                            <TableCell>{processedBool ? (row.processedBy ?? "---") : null}</TableCell>
+                                        </TableRow>
+                                    ))
+                            )}
+                        </TableBody>
+                    </Table>
                 </TableContainer>
-        
+
                 <Box className={styles.tablePaginationBar}>
                     <Pagination
                         count={Math.max(1, Math.ceil(rows.length / rowsPerPage))}
@@ -180,4 +172,4 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
         </div>
     );
 }
-  
+

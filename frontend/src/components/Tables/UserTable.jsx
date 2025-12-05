@@ -7,7 +7,8 @@ import { useEffect, useState } from "react";
 import api from "../../api/api";
 import styles from "./UserTable.module.css"
 import ManageUserPopup from "../ManageUserPopup";
-import { capitalize } from "../../utils/capitalize";
+import { Capitalize } from "../../utils/capitalize";
+import { formatDate, formatDateTime } from "../../utils/formatDateTime";
   
 export default function UserTable({ userTableTitle }) {
     const [rows, setRows] = useState([]);
@@ -176,15 +177,15 @@ export default function UserTable({ userTableTitle }) {
                     {(loading ? [] : processedRows)
                         .map((row) => (
                         <TableRow key={row.id}>
-                            <TableCell>{row.id || "---"}</TableCell>
-                            <TableCell>{capitalize(row.role) || "---"}</TableCell>
-                            <TableCell>{row.utorid || "---"}</TableCell>
-                            <TableCell>{row.email || "---"}</TableCell>
-                            <TableCell>{formatDate(row.birthday) || "---"}</TableCell>
+                            <TableCell>{row.id}</TableCell>
+                            <TableCell>{Capitalize(row.role)}</TableCell>
+                            <TableCell>{row.name}</TableCell>
+                            <TableCell>{row.email}</TableCell>
+                            <TableCell>{formatDate(row.birthday)}</TableCell>
                             <TableCell>{row.points}</TableCell>
                             <TableCell>{row.verified ? "Yes" : "No"}</TableCell>
-                            <TableCell>{formatDate(row.createdAt) || "---"}</TableCell>
-                            <TableCell>{formatDate(row.lastLogin) || "---"}</TableCell>
+                            <TableCell>{formatDateTime(row.createdAt)}</TableCell>
+                            <TableCell>{formatDateTime(row.lastLogin)}</TableCell>
                             <TableCell>
                                 <button
                                     className={styles.manageBtn}

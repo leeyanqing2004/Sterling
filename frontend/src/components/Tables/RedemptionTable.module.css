@@ -2,10 +2,15 @@
     display: flex;
     flex-direction: column;
     background-color: #ffff;
-    padding: 30px;
-    gap: 20px;
+    padding: 20px;
+    gap: 16px;
     flex: 1 1 auto;
     border-radius: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px solid #f1f1f4;
 }
 
 .redempTableTitle {
@@ -14,11 +19,42 @@
     align-self: flex-start;
 }
 
-:global(.MuiTableCell-root.MuiTableCell-head) {
+:global(.MuiTableContainer-root) {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+:global(.MuiTableCell-head) {
     color: #2A73B7 !important;
+    font-weight: 700 !important;
     text-align: center !important;
 }
 
-  :global(.MuiTableCell-body) {
+:global(.MuiTableCell-body) {
     text-align: center !important;
+}
+
+.tablePaginationBar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 12px 16px;
+    gap: 16px;
+}
+
+.paginationList {
+    justify-content: center;
+}
+
+.pagination {
+    justify-self: center;
+}
+
+.rowsSelect {
+    justify-self: end;
+}
+
+:global(.MuiPaginationItem-root.Mui-selected) {
+    background-color: #2A73B7 !important;
+    color: white !important;
 }

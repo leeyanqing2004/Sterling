@@ -69,3 +69,4 @@ function NewOrganizerPopup({ eventId, onClose, onSuccess }) {
 
 export default NewOrganizerPopup;
 
+

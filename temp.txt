@@ -95,17 +95,11 @@ function ManageTransactionPopup({ show = true, onClose, transaction, onTransacti
     const handleCreateAdjustment = async () => {
         setSubmitting(true);
         setError("");
-        const numericAmount = Number(amount);
-        if (Number.isNaN(numericAmount)) {
-            setError("Please enter a valid adjustment amount.");
-            setSubmitting(false);
-            return;
-        }
         try {
             const payload = {
                 utorid,
                 type: "adjustment",
-                amount: numericAmount,
+                amount: Number(amount),
                 relatedId: transaction.id,
                 remark,
                 promotionIds: parsedPromotions,
@@ -216,7 +210,6 @@ function ManageTransactionPopup({ show = true, onClose, transaction, onTransacti
                     <textarea
                         id="mtp-remark"
                         rows="3"
-                        placeholder="Enter any remarks here..."
                         value={remark}
                         onChange={(e) => setRemark(e.target.value)}
                         disabled={submitting}
@@ -270,46 +263,16 @@ function ManageTransactionPopup({ show = true, onClose, transaction, onTransacti
                         <span className="mtp-success-value">{successTx.createdBy}</span>
                     </div>
                 </div>
-                {createdTx?.updatedTransaction && (
-                    <div className="mtp-success-updated">
-                        <div className="mtp-success-updated-title">Updated Transaction</div>
-                        <div className="mtp-success-row">
-                            <span className="mtp-success-label">ID</span>
-                            <span className="mtp-success-value">{createdTx.updatedTransaction.id}</span>
-                        </div>
-                        <div className="mtp-success-row">
-                            <span className="mtp-success-label">New Amount</span>
-                            <span className="mtp-success-value">{createdTx.updatedTransaction.amount}</span>
-                        </div>
-                        {createdTx.updatedTransaction.earned !== undefined && (
-                            <div className="mtp-success-row">
-                                <span className="mtp-success-label">New Earned</span>
-                                <span className="mtp-success-value">{createdTx.updatedTransaction.earned}</span>
-                            </div>
-                        )}
-                        <div className="mtp-success-row">
-                            <span className="mtp-success-label">Type</span>
-                            <span className="mtp-success-value">{Capitalize(createdTx.updatedTransaction.type)}</span>
-                        </div>
-                    </div>
-                )}
             </div>
         );
     };
 
-    const containerClass =
-        step === "success"
-            ? "manage-transaction-popup-content mtp-success-container"
-            : "manage-transaction-popup-content";
-
     return (
         <div className="manage-transaction-popup" onClick={handleClose}>
-            <div className={containerClass} onClick={(e) => e.stopPropagation()}>
-                {step !== "success" && (
-                    <button className="manage-transaction-popup-close-button" onClick={handleClose}>
-                        ✕
-                    </button>
-                )}
+            <div className="manage-transaction-popup-content" onClick={(e) => e.stopPropagation()}>
+                <button className="manage-transaction-popup-close-button" onClick={handleClose}>
+                    ✕
+                </button>
                 {step === "view" && renderView()}
                 {step === "adjust" && renderAdjust()}
                 {step === "success" && renderSuccess()}

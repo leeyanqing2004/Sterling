@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import api from "../api/api";
 import "./ManageUserPopup.css";
-import { capitalize } from "../utils/capitalize";
+import { Capitalize } from "../utils/capitalize";
 import { useAuth } from "../contexts/AuthContext";
+import { formatDate } from "../utils/formatDateTime";
 
 function DetailRow({ label, value }) {
     return (
         <div className="mup-detail-row">
             <div className="mup-detail-label">{label}</div>
-            <div className="mup-detail-value">{value ?? "--"}</div>
+            <div className="mup-detail-value">{value ?? "—"}</div>
         </div>
     );
 }
@@ -56,13 +57,6 @@ function ManageUserPopup({ show = true, onClose, user, onUserUpdate }) {
     };
 
     if (!show || !user) return null;
-
-    const formatDate = (value) => {
-        if (!value) return "--";
-        const d = new Date(value);
-        if (isNaN(d.getTime())) return value;
-        return d.toISOString().split('T')[0];
-    };
 
     const toggleSuspicious = async () => {
         if (!user?.id) return;
@@ -207,12 +201,12 @@ function ManageUserPopup({ show = true, onClose, user, onUserUpdate }) {
                             >
                                 {availableRoles.map(role => (
                                     <option key={role} value={role}>
-                                        {capitalize(role)}
+                                        {Capitalize(role)}
                                     </option>
                                 ))}
                             </select>
                         ) : (
-                            <div className="mup-detail-value">{capitalize(user.role)}</div>
+                            <div className="mup-detail-value">{Capitalize(user.role)}</div>
                         )}
                     </div>
                     <DetailRow label="Created At" value={formatDate(user.createdAt)} />
@@ -231,12 +225,12 @@ function ManageUserPopup({ show = true, onClose, user, onUserUpdate }) {
                             </button>
                         </div>
                         <div className="mup-detail-value mup-email-display">
-                            {user?.email || "--"}
+                            {user?.email || "—"}
                         </div>
                     </div>
                     <DetailRow label="Last Login" value={formatDate(user.lastLogin)} />
                     <DetailRow label="Birthday" value={formatDate(user.birthday)} />
-                    <DetailRow label="Promotions" value={user.promotions?.length ? user.promotions.length : "--"} />
+                    <DetailRow label="Promotions" value={user.promotions?.length ? user.promotions.length : "—"} />
                     <DetailRow label="Points" value={user.points} />
                     <DetailRow label="Suspicious" value={suspicious ? "Yes" : "No"} />
                 </div>

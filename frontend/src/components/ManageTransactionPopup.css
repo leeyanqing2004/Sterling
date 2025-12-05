@@ -38,18 +38,28 @@
 .manage-transaction-popup-close-button {
     /* Layout */
     position: absolute;
-    width: auto;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     
     /* Spacing */
     top: 1em;
     right: 1em;
-    padding: 0.5em;
+    padding: 0;
     line-height: 1em;
     
     /* Decorations */
     color: black;
     background: none;
     border: none;
+    border-radius: 50%;
+    transition: background 0.15s ease;
+}
+
+.manage-transaction-popup-close-button:hover {
+    background: rgba(15, 23, 42, 0.06);
 }
 
 .manage-transaction-popup-title {
@@ -96,6 +106,22 @@
     flex-direction: column;
     gap: 6px;
     margin: 10px 0;
+}
+
+.mtp-field textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.mtp-field textarea:focus {
+    outline: none;
+    border-color: #1976d2;
+    box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
 }
 
 .mtp-remark-field {
@@ -283,4 +309,65 @@
     border-radius: 1em !important;
 }
 
+.mtp-success-container {
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+}
 
+.mtp-success-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.5em 1.75em;
+    min-width: 320px;
+    max-width: 420px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+    position: relative;
+}
+
+.mtp-success-title {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 1em;
+    color: #000;
+    line-height: 1.4;
+}
+
+.mtp-success-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: #111;
+}
+
+.mtp-success-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.mtp-success-label {
+    color: #666;
+    font-size: 0.95em;
+}
+
+.mtp-success-value {
+    font-weight: 600;
+    color: #000;
+    text-align: right;
+}
+
+.mtp-success-updated {
+    margin-top: 1.25em;
+    padding-top: 1em;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.mtp-success-updated-title {
+    font-weight: 700;
+    color: #2a73b7;
+    margin-bottom: 4px;
+}

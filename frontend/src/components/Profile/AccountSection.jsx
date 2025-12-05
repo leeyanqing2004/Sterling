@@ -1,5 +1,6 @@
 import { useAuth } from "../../contexts/AuthContext.jsx";
 import styles from "./AccountSection.module.css";
+import { Capitalize } from "../../utils/capitalize";
 
 function AccountInfo({ label, value }) {
     return <div className={styles.accountSectionAccountInfo}>
@@ -15,10 +16,6 @@ function AccountSection({ id, className }) {
     const createdAt = user?.createdAt;
     const memberSince = new Date(createdAt).toDateString();
     // const status = user?.status;
-
-    function Capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-    }
 
     return  <div id={id} className={`${styles.accountSection} ${className || ''}`}>
                 <div className={styles.accountSectionDetails}>

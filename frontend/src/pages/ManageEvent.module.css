@@ -113,6 +113,21 @@
     box-shadow: 0 0 0 2px rgba(42, 115, 183, 0.1);
 }
 
+/* Date/time picker tweaks */
+.formField input[type="datetime-local"] {
+    cursor: pointer;
+}
+
+.formField input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 8px;
+}
+
+.formField input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
+    background: rgba(42, 115, 183, 0.08);
+}
+
 .error {
     color: #2A73B7;
     font-size: 12px;
@@ -147,22 +162,25 @@
 }
 
 .addButton {
-    background-color: #2A73B7;
+    background: #2A73B7;
     color: white;
     border: none;
-    padding: 0.45em 0.9em;
-    border-radius: 5px;
+    padding: 10px 16px;
+    border-radius: 14px;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s;
     align-self: flex-start;
-    min-width: 130px;
+    min-width: auto;
+    width: auto;
     text-align: center;
 }
 
 .addButton:hover {
-    background-color: #1f5a8f;
+    background: #1f5a8f;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
 }
 
 .list {
@@ -174,20 +192,20 @@
     padding: 1em;
     min-height: 60px;
     background-color: #f9f9f9;
-    border-radius: 6px;
+    border-radius: 2px;
     border: 1px solid #e5e5e5;
 }
 
 .listItem {
     display: inline-flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    padding: 0.5em 1em;
-    background-color: #e8e8e8;
+    padding: 3px 10px;
+    background-color: #e8f0fe;
     border-radius: 20px;
-    gap: 0.6em;
-    font-size: 14px;
-    font-weight: 500;
+    gap: 0.5em;
+    font-size: 13px;
+    font-weight: 600;
 }
 
 .listItem span {
@@ -241,6 +259,7 @@
     width: 18px;
     height: 18px;
     cursor: pointer;
+    accent-color: #2A73B7;
 }
 
 .checkboxContainer input[type="checkbox"]:disabled {
@@ -250,31 +269,40 @@
 .actions {
     display: flex;
     justify-content: flex-end;
-    gap: 1em;
-    margin-top: 2em;
-    padding-top: 2em;
+    align-items: center;
+    width: fit-content;
+    margin-left: auto;
+    gap: 0.6em;
+    margin-top: 1.5em;
+    padding-top: 1.5em;
     border-top: 1px solid #e5e5e5;
 }
 
+.actions button {
+    flex: 0 0 auto;
+}
+
 .deleteButton {
-    background-color: #e8f0fe;
-    color: #333;
-    border: 1px solid #ccc;
-    padding: 0.6em 1.1em;
-    border-radius: 6px;
+    background: #e8f0fe;
+    color: #2A73B7;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 14px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     display: inline-flex;
     align-items: center;
     gap: 0.4em;
     justify-content: center;
     transition: background-color 0.2s;
-    min-width: 120px;
+    min-width: auto;
+    width: auto;
+    align-self: flex-end;
 }
 
 .deleteButton:hover:not(:disabled) {
-    background-color: #e8e8e8;
+    background: #d9e8ff;
 }
 
 .deleteButton:disabled {
@@ -283,20 +311,22 @@
 }
 
 .saveButton {
-    background-color: #2A73B7;
+    background: #2A73B7;
     color: white;
     border: none;
-    padding: 0.75em 1.5em;
-    border-radius: 6px;
+    padding: 10px 16px;
+    border-radius: 14px;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     transition: background-color 0.2s;
-    min-width: 130px;
+    min-width: auto;
+    width: auto;
+    align-self: flex-end;
 }
 
 .saveButton:hover:not(:disabled) {
-    background-color: #1f5a8f;
+    background: #1f5a8f;
 }
 
 .saveButton:disabled {
@@ -335,4 +365,3 @@
         opacity: 1;
     }
 }
-

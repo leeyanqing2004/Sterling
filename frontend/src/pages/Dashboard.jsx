@@ -24,7 +24,8 @@ function Dashboard() {
 
     const [recentTransactions, setRecentTransactions] = useState([]);
     const [count, setCount] = useState(0);
-    const [availablePoints, setavailablePoints] = useState(0);
+    const [availablePoints, setavailablePoints] = useState(user?.points ?? null);
+    {/* const [qrInfo, setQrInfo] = useState([]); */}
     const [showRegisterPopup, setShowRegisterPopup] = useState(false);
     const [showPurchasePopup, setShowPurchasePopup] = useState(false);
     const [promotionsOptions, setPromotionsOptions] = useState([]);
@@ -32,7 +33,7 @@ function Dashboard() {
     {/* const [qrInfo, setQrInfo] = useState([]); */ }
     const [showTransfer, setShowTransfer] = useState(false);
     const [showRedeem, setShowRedeem] = useState(false);
-    const [pointsLoading, setPointsLoading] = useState(true);
+    const [pointsLoading, setPointsLoading] = useState(user?.points == null);
     const didLoadRef = useRef(false);
 
     useEffect(() => {
@@ -43,6 +44,13 @@ function Dashboard() {
             setRecentTransactions(data.results);
             setCount(data.count);
 
+            if (availablePoints == null) {
+                setPointsLoading(true);
+                const pointsData = await getMyPoints();
+                if (typeof pointsData === "number") {
+                    setavailablePoints(pointsData);
+                }
+                setPointsLoading(false);
             setPointsLoading(true);
             const pointsData = await getMyPoints();
             // load promotions for purchase popup
@@ -56,10 +64,9 @@ function Dashboard() {
             if (typeof pointsData === "number") {
                 setavailablePoints(pointsData);
             }
-            setPointsLoading(false);
         }
         loadData();
-    }, []);
+    }, [availablePoints]);
 
     return (
         <>

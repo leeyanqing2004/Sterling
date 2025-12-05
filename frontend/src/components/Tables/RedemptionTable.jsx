@@ -1,6 +1,6 @@
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
-    TableRow, Paper, TablePagination
+    TableRow, Paper, Pagination
 } from "@mui/material";
 import { TextField, FormControl, InputLabel, Select, MenuItem, Box } from "@mui/material";
 import { useState, useEffect } from "react";
@@ -120,6 +120,13 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
                     </TableHead>
         
                     <TableBody>
+                    {processedRows.length === 0 ? (
+                        <TableRow>
+                            <TableCell colSpan={4}>
+                                <div className={styles.tableLoading}>
+                                    <span>No redemptions to display.</span>
+                                </div>
+                            </TableCell>
                     {processedRows
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row) => (
@@ -129,19 +136,46 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
                             <TableCell>{row.remark || "---"}</TableCell>
                             <TableCell> {processedBool ? row.processedBy : null} </TableCell> 
                         </TableRow>
-                        ))}
+                    ) : (
+                        processedRows
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((row) => (
+                            <TableRow key={row.id}>
+                                <TableCell>{row.id}</TableCell>
+                                <TableCell> {processedBool ? row.redeemed : row.amount} </TableCell> {/* if not processed, the amount to be redeemed is the 'amount' of the redemption transaction */}
+                                <TableCell>{row.remark}</TableCell>
+                                <TableCell> {processedBool ? row.processedBy : null} </TableCell> 
+                            </TableRow>
+                            ))
+                    )}
                     </TableBody>
                 </Table>
                 </TableContainer>
         
-                <TablePagination
-                component="div"
-                count={rows.length}
-                page={page}
-                rowsPerPage={rowsPerPage}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                />
+                <Box className={styles.tablePaginationBar}>
+                    <Pagination
+                        count={Math.max(1, Math.ceil(rows.length / rowsPerPage))}
+                        page={page + 1}
+                        onChange={(_, val) => handleChangePage(null, val - 1)}
+                        siblingCount={1}
+                        boundaryCount={1}
+                        className={styles.pagination}
+                        classes={{ ul: styles.paginationList }}
+                    />
+                    <FormControl size="small" sx={{ minWidth: 120 }} className={styles.rowsSelect}>
+                        <InputLabel id="redemp-rows-label">Rows</InputLabel>
+                        <Select
+                            labelId="redemp-rows-label"
+                            value={rowsPerPage}
+                            label="Rows"
+                            onChange={handleChangeRowsPerPage}
+                        >
+                            {[5, 10, 25, 50].map(opt => (
+                                <MenuItem key={opt} value={opt}>{opt}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Box>
             </Paper>
         </div>
     );

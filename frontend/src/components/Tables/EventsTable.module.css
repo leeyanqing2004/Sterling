@@ -16,8 +16,8 @@
 }
 
 :global(.MuiTableCell-head) {
-    color: #2A73B7;
-    font-weight: bold;
+    color: #2A73B7 !important;
+    font-weight: 700 !important;
     text-align: center !important;
 }
 

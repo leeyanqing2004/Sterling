@@ -5,6 +5,15 @@
     padding: 30px;
     gap: 20px;
     border-radius: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.promoTableContainer :global(.MuiTableContainer-root) {
+    max-width: 100%;
+    overflow-x: auto;
 }
 
 .promoTableTitle {
@@ -14,8 +23,8 @@
 }
 
 :global(.MuiTableCell-head) {
-    color: #2A73B7;
-    font-weight: bold;
+    color: #2A73B7 !important;
+    font-weight: 700 !important;
     text-align: center !important;
 }
 
@@ -62,4 +71,27 @@
 :global(.MuiPaginationItem-root.Mui-selected) {
     background-color: #2A73B7 !important;
     color: white !important;
+}
+
+.tableLoading {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-weight: 600;
+    color: #2A73B7;
+    padding: 8px 0;
+}
+
+.spinner {
+    width: 18px;
+    height: 18px;
+    border: 3px solid #d8e6f5;
+    border-top-color: #2A73B7;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }

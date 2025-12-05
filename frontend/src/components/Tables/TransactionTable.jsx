@@ -6,7 +6,8 @@ import { TextField, FormControl, InputLabel, Select, MenuItem, Box } from "@mui/
 import { useEffect, useState } from "react";
 import styles from "./TransactionTable.module.css";
 import ManageTransactionPopup from "../ManageTransactionPopup";
-import { capitalize } from "../../utils/capitalize";
+import { Capitalize } from "../../utils/capitalize";
+import { formatField } from "../../utils/formatField";
 
   
 export default function TransactionTable({ 
@@ -20,7 +21,8 @@ export default function TransactionTable({
     onPageChange,
     onRowsPerPageChange,
     totalCount,
-    loading = false
+    loading = false,
+    onTransactionUpdate: onTransactionUpdateProp
 }) {
     // dummy data
     // const rows = Array.from({ length: 50 }, (_, i) => ({
@@ -36,7 +38,11 @@ export default function TransactionTable({
 
     // transactions = an array of transactions = [{"id": 123, "utorid": ...}, {"id": 124, "utorid": ...}]
   
-    const rows = transactions || [];
+    const [rows, setRows] = useState(transactions || []);
+    
+    useEffect(() => {
+        setRows(transactions || []);
+    }, [transactions]);
 
     const [page, setPage] = useState(controlledPage ?? 0);
     const [rowsPerPage, setRowsPerPage] = useState(controlledRowsPerPage ?? 10);
@@ -49,6 +55,21 @@ export default function TransactionTable({
 
     const [sortBy, setSortBy] = useState("");
     const [activeTransaction, setActiveTransaction] = useState(null);
+    
+    const handleTransactionUpdate = (updatedTransaction) => {
+        // Update the active transaction so the popup shows the new data
+        setActiveTransaction(updatedTransaction);
+        // Update the transaction in the local rows array immediately
+        setRows(prevRows => 
+            prevRows.map(row => 
+                row.id === updatedTransaction.id ? updatedTransaction : row
+            )
+        );
+        // Notify parent component to refresh the transaction list
+        if (onTransactionUpdateProp) {
+            onTransactionUpdateProp(updatedTransaction);
+        }
+    };
   
     useEffect(() => {
         if (serverPaging && typeof controlledPage === "number") {
@@ -195,6 +216,14 @@ export default function TransactionTable({
                                     </div>
                                 </TableCell>
                             </TableRow>
+                        ) : processedRows.length === 0 ? (
+                            <TableRow>
+                                <TableCell colSpan={includeManageButton ? 9 : 8}>
+                                    <div className={styles.tableLoading}>
+                                        <span>No transactions to display.</span>
+                                    </div>
+                                </TableCell>
+                            </TableRow>
                         ) : (
                             processedRows
                                 .slice(
@@ -205,10 +234,10 @@ export default function TransactionTable({
                                     <TableRow key={row.id}>
                                         <TableCell>{row.id}</TableCell>
                                         {includeManageButton && <TableCell>{row.utorid}</TableCell>}
-                                        <TableCell>{capitalize(row.type)}</TableCell>
+                                        <TableCell>{Capitalize(row.type)}</TableCell>
                                         <TableCell>{row.amount}</TableCell>
                                         <TableCell>{row.remark}</TableCell>
-                                        <TableCell>{row.promotionIds}</TableCell>
+                                        <TableCell>{formatField(row.promotionIds)}</TableCell>
                                         <TableCell>{row.createdBy}</TableCell>
                                         {/* <TableCell>Additional Info Here</TableCell> */}
                                         <TableCell>
@@ -219,7 +248,7 @@ export default function TransactionTable({
                                                 )
                                                 .map(([key, value]) => (
                                                     <div key={key}>
-                                                        <strong>{capitalize(key)}:</strong> {value?.toString()}
+                                                        <strong>{Capitalize(key)}:</strong> {value?.toString()}
                                                     </div>
                                                 ))}
                                         </TableCell>
@@ -274,6 +303,7 @@ export default function TransactionTable({
                     show={!!activeTransaction}
                     transaction={activeTransaction}
                     onClose={() => setActiveTransaction(null)}
+                    onTransactionUpdate={handleTransactionUpdate}
                 />
             )}
         </>

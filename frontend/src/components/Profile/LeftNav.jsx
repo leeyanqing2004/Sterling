@@ -19,7 +19,7 @@ function LeftTop() {
         <h1 className="left-nav-username">{name}</h1>
         <div className="left-nav-user-details">
             <p className="left-nav-UTORid">{utorid}</p>
-            <p className="left-nav-user-role">{capitalize(role)}</p>
+            <p className="left-nav-user-role">{Capitalize(role)}</p>
         </div>
     </div>;
 

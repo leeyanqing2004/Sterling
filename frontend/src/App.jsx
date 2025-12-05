@@ -34,12 +34,12 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/set-password" element={<SetPassword />} />
-          <Route path="/profile/:utorid/dashboard" element={<Navigate to="/dashboard" replace />} />
 
           <Route element={<ProfileShell />}>
             <Route path="/transfer-points" element={<Profile />} />
             <Route path="/redeem-points" element={<Profile />} />
             <Route path="/past-transactions" element={<Profile />} />
+            <Route path="/profile/:utorid/account" element={<Profile />} />
             <Route path="/all-users" element={<AllUsers />} />
             <Route path="/all-promotions" element={<AllPromotions />} />
             <Route path="/available-promotions" element={<AvailablePromotions />} />

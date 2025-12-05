@@ -14,8 +14,8 @@
 }
 
 :global(.MuiTableCell-head) {
-    color: #2A73B7;
-    font-weight: bold;
+    color: #2A73B7 !important;
+    font-weight: 700 !important;
     text-align: center !important;
 }
 
@@ -39,6 +39,9 @@
     text-align: center !important;
     padding: 20px !important;
     color: #777;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 :global(.MuiTableCell-body) {

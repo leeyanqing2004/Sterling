@@ -1,13 +1,12 @@
 .pageButton {
-    /* Spacing */
-    padding: 1em;
+    padding: 1em 30px;
 
-    /* Text */
     font-weight: bold;
 
-    /* Decoration */
     border: none;
     background: none;
+
+    text-align: left;
 }
 
 .pageButtonActive {

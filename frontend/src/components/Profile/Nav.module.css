@@ -88,3 +88,13 @@
     background-color: #2A73B7;
     color: white;
 }
+
+.navLogo {
+    padding: 0;
+}
+
+.logoImg {
+    display: block;
+    height: 28px;
+    width: auto;
+}

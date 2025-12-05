@@ -1,11 +1,11 @@
 import styles from "./AllEvents.module.css";
-import EventsTable from "../components/Tables/EventsTable";
+import MyEventsTable from "../components/Tables/MyEventsTable";
 
 function MyEvents() {
     return (
         <div className={styles.allEventsTableContainer}>
             <div className={styles.allEventsTableBottomContainer}>
-                <EventsTable eventsTableTitle={"My Events"} managerViewBool={true} showRegisteredOnly={true}/>
+                <MyEventsTable title={"My Events"} />
             </div>
         </div>
     );

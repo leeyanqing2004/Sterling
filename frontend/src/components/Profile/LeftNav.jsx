@@ -2,6 +2,7 @@ import { matchPath, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext.jsx";
 import PageButton from "./PageButton.jsx";
 import styles from './LeftNav.module.css';
+import ProfileAvatar from './ProfileAvatar.jsx';
 import { capitalize } from "../../utils/capitalize";
 
 function LeftTop() {
@@ -11,7 +12,9 @@ function LeftTop() {
     const name = user.name || "";
     const utorid = user.utorid || "";
     const role = user.role || "";
-    const profilePicture = <img src="/profile.png" alt="Profile Picture" />;
+    const profilePicture = (
+        <ProfileAvatar src={user?.avatarUrl || "/default-pfp.jpg"} alt="Profile Picture" size={64} />
+    );
     const userInfo = <div className="left-nav-user-info">
         <h1 className="left-nav-username">{name}</h1>
         <div className="left-nav-user-details">

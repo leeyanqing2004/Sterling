@@ -209,7 +209,7 @@ export const AuthProvider = ({ children }) => {
                 return data.error || "No account exists with this Utorid."
             }
 
-            navigate(`/set-password?token=${resetToken}`);
+            navigate(`/set-password?utorid=${utorid}&token=${resetToken}&fromCreate=true`);
             return null;
 
         } catch (err) {

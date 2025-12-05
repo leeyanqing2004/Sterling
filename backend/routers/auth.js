@@ -121,6 +121,8 @@ function isValidPassword(password) {
     var hasUpper = false;
     var hasNumber = false;
     var hasSpecial = false;
+
+    let outcomeMessage = "Valid password entered.";
     
     for (const c of password) {
         if ('a' <= c && c <= 'z') {
@@ -133,12 +135,16 @@ function isValidPassword(password) {
             hasSpecial = true;
         }
     }
-    return hasLower && 
-           hasUpper && 
-           hasNumber && 
-           hasSpecial && 
-           password.length >= 8 &&
-           password.length <= 20;
+
+    if (!hasLower) {outcomeMessage = "Password must contain at least one lowercase letter."}
+    if (!hasUpper) {outcomeMessage = "Password must contain at least one uppercase letter."}
+    if (!hasNumber) {outcomeMessage = "Password must contain at least one number."}
+    if (!hasSpecial) {outcomeMessage = "Password must contain at least one special character."}
+    if (password.length < 8 || password.length > 20) {outcomeMessage = "Password must contain 8-20 characters."}
+
+    const isValid = hasLower && hasUpper && hasNumber && hasSpecial && password.length >= 8 && password.length <= 20;
+
+    return { isValid, message: outcomeMessage };
 }
 
 // POST /auth/resets/:resetToken
@@ -146,9 +152,16 @@ router.all("/resets/:resetToken", async (req, res) => {
     if (req.method !== "POST") {
         return res.status(405).send({ error: "Method Not Allowed" });
     }
+    console.log("Headers:", req.headers);
+
+    // const keys = Object.keys(req.body);
+    // if (keys[0] !== "utorid" || keys[1] !== "password" || keys.length !== 2) {
+    //     return res.status(400).send({ error: "Bad Request" });
+    // }
 
     const keys = Object.keys(req.body);
-    if (keys[0] !== "utorid" || keys[1] !== "password" || keys.length !== 2) {
+    console.log(`keys = ${keys}`)
+    if (keys.length !== 2 || !keys.includes("utorid") || !keys.includes("password")) {
         return res.status(400).send({ error: "Bad Request" });
     }
 
@@ -179,8 +192,10 @@ router.all("/resets/:resetToken", async (req, res) => {
         return res.status(410).json({ error: 'Gone' });
     }
 
-    if (!isValidPassword(password)) {
-        return res.status(400).json({ error: 'Token Bad Request' });
+    const validPass = isValidPassword(password);
+
+    if (!validPass.isValid) {
+        return res.status(400).json({ error: validPass.message });
     }
 
     await prisma.user.update({

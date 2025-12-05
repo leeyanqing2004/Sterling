@@ -201,11 +201,11 @@ export default function PromotionsTable({
                         )
                         .map((row) => (
                         <TableRow key={row.id}>
-                            <TableCell>{row.id}</TableCell>
-                            <TableCell>{row.name}</TableCell>
-                            <TableCell>{row.type}</TableCell>
-                            <TableCell>{row.startTime}</TableCell>
-                            <TableCell>{row.endTime}</TableCell>
+                            <TableCell>{row.id || "---"}</TableCell>
+                            <TableCell>{row.name || "---"}</TableCell>
+                            <TableCell>{row.type || "---"}</TableCell>
+                            <TableCell>{row.startTime || "---"}</TableCell>
+                            <TableCell>{row.endTime || "---"}</TableCell>
                             <TableCell>{row.minSpending}</TableCell>
                             <TableCell>{row.rate}</TableCell>
                             <TableCell>{row.points}</TableCell>

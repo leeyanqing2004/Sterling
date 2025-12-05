@@ -7,27 +7,52 @@ import { useParams } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function InputFields({ pageType, setPageType }){
+    const navigate = useNavigate();
     const [inputName, setInputName] = useState("");
     const [inputPassword, setInputPassword] = useState("");
     const [inputEmail, setInputEmail] = useState("");
     const [inputUtorid, setInputUtorid] = useState("");
     const [inputConfPassword, setInputConfPassword] = useState("");
     const [error, setError] = useState(null);
+    const [loginSetPass, setLoginSetPass] = useState(false);
 
     // for setting and resetting password
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const resetToken = searchParams.get("token");
+    const setPassUtorid = searchParams.get("utorid");
+    const fromCreate = searchParams.get("fromCreate") === "true";
     // const { resetToken } = useParams();
     const { user, login, logout, createAccount, sendResetPassEmail, setPassword } = useAuth();
     const username = user?.username;
     const utorid = user?.utorid;
     const handleSetPassword = (e) => {
         e.preventDefault();
-        setPassword(utorid, inputPassword, resetToken)
-        .then(message => setError(message));
+        setError(null); // clear old errors
+
+        if (!setPassUtorid || !resetToken) {
+            return setError("Invalid reset link.");
+        }
+
+        if (inputPassword !== inputConfPassword) {
+            return setError("'Password' and 'Confirm Password' must match.");
+        }
+        
+        console.log(`setPassUtorid = ${setPassUtorid}, inputPassword = ${inputPassword}, resetToken = ${resetToken}`)
+        setPassword(setPassUtorid, inputPassword, resetToken)
+        .then(message => {
+            if (message) {
+                setError(message);
+            } else {
+                setError(null);
+                if (fromCreate) {
+                    navigate("/login");
+                }
+            }
+        });
     };
 
     switch (pageType){
@@ -57,7 +82,14 @@ export default function InputFields({ pageType, setPageType }){
             const handleForgotPassword = (e) => {
                 e.preventDefault();
                 sendResetPassEmail(inputUtorid)
-                .then(message => setError(message));
+                .then(message => {
+                    if (message) {
+                        setError(message);
+                    } else {
+                        setError(null);
+                        setLoginSetPass(true);
+                    }
+                });
             }
             return (
                 <>
@@ -76,6 +108,7 @@ export default function InputFields({ pageType, setPageType }){
                         <OneInputComponent inputName="New password" inputType="password" required={true} onChange={(e) => setInputPassword(e.target.value)} />
                         <PasswordRequirements className={styles.passreq}/>
                         <OneInputComponent inputName="Confirm new password" inputType="password" required={true} onChange={(e) => setInputConfPassword(e.target.value)}/>
+                        {error && Error(error)}
                         <PrimaryButtonComponent type="submit">Submit</PrimaryButtonComponent>
                     </form>
                 </>
@@ -107,7 +140,14 @@ export default function InputFields({ pageType, setPageType }){
             const handleCreateAccount = (e) => {
                 e.preventDefault();
                 createAccount(inputUtorid, inputName, inputEmail)
-                .then(message => setError(message));
+                .then(message => {
+                    if (message) {
+                        setError(message);
+                    } else {
+                        setError(null);
+                        setLoginSetPass(true);
+                    }
+                });
             };
 
             return (
@@ -118,6 +158,7 @@ export default function InputFields({ pageType, setPageType }){
                         <OneInputComponent inputName="Email" inputType="email" required={true} onChange={(e) => setInputEmail(e.target.value)}/>
                         {error && Error(error)}
                         <PrimaryButtonComponent type="submit">Create Account</PrimaryButtonComponent>
+                        <p>Already have an account?{" "} <a href="#" onClick={() => setPageType("defaultLogin")}>Login</a></p>
                     </form>
                 </>
             );
@@ -140,6 +181,7 @@ export default function InputFields({ pageType, setPageType }){
                         <OneInputComponent inputName="New password" inputType="password" required={true} onChange={(e) => setInputPassword(e.target.value)}/>
                         <PasswordRequirements className={styles.passreq}/>
                         <OneInputComponent inputName="Confirm new password" inputType="password" required={true} onChange={(e) => setInputConfPassword(e.target.value)}/>
+                        {error && Error(error)}
                         <PrimaryButtonComponent type="submit">Create Account</PrimaryButtonComponent>
                     </form>
                 </>

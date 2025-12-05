@@ -63,18 +63,16 @@ export default function TransactionTable({
     }, [serverPaging, controlledRowsPerPage]);
 
     const processedRows = rows
-    // FILTER
     .filter((row) =>
         (idFilter === "" || row.id === Number(idFilter)) &&
-        row.createdBy?.toLowerCase().includes(createdByFilter.toLowerCase()) &&
-        row.type?.toLowerCase().includes(transactionTypeFilter.toLowerCase()) &&
-        row.utorid?.toLowerCase().includes(utoridFilter.toLowerCase())
+        (row.createdBy || "").toLowerCase().includes(createdByFilter.toLowerCase()) &&
+        (row.type || "").toLowerCase().includes(transactionTypeFilter.toLowerCase()) &&
+        (row.utorid || "").toLowerCase().includes(utoridFilter.toLowerCase())
     )
-    // SORT
     .sort((a, b) => {
         if (!sortBy) return 0;
         if (sortBy === "id") return a.id - b.id;
-        if (sortBy === "amount") return a.amount - b.amount;
+        if (sortBy === "amount") return Number(a.amount) - Number(b.amount);
         return 0;
     });
 

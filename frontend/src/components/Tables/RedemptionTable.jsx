@@ -57,9 +57,13 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
 
     const processedRows = rows
     // FILTER
-    .filter((row) =>
-        row.utorid.toLowerCase().includes(filter.toLowerCase())
-    )
+    .filter((row) => {
+        if (row.utorid) {
+            return row.utorid.toLowerCase().includes(filter.toLowerCase());
+        } else {
+            return false;
+        }
+    })
     // SORT
     .sort((a, b) => {
         if (!sortBy) {

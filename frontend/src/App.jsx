@@ -32,22 +32,20 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/set-password" element={<SetPassword />} />
-          <Route path="/profile/:utorid/home" element={<Navigate to="/home" replace />} />
-          <Route path="/profile/:utorid/account" element={<Profile />} />
-          <Route path="/profile/:utorid/transfer-points" element={<Profile />} />
-          <Route path="/profile/:utorid/redeem-points" element={<Profile />} />
-          <Route path="/profile/:utorid/past-transactions" element={<Profile />} />
-          <Route path="/all-users" element={<ProfileShell><AllUsers /></ProfileShell>} />
-          <Route path="/all-promotions" element={<ProfileShell><AllPromotions /></ProfileShell>} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/transfer-points" element={<Profile />} />
+          
+          <Route path="/home" element={<ProfileShell><Dashboard /></ProfileShell>} />
+          <Route path="/past-transactions" element={<ProfileShell><PastTransactions /></ProfileShell>} />
+          <Route path="/redeem-points" element={<ProfileShell><RedeemPoints /></ProfileShell>} />
           <Route path="/available-promotions" element={<ProfileShell><AvailablePromotions /></ProfileShell>} />
-          <Route path="/all-events" element={<ProfileShell><AllEvents /></ProfileShell>} />
           <Route path="/manage-event/:eventId" element={<ProfileShell><ManageEvent /></ProfileShell>} />
           <Route path="/published-events" element={<ProfileShell><PublishedEvents /></ProfileShell>} />
-          <Route path="/home" element={<ProfileShell><Dashboard /></ProfileShell>} />
-          <Route path="/redeem-points" element={<ProfileShell><RedeemPoints /></ProfileShell>} />
+
+          <Route path="/all-users" element={<ProfileShell><AllUsers /></ProfileShell>} />
+          <Route path="/all-events" element={<ProfileShell><AllEvents /></ProfileShell>} />
+          <Route path="/all-promotions" element={<ProfileShell><AllPromotions /></ProfileShell>} />
           <Route path="/all-transactions" element={<ProfileShell><AllTransactions /></ProfileShell>} />
-          <Route path="/past-transactions" element={<ProfileShell><PastTransactions /></ProfileShell>} />
-          <Route path="/profile" element={<Profile />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>

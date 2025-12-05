@@ -2,7 +2,7 @@ import { useState } from "react";
 import api from "../../api/api";
 import styles from "./NewGuestPopup.module.css";
 
-function NewGuestPopup({ eventId, onClose, onSuccess }) {
+function NewGuestPopup({ eventId, onClose, onSuccess, draftMode = false }) {
     const [utorid, setUtorid] = useState("");
     const [error, setError] = useState("");
     const [submitting, setSubmitting] = useState(false);
@@ -19,12 +19,16 @@ function NewGuestPopup({ eventId, onClose, onSuccess }) {
         setSubmitting(true);
 
         try {
-            await api.post(`/events/${eventId}/guests`, {
-                utorid: trimmed,
-            });
-
-            setUtorid("");
-            onSuccess?.();
+            if (draftMode) {
+                setUtorid("");
+                onSuccess?.(trimmed);
+            } else {
+                await api.post(`/events/${eventId}/guests`, {
+                    utorid: trimmed,
+                });
+                setUtorid("");
+                onSuccess?.();
+            }
         } catch (err) {
             setError(err.response?.data?.error || "Failed to add guest");
         } finally {

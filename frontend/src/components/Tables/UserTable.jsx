@@ -34,7 +34,9 @@ export default function UserTable({ userTableTitle }) {
                     params: {
                         limit: rowsPerPage,
                         page: page + 1,
-                        name: nameFilter || undefined
+                        name: utoridFilter || undefined,
+                        role: roleFilter || undefined,
+                        verified: verifiedFilter === "yes" ? true : verifiedFilter === "no" ? false : undefined
                     }
                 });
                 const data = res.data?.results ?? res.data ?? [];
@@ -49,7 +51,7 @@ export default function UserTable({ userTableTitle }) {
             }
         };
         fetchUsers();
-    }, [page, rowsPerPage, nameFilter]);
+    }, [page, rowsPerPage, utoridFilter, roleFilter, verifiedFilter]);
   
     const handleChangePage = (_, newPage) => setPage(newPage);
     const handleChangeRowsPerPage = (e) => {

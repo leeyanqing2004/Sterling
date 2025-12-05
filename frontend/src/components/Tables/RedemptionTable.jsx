@@ -134,11 +134,14 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
                             .map((row) => (
                             <TableRow key={row.id}>
                                 <TableCell>{row.id || "---"}</TableCell>
-                                <TableCell> {processedBool ? row.redeemed : row.amount} </TableCell> {/* if not processed, the amount to be redeemed is the 'amount' of the redemption transaction */}
+                                <TableCell> {processedBool ? row.redeemed : row.amount} </TableCell> 
                                 <TableCell>{row.remark || "---"}</TableCell>
                                 <TableCell> {processedBool ? row.processedBy : null} </TableCell> 
                             </TableRow>
-                        </TableHead>
+                            )
+                        )
+                    )}
+                    </TableBody>
 
                         <TableBody>
                             {processedRows.length === 0 ? (

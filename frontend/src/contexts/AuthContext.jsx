@@ -217,8 +217,16 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    // Function that mergest the new updates into the user object
+    const updateUser = async (updates) => {
+        setUser(prevUser => ({
+            ...prevUser,
+            ...updates
+        }));
+    };
+
     return (
-        <AuthContext.Provider value={{ user, authLoading, login, logout, createAccount, sendResetPassEmail, setPassword }}>
+        <AuthContext.Provider value={{ user, authLoading, login, logout, createAccount, sendResetPassEmail, setPassword, updateUser }}>
             {children}
         </AuthContext.Provider>
     );

@@ -1,6 +1,100 @@
-# This text file should explain how to deploy your website.
+# Sterling – Installation & Deployment Guide
 
-# You should write detailed description on:
+This project is a full‑stack React + Express + PostgreSQL app. Follow the steps below for local development and cloud deployment (Vercel frontend, Render backend, Supabase Postgres).
 
-# 1. All the packages you need to install
-# 2. How to configure various servers (e.g., Nginx, Apache, etc)
+---
+
+## Prerequisites
+- Node.js 20+ and npm
+- Git
+- PostgreSQL database (Supabase recommended)
+- Vercel account (frontend)
+- Render (or any Node hosting) account (backend)
+
+Project structure:
+```
+Sterling/
+  backend/
+  frontend/
+```
+
+---
+
+## Environment Variables
+
+### Backend (`backend/.env`)
+```
+JWT_SECRET=your-secret
+DATABASE_URL=postgresql://user:pass@host:port/dbname   # Supabase pgBouncer URL works
+# Optional, but recommended for CORS:
+FRONTEND_URL=https://your-frontend.vercel.app
+PORT=3000
+```
+
+### Frontend (`frontend/.env`)
+```
+VITE_BACKEND_URL=https://your-backend.onrender.com
+VITE_SUPABASE_URL=https://<project>.supabase.co
+VITE_SUPABASE_KEY=your_anon_or_service_key
+```
+
+---
+
+## Local Setup
+1) Install dependencies  
+```
+cd backend && npm install
+cd ../frontend && npm install
+```
+
+2) Database (if running locally): ensure PostgreSQL is up; set `DATABASE_URL` accordingly.
+
+3) Run backend  
+```
+cd backend
+PORT=3000 node index.js
+```
+
+4) Run frontend  
+```
+cd frontend
+npm run dev
+```
+Open the shown localhost URL.
+
+---
+
+## Deployment
+
+### Backend on Render (or similar)
+1. Create a Web Service from the `backend` folder.
+2. Set env vars: `JWT_SECRET`, `DATABASE_URL`, `PORT` (3000), `FRONTEND_URL` (your Vercel origin).
+3. Start command: `node index.js`.
+4. After deploy, note the backend URL (e.g., `https://your-backend.onrender.com`).
+
+### Frontend on Vercel
+1. Import the repo; set project root to `frontend`.
+2. Add env vars:  
+   - `VITE_BACKEND_URL=https://your-backend.onrender.com`  
+   - `VITE_SUPABASE_URL`, `VITE_SUPABASE_KEY`
+3. Ensure `vercel.json` contains SPA rewrite:
+```
+{
+  "rewrites": [ { "source": "/(.*)", "destination": "/" } ]
+}
+```
+4. Deploy. Use the Vercel URL in `FRONTEND_URL` on the backend.
+
+---
+
+## Common Issues
+- **Network/CORS errors:** Verify `FRONTEND_URL` matches your Vercel origin exactly (https, no trailing slash). Redeploy backend after changes. Ensure frontend uses the deployed `VITE_BACKEND_URL`.
+- **Refresh shows 404 on Vercel:** Confirm `vercel.json` rewrite is present and redeploy.
+- **Auth calls 401/500 on OPTIONS:** CORS must allow your origin; the backend already handles preflight but still needs the correct origin in env.
+
+---
+
+## Useful Commands
+- Backend: `node index.js` (uses `PORT` env)
+- Frontend dev: `npm run dev`
+- Frontend build (CI): `npm run build`

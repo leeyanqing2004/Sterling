@@ -9,10 +9,20 @@ dotenv.config();
 const port = process.env.PORT || 3000;
 
 // CORS
-const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
+// Allow local dev plus any comma-separated FRONTEND_URL entries (e.g., your Vercel deploy URLs)
+const FRONTEND_URL = process.env.FRONTEND_URL || "";
+const allowedOrigins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    ...FRONTEND_URL.split(",").map((o) => o.trim()).filter(Boolean),
+];
 
 const corsOptions = {
-    origin: ["http://localhost:5173", "http://127.0.0.1:5173"],
+    origin: (origin, callback) => {
+        if (!origin) return callback(null, true); // non-browser requests
+        if (allowedOrigins.includes(origin)) return callback(null, true);
+        return callback(new Error("Not allowed by CORS"));
+    },
     optionsSuccessStatus: 200
 };
 

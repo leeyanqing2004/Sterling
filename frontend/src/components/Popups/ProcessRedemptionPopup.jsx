@@ -59,21 +59,23 @@ export default function ProcessRedemptionPopup({ onClose, onSuccess }) {
     };
 
     return (
-        <DetailsPopup onClose={onClose} title="Redeem Points">
+        <DetailsPopup onClose={onClose} title="Process Redemption">
             <div className="popup-form">
-                <div style={{ display: "flex", gap: "0.5rem", alignItems: "flex-end" }}>
-                    <div style={{ flex: 1 }}>
-                        <PopupFormField
-                            label="Transaction ID"
-                            value={txId}
-                            onChange={(e) => setTxId(e.target.value)}
-                            placeholder="e.g. 234"
-                        />
-                    </div>
-                    <button className="action-btn" style={{width: "7em"}} type="button" onClick={handleSearch} disabled={loading}>
-                        Search
-                    </button>
-                </div>
+                <PopupFormField
+                    label="Transaction ID"
+                    value={txId}
+                    onChange={(e) => setTxId(e.target.value)}
+                    placeholder="e.g. 234"
+                />
+                <button
+                    className="action-btn"
+                    style={{ width: "100%", marginTop: "0.5rem" }}
+                    type="button"
+                    onClick={handleSearch}
+                    disabled={loading}
+                >
+                    Search
+                </button>
 
                 {error && <div className="popup-error">{error}</div>}
 

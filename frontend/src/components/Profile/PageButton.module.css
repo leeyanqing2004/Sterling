@@ -6,7 +6,8 @@
     border: none;
     background: none;
 
-    text-align: left;
+    text-align: center;
+    width: 100%;
 }
 
 .pageButtonActive {

@@ -120,7 +120,7 @@ Developed as the final project for **CSC309 – Programming on the Web (Universi
    NODE_ENV=production
    ```
 
-   ⚠️ **Important:** Do NOT use quotes around values in Railway's UI
+   **Important:** Do NOT use quotes around values in Railway's UI
 
 6. Verify `backend/package.json` contains:
    ```json
@@ -232,7 +232,7 @@ Start the backend:
 node index.js 3000
 ```
 
-✅ Backend runs at: `http://localhost:3000`
+Backend runs at: `http://localhost:3000`
 
 ### **Step 3: Frontend Setup**
 
@@ -255,7 +255,7 @@ Start the development server:
 npm run dev
 ```
 
-✅ Frontend runs at: `http://localhost:5173`
+Frontend runs at: `http://localhost:5173`
 
 ### **Step 4: Access the Application**
 
@@ -272,12 +272,12 @@ Use these credentials to test the application across different user roles:
 
 | Role | Username | Password | Permissions |
 |------|----------|----------|-------------|
-| **Superuser** | superuser | password123 | Full system access |
-| **Manager** | manager1 | password123 | View/manage transactions, create adjustments, manage promotions |
-| **Cashier** | cashier1 | password123 | Create purchases, process redemptions |
-| **Regular User** | user1 | password123 | View own transactions, redeem/transfer points |
+| **Superuser** | superuser1 | Password123! | Full system access |
+| **Manager** | manager1 | Password123! | View/manage transactions, create adjustments, manage promotions |
+| **Cashier** | cashier1 | Password123! | Create purchases, process redemptions |
+| **Regular User** | user1 | Password123! | View own transactions, redeem/transfer points |
 
-⚠️ **Note:** These accounts are auto-seeded when you run `npx prisma db seed`. If using production Supabase, manually insert these records via the SQL editor.
+**Note:** These accounts are auto-seeded when you run `npx prisma db seed`. If using production Supabase, manually insert these records via the SQL editor.
 
 ---
 
@@ -352,14 +352,14 @@ The system implements **4-tier hierarchical permissions**:
 
 | Feature | Regular | Cashier | Manager | Superuser |
 |---------|---------|---------|---------|-----------|
-| View own transactions | ✅ | ✅ | ✅ | ✅ |
-| Create purchases | ❌ | ✅ | ✅ | ✅ |
-| View all transactions | ❌ | ❌ | ✅ | ✅ |
-| Create adjustments | ❌ | ❌ | ✅ | ✅ |
-| Flag suspicious | ❌ | ❌ | ✅ | ✅ |
-| Process redemptions | ❌ | ✅ | ✅ | ✅ |
-| Manage promotions | ❌ | ❌ | ✅ | ✅ |
-| Manage users | ❌ | ❌ | ❌ | ✅ |
+| View own transactions | T | T | T | T |
+| Create purchases | F | T | T | T |
+| View all transactions | F | F | T | T |
+| Create adjustments | F | F | T | T |
+| Flag suspicious | F | F | T | T |
+| Process redemptions | F | T | T | T |
+| Manage promotions | F | F | T | T |
+| Manage users | F | F | F | T |
 
 ---
 
@@ -493,7 +493,7 @@ Sterling/
 
 ---
 
-## ⚠️ Important Notes for Markers
+## Important Notes for Markers
 
 ### **Database Management**
 - **Reset locally:** `npx prisma migrate reset` (⚠️ deletes all data)

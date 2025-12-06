@@ -13,10 +13,14 @@ const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 
 const corsOptions = {
     origin: [FRONTEND_URL, "http://localhost:5173", "http://127.0.0.1:5173", "https://sterling-t15s-qndqbu74w-yan-qings-projects-a6b41850.vercel.app"],
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     optionsSuccessStatus: 200
 };
 
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 app.use(express.json());
 app.use(express.static('public'));
 

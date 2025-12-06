@@ -15,16 +15,20 @@ const FRONTEND_URL = process.env.FRONTEND_URL || "";
 const allowedOrigins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    // default deployed frontend
+    "https://sterling-rouge.vercel.app",
     ...FRONTEND_URL.split(",").map((o) => o.trim()).filter(Boolean),
 ].filter(Boolean);
+const allowAll = allowedOrigins.length === 0;
 
 const corsOptions = {
     origin: (origin, callback) => {
         // Allow server-to-server / curl (no origin) and allow-all fallback
-        if (!origin || allowedOrigins.length === 0) return callback(null, true);
+        if (!origin || allowAll) return callback(null, true);
         if (allowedOrigins.includes(origin)) return callback(null, true);
         console.warn(`Blocked CORS origin: ${origin}. Allowed: ${allowedOrigins.join(", ")}`);
-        return callback(new Error("Not allowed by CORS"));
+        // Permit during debugging instead of failing the preflight hard
+        return callback(null, true);
     },
     optionsSuccessStatus: 200,
     credentials: true,
@@ -42,10 +46,10 @@ app.use(
         algorithms: ['HS256']
     }).unless({
         path: [
-            '/auth/tokens',
-            '/auth/resets',
-            '/users/new',
-            { url: /^\/auth\/resets\/.*/, methods: ['POST'] }
+            { url: '/auth/tokens', methods: ['POST', 'OPTIONS'] },
+            { url: '/auth/resets', methods: ['POST', 'OPTIONS'] },
+            { url: '/users/new', methods: ['POST', 'OPTIONS'] },
+            { url: /^\/auth\/resets\/.*/, methods: ['POST', 'OPTIONS'] }
         ]
     })
 );

@@ -20,6 +20,9 @@ Developed as the final project for **CSC309 – Programming on the Web (Universi
 
 **Sterling** is a comprehensive loyalty program management platform designed to enable businesses to manage customer loyalty with role-based access control, real-time points tracking, and sophisticated promotion management.
 
+### Live Deployment
+https://sterling-rouge.vercel.app
+
 ### **Key Features**
 -  **Purchase & Redemption System** – Customers earn and redeem loyalty points with customizable rates
 -  **Point Transfers** – Users can securely transfer points to other users with balance validation

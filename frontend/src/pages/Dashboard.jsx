@@ -3,7 +3,7 @@ import styles from "./Dashboard.module.css";
 import TransactionTable from "../components/Tables/TransactionTable";
 import { getRecentTransactions, getMyTransactions } from "../api/getTransactionsApi";
 import { getMyPoints } from "../api/pointsAndQrApi.js";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import TransferPointsPopup from "../components/Popups/TransferPoints";
 import RedeemPointsPopup from "../components/Popups/RedeemPointsPopup";
@@ -43,10 +43,65 @@ function Dashboard() {
     const [txRows, setTxRows] = useState([]);
     const didLoadRef = useRef(false);
 
+    const computePointsRecap = useCallback(async () => {
+        try {
+            const txRes = await getMyTransactions({ limit: 300, page: 1 });
+            const txs = txRes.results || [];
+            const now = new Date();
+            const startWeek = new Date(now);
+            startWeek.setDate(now.getDate() - 7);
+            const startMonth = new Date(now);
+            startMonth.setDate(now.getDate() - 30);
+
+            let weekEarned = 0, weekSpent = 0, monthEarned = 0, monthSpent = 0;
+            const trendDays = Array.from({ length: 7 }, (_, i) => {
+                const d = new Date(now);
+                d.setDate(now.getDate() - (6 - i));
+                d.setHours(0,0,0,0);
+                return { day: d, value: 0 };
+            });
+
+            txs.forEach(tx => {
+                const txDate = new Date(tx.createdAt || tx.date || tx.updatedAt || now);
+                if (isNaN(txDate.getTime())) return;
+                const amountVal = typeof tx.amount === "number" ? tx.amount : 0;
+                const spentVal = typeof tx.spent === "number" ? tx.spent : (amountVal < 0 ? Math.abs(amountVal) : 0);
+                const earnedVal = amountVal > 0 ? amountVal : 0;
+
+                if (txDate >= startMonth) {
+                    monthEarned += earnedVal;
+                    monthSpent += spentVal;
+                }
+                if (txDate >= startWeek) {
+                    weekEarned += earnedVal;
+                    weekSpent += spentVal;
+                }
+
+                trendDays.forEach(td => {
+                    const sameDay = td.day.getFullYear() === txDate.getFullYear() &&
+                        td.day.getMonth() === txDate.getMonth() &&
+                        td.day.getDate() === txDate.getDate();
+                    if (sameDay) {
+                        td.value += earnedVal - spentVal;
+                    }
+                });
+            });
+
+            setPointsRecap({
+                weekEarned,
+                weekSpent,
+                monthEarned,
+                monthSpent,
+                recentTrend: trendDays.map(td => td.value),
+            });
+        } catch (err) {
+            console.error("Failed to load points recap", err);
+            setPointsRecap({ weekEarned: 0, weekSpent: 0, monthEarned: 0, monthSpent: 0, recentTrend: [] });
+        }
+    }, []);
+
     useEffect(() => {
-        if (didLoadRef.current) return;
-        didLoadRef.current = true;
-        async function loadData() {
+        const loadData = async () => {
             setPointsLoading(true);
             try {
                 const pointsData = await getMyPoints();
@@ -57,63 +112,8 @@ function Dashboard() {
                 setPointsLoading(false);
             }
 
-            // Points recap from recent transactions (last ~30 days)
-            try {
-                const txRes = await getMyTransactions({ limit: 300, page: 1 });
-                const txs = txRes.results || [];
-                const now = new Date();
-                const startWeek = new Date(now);
-                startWeek.setDate(now.getDate() - 7);
-                const startMonth = new Date(now);
-                startMonth.setDate(now.getDate() - 30);
+            await computePointsRecap();
 
-                let weekEarned = 0, weekSpent = 0, monthEarned = 0, monthSpent = 0;
-                const trendDays = Array.from({ length: 7 }, (_, i) => {
-                    const d = new Date(now);
-                    d.setDate(now.getDate() - (6 - i));
-                    d.setHours(0,0,0,0);
-                    return { day: d, value: 0 };
-                });
-
-                txs.forEach(tx => {
-                    const txDate = new Date(tx.createdAt || tx.date || tx.updatedAt || now);
-                    if (isNaN(txDate.getTime())) return;
-                    const amountVal = typeof tx.amount === "number" ? tx.amount : 0;
-                    const spentVal = typeof tx.spent === "number" ? tx.spent : (amountVal < 0 ? Math.abs(amountVal) : 0);
-                    const earnedVal = amountVal > 0 ? amountVal : 0;
-
-                    if (txDate >= startMonth) {
-                        monthEarned += earnedVal;
-                        monthSpent += spentVal;
-                    }
-                    if (txDate >= startWeek) {
-                        weekEarned += earnedVal;
-                        weekSpent += spentVal;
-                    }
-
-                    trendDays.forEach(td => {
-                        const sameDay = td.day.getFullYear() === txDate.getFullYear() &&
-                            td.day.getMonth() === txDate.getMonth() &&
-                            td.day.getDate() === txDate.getDate();
-                        if (sameDay) {
-                            td.value += earnedVal - spentVal;
-                        }
-                    });
-                });
-
-                setPointsRecap({
-                    weekEarned,
-                    weekSpent,
-                    monthEarned,
-                    monthSpent,
-                    recentTrend: trendDays.map(td => td.value),
-                });
-            } catch (err) {
-                console.error("Failed to load points recap", err);
-                setPointsRecap({ weekEarned: 0, weekSpent: 0, monthEarned: 0, monthSpent: 0, recentTrend: [] });
-            }
-
-            // Promotions for purchase popup
             try {
                 const promos = await getPromotions({ limit: 1000 });
                 setPromotionsOptions(promos.results || []);
@@ -121,9 +121,10 @@ function Dashboard() {
                 console.error("Failed to load promotions", err);
                 setPromotionsOptions([]);
             }
-        }
+        };
+
         loadData();
-    }, []);
+    }, [computePointsRecap]);
 
     // load paginated transactions for browsing history
     useEffect(() => {
@@ -133,6 +134,8 @@ function Dashboard() {
                 const res = await getMyTransactions({ page: txPage + 1, limit: txRowsPerPage });
                 setTxRows(res.results || []);
                 setTxTotal(res.count || 0);
+                // refresh recap when transactions list is fetched
+                await computePointsRecap();
             } catch (err) {
                 console.error("Failed to load transactions", err);
                 setTxRows([]);

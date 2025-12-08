@@ -310,9 +310,8 @@
     gap: 0.4em;
     justify-content: center;
     transition: background-color 0.2s;
-    min-width: auto;
-    width: auto;
     min-width: 140px;
+    width: auto;
     align-self: flex-end;
 }
 
@@ -335,7 +334,6 @@
     font-size: 14px;
     font-weight: 600;
     transition: background-color 0.2s;
-    min-width: auto;
     width: auto;
     min-width: 140px;
     align-self: flex-end;
@@ -346,6 +344,30 @@
 }
 
 .saveButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.awardButton {
+    background: #2A73B7;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background-color 0.2s;
+    min-width: 140px;
+    width: auto;
+    align-self: flex-end;
+}
+
+.awardButton:hover:not(:disabled) {
+    background: #1f5a8f;
+}
+
+.awardButton:disabled {
     opacity: 0.6;
     cursor: not-allowed;
 }
@@ -380,4 +402,30 @@
         transform: translateX(0);
         opacity: 1;
     }
+}
+
+.loadingBlock {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #2A73B7;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 2em 1.5em;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.spinner {
+    width: 18px;
+    height: 18px;
+    border: 3px solid #d8e6f5;
+    border-top-color: #2A73B7;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }

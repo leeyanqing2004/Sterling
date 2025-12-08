@@ -8,7 +8,9 @@ export default function EventActionCell({
     isManagerOrSuperuser,
     isOrganizerForEvent,
     isRsvped,
+    isEnded = false,
     isLoading,
+    disabled = false,
     canRsvp,
     disabledReason,
     onManage,
@@ -19,21 +21,38 @@ export default function EventActionCell({
     const navigate = useNavigate();
     return (
         <TableCell>
-                {isOrganizerForEvent ? (
+                {isManagerOrSuperuser ? (
+                    <button
+                        className={styles.manageEventBtn}
+                        onClick={() => navigate(`/manage-event/${row.id}`)}
+                    >
+                        Manage Event
+                    </button>
+                ) : isOrganizerForEvent ? (
                     <button
                         className={styles.manageEventBtn}
                         onClick={() => navigate(`/organizer-manage-event/${row.id}`)}
                     >
-                        Edit Event
+                        Manage Event
                     </button>
                 ) : (
                     <button
-                        className={isRsvped ? styles.rsvpBtnSecondary : styles.rsvpBtn}
+                        className={
+                            isEnded
+                                ? styles.rsvpBtnSecondary
+                                : isRsvped
+                                    ? styles.rsvpBtnSecondary
+                                    : styles.rsvpBtn
+                        }
                         onClick={() => onRsvpToggle(row)}
-                        disabled={isLoading || (!isRsvped && !canRsvp)}
+                        disabled={disabled || isLoading || (!isRsvped && !canRsvp)}
                         title={disabledReason || (isRsvped ? "Click to un-RSVP" : "Click to RSVP")}
                     >
-                        {isLoading ? "Loading..." : isRsvped ? "Un-RSVP" : "RSVP"}
+                        {isLoading
+                            ? "Loading..."
+                            : isEnded
+                                ? "Event Ended"
+                                : disabledReason || (isRsvped ? "Un-RSVP" : "RSVP")}
                     </button>
                 )}
         </TableCell>

@@ -28,7 +28,8 @@
     transition: transform 180ms ease;
     overflow: hidden;
     background: #ffffff;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: none;
+    border-right: 1px solid #e5e7eb;
 }
 
 .profile-shell-left.collapsed {
@@ -40,7 +41,7 @@
     min-width: 0;
     max-width: 100%;
     background-color: #F2F2F7;
-    padding: 20px;
+    padding: 0;
     overflow-y: auto;
     overflow-x: hidden;
 }

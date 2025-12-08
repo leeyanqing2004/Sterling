@@ -14,6 +14,17 @@
     border-radius: 3px;
 }
 
+.leftNav {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    min-height: 100vh;
+    width: 250px;
+    background-color: white;
+    border-right: 1px solid #e5e7eb;
+    position: relative;
+}
+
 .leftNavLeftTop {
     display: flex;
     flex-direction: column;
@@ -23,13 +34,6 @@
     text-align: center;
 }
 
-.leftNavScrollableContent {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    overflow-y: auto;
-}
-
 .leftNavLeftMiddle {
     display: flex;
     flex-direction: column;
@@ -37,47 +41,70 @@
     gap: 4px;
 }
 
+.leftNavSpacer {
+    flex: 1;
+}
+
+.leftNavScrollableContent {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: auto;
+    width: 100%;
+    padding-bottom: 72px; /* space for logout button */
+    position: relative;
+    align-items: stretch;
+}
+
 .leftNavLeftBottom {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
+    padding: 16px 20px 24px;
+    background-color: white;
+    width: 100%;
     position: sticky;
     bottom: 0;
-    padding: 20px;
-    background-color: white;
+    left: 0;
+    box-sizing: border-box;
 }
 
 .leftNavLogoutButton {
-    color: white;
-    background: linear-gradient(120deg, #2A73B7, #1f5a90);
-    border: none;
+    background: #ffffff;
+    border: 1px solid #d9e2ec;
     cursor: pointer;
-    padding: 10px 16px;
-    border-radius: 12px;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
-    transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.15s ease;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.15s ease, border-color 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 }
 
 .leftNavLogoutButton:hover {
     transform: translateY(-1px);
-    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.12);
-    filter: brightness(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+    background: #f3f6ff;
+    border-color: #c7d4e6;
 }
 
 .leftNavLogoutButton:active {
     transform: translateY(0);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
-.leftNav {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 250px;
-    background-color: white;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+.leftNavLogoutIcon {
+    width: 22px;
+    height: 22px;
+    fill: #2A73B7;
+    transition: fill 0.15s ease;
+}
+
+.leftNavLogoutButton:hover .leftNavLogoutIcon {
+    fill: #1f5a90;
 }
 
 .left-nav-left-top img {
@@ -125,5 +152,3 @@
     text-transform: none;
     font-style: italic;
 }
-
-

@@ -74,23 +74,23 @@ body {
 
 .recapHeader {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
     flex-direction: column;
-    text-align: center;
+    text-align: left;
 }
 
 .recapTitle {
     font-size: 20px;
     font-weight: 400;
-    margin: 0 auto;
+    margin: 0;
 }
 
 .recapSubtitle {
     font-size: 13px;
     color: #666;
-    text-align: center;
-    margin: 0 auto;
+    text-align: left;
+    margin: 0;
     line-height: 1.4;
 }
 
@@ -110,7 +110,7 @@ body {
     gap: 8px;
     align-items: flex-end;
     height: 70px;
-    justify-content: center;
+    justify-content: flex-start;
     padding: 6px 0;
 }
 

@@ -799,7 +799,7 @@ router.all("/me/transactions", clearanceRequired('regular'), async (req, res) =>
           const parsedLimit = Math.min(parseInt(limit), 1000);
           const skip = (parseInt(page) - 1) * parsedLimit;
           const take = parsedLimit;
-        const [count, results] = await Promise.all([
+          const [count, results] = await Promise.all([
             prisma.transaction.count({ where }),
               prisma.transaction.findMany({
                   where,
@@ -814,6 +814,9 @@ router.all("/me/transactions", clearanceRequired('regular'), async (req, res) =>
                       promotions: { select: { promotionId: true } },
                       remark: true,
                       createdBy: { select: { utorid: true } },
+                      processed: true,
+                      processedBy: { select: { utorid: true } },
+                      redeemed: true,
                   }
               })
         ]);
@@ -822,6 +825,7 @@ router.all("/me/transactions", clearanceRequired('regular'), async (req, res) =>
             field.promotionIds = field.promotions.map(p => p.promotionId);
             delete field.promotions;
             field.createdBy = field.createdBy.utorid;
+            field.processedBy = field.processedBy?.utorid ?? null;
         }
         res.status(200).json({ count, results });
     }

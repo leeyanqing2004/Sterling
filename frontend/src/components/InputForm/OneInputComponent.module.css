@@ -16,3 +16,8 @@ input {
 label {
     font-size: 16px;
 }
+
+.errorInput {
+    border-color: #b3261e;
+    box-shadow: 0 0 0 2px rgba(179, 38, 30, 0.1);
+}

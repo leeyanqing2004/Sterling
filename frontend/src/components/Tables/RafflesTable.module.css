@@ -135,33 +135,46 @@
 }
 
 .drawWinnerBtn {
-    color: #2A73B7;
-    background: #e8f0fe;
+    color: #ffffff;
+    background: #2A73B7;
     border: none;
     cursor: pointer;
     padding: 10px 16px;
     border-radius: 14px;
     font-weight: 600;
-    min-width: 120px;
+    font-size: 14px;
+    min-width: 140px;
     margin-left: 8px;
     transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
 }
 
 .drawWinnerBtn:hover:not(:disabled) {
     transform: translateY(-1px);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
-    background: #d9e8ff;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+    background: #1f5a90;
 }
 
 .drawWinnerBtn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
     transform: none;
+    box-shadow: none;
 }
 
-.drawWinnerBtn:disabled:hover {
-    transform: none;
-    box-shadow: none;
+.raffleEndedBtn {
+    color: #2A73B7;
+    background: #e8f0fe;
+    border: none;
+    cursor: default;
+    pointer-events: none;
+    padding: 10px 16px;
+    border-radius: 14px;
+    font-weight: 600;
+    font-size: 14px;
+    min-width: 140px;
+    margin-left: 8px;
+    text-align: center;
+    transition: none;
 }
 
 .drawnStatus {

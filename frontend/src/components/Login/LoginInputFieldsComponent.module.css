@@ -23,3 +23,11 @@ a {
 #passreq {
     align-self: flex-start;
 }
+
+.fieldError {
+    color: #b3261e;
+    font-size: 12px;
+    margin-top: -4px;
+    margin-bottom: -8px;
+    align-self: flex-start;
+}

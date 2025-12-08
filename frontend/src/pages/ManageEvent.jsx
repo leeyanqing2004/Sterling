@@ -6,6 +6,7 @@ import { useAuth } from "../contexts/AuthContext";
 import NewGuestPopup from "../components/Popups/NewGuestPopup";
 import NewOrganizerPopup from "../components/Popups/NewOrganizerPopup";
 import ConfirmDeletePopup from "../components/Popups/ConfirmDeletePopup";
+import AwardPointsPopup from "../components/Popups/AwardPointsPopup";
 
 function ManageEvent() {
     const { eventId } = useParams();
@@ -35,6 +36,11 @@ function ManageEvent() {
     const [showOrganizerPopup, setShowOrganizerPopup] = useState(false);
     const [isOrganizer, setIsOrganizer] = useState(false);
     const [showDeletePopup, setShowDeletePopup] = useState(false);
+    const [showAwardPopup, setShowAwardPopup] = useState(false);
+    const [awardMode, setAwardMode] = useState("single");
+    const [awardUtorid, setAwardUtorid] = useState("");
+    const [awardAmount, setAwardAmount] = useState("");
+    const [awardRemark, setAwardRemark] = useState("");
 
     useEffect(() => {
         if (!toast) return;
@@ -164,12 +170,20 @@ function ManageEvent() {
     };
 
     if (loading) {
-        return <div className={styles.container}>Loading...</div>;
+        return (
+            <div className={styles.container}>
+                <div className={styles.loadingBlock}>
+                    <div className={styles.spinner} />
+                    <span>Loading event...</span>
+                </div>
+            </div>
+        );
     }
 
     const canEditRestrictedFields = isManagerOrSuperuser;
     const canDeleteEvent = isManagerOrSuperuser;
     const canModifyOrganizers = isManagerOrSuperuser;
+    const canAwardPoints = true; // visible on all event pages
 
     return (
         <div className={styles.container}>
@@ -361,6 +375,15 @@ function ManageEvent() {
                                 Delete Event
                             </button>
                         )}
+                        {canAwardPoints && (
+                            <button
+                                className={styles.awardButton}
+                                onClick={() => setShowAwardPopup(true)}
+                                disabled={deleting || submitting}
+                            >
+                                Award Points
+                            </button>
+                        )}
                         <button
                             className={styles.saveButton}
                             onClick={handleSave}
@@ -402,6 +425,49 @@ function ManageEvent() {
                         if (!deleting) setShowDeletePopup(false);
                     }}
                     loading={deleting}
+                />
+            )}
+
+            {showAwardPopup && (
+                <AwardPointsPopup
+                    show={showAwardPopup}
+                    onClose={() => setShowAwardPopup(false)}
+                    awardMode={awardMode}
+                    setAwardMode={setAwardMode}
+                    awardUtorid={awardUtorid}
+                    setAwardUtorid={setAwardUtorid}
+                    awardAmount={awardAmount}
+                    setAwardAmount={setAwardAmount}
+                    awardRemark={awardRemark}
+                    setAwardRemark={setAwardRemark}
+                    onCancel={() => setShowAwardPopup(false)}
+                    onConfirmSingle={async () => {
+                        try {
+                            await api.post(`/events/${eventId}/transactions`, {
+                                type: "event",
+                                utorid: awardUtorid,
+                                amount: Number(awardAmount),
+                                remark: awardRemark,
+                            });
+                            setToast({ type: "success", message: "Points awarded to guest" });
+                            setShowAwardPopup(false);
+                        } catch (e) {
+                            setToast({ type: "error", message: e.response?.data?.error || "Failed to award points" });
+                        }
+                    }}
+                    onConfirmAll={async () => {
+                        try {
+                            await api.post(`/events/${eventId}/transactions`, {
+                                type: "event",
+                                amount: Number(awardAmount),
+                                remark: awardRemark,
+                            });
+                            setToast({ type: "success", message: "Points awarded to all guests" });
+                            setShowAwardPopup(false);
+                        } catch (e) {
+                            setToast({ type: "error", message: e.response?.data?.error || "Failed to award points" });
+                        }
+                    }}
                 />
             )}
         </div>

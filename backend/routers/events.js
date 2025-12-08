@@ -477,6 +477,8 @@ router.all('/:eventId', async (req, res) => {
                 const lowered = publishValue.toLowerCase();
                 if (lowered === 'true') {
                     publishValue = true;
+                } else if (lowered === 'false') {
+                    publishValue = false;
                 } else {
                     return res.status(400).json({ error: "Bad Request" });
                 }
@@ -484,7 +486,13 @@ router.all('/:eventId', async (req, res) => {
 
             if (publishValue !== true && publishValue !== false)
                 return res.status(400).json({ error: "Bad Request" });
-            updateData.published = true;
+
+            // disallow unpublishing once published
+            if (event.published && publishValue === false) {
+                return res.status(400).json({ error: "Cannot unpublish a published event" });
+            }
+
+            updateData.published = publishValue;
         }
 
         if (name !== undefined && name !== null) updateData.name = name;

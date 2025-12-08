@@ -25,9 +25,11 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [filter, setFilter] = useState("");
     const [sortBy, setSortBy] = useState("");
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchRedemptions = async () => {
+            setLoading(true);
             try {
                 const response = await api.get("/users/me/transactions", {
                     params: {
@@ -42,11 +44,13 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
             } catch (err) {
                 console.error(err);
                 setRows([]);
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchRedemptions();
-    }, [filter, sortBy]);
+    }, [processedBool]);
 
     const handleChangePage = (_, newPage) => setPage(newPage);
     const handleChangeRowsPerPage = (e) => {
@@ -120,10 +124,19 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {processedRows.length === 0 ? (
+                            {loading ? (
                                 <TableRow>
                                     <TableCell colSpan={4}>
                                         <div className={styles.tableLoading}>
+                                            <div className={styles.spinner} />
+                                            <span>Loading redemptions...</span>
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            ) : processedRows.length === 0 ? (
+                                <TableRow>
+                                    <TableCell colSpan={4}>
+                                        <div className={styles.tableEmpty}>
                                             <span>No redemptions to display.</span>
                                         </div>
                                     </TableCell>

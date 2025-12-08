@@ -16,7 +16,8 @@ export default function InputFields({ pageType, setPageType }){
     const [inputEmail, setInputEmail] = useState("");
     const [inputUtorid, setInputUtorid] = useState("");
     const [inputConfPassword, setInputConfPassword] = useState("");
-    const [error, setError] = useState(null);
+    const [error, setError] = useState(null); // global error
+    const [fieldErrors, setFieldErrors] = useState({});
     const [loginSetPass, setLoginSetPass] = useState(false);
 
     // for setting and resetting password
@@ -60,15 +61,22 @@ export default function InputFields({ pageType, setPageType }){
     
             const handleLogin = (e) => {
                 e.preventDefault();
+                const errs = {};
+                if (!inputUtorid) errs.utorid = "UTORid is required";
+                if (!inputPassword) errs.password = "Password is required";
+                setFieldErrors(errs);
+                if (Object.keys(errs).length) return;
                 login(inputUtorid, inputPassword)
                 .then(message => setError(message));
             };
 
             return (
                 <>
-                    <form onSubmit={handleLogin}>
-                        <OneInputComponent inputName="UTORid" inputType="text" required={true} onChange={(e) => setInputUtorid(e.target.value)}/>
-                        <OneInputComponent inputName="Password" inputType="password" required={true} onChange={(e) => setInputPassword(e.target.value)}/>
+                    <form onSubmit={handleLogin} noValidate>
+                        <OneInputComponent inputName="UTORid" inputType="text" required={true} onChange={(e) => setInputUtorid(e.target.value)} hasError={Boolean(fieldErrors.utorid)}/>
+                        {fieldErrors.utorid && <div className={styles.fieldError}>{fieldErrors.utorid}</div>}
+                        <OneInputComponent inputName="Password" inputType="password" required={true} onChange={(e) => setInputPassword(e.target.value)} hasError={Boolean(fieldErrors.password)}/>
+                        {fieldErrors.password && <div className={styles.fieldError}>{fieldErrors.password}</div>}
                         {error && Error(error)}
                         <a id={styles.forgotpass} href="#" onClick={() => setPageType("forgotPassword")}>Forgot Password?</a>
                         <PrimaryButtonComponent type="submit">Sign In</PrimaryButtonComponent>
@@ -80,7 +88,11 @@ export default function InputFields({ pageType, setPageType }){
 
             const handleForgotPassword = (e) => {
                 e.preventDefault();
-                sendResetPassEmail(inputUtorid)
+                const errs = {};
+                if (!inputEmail) errs.email = "Email is required";
+                setFieldErrors(errs);
+                if (Object.keys(errs).length) return;
+                sendResetPassEmail(inputEmail)
                 .then(message => {
                     if (message) {
                         setError(message);
@@ -92,10 +104,14 @@ export default function InputFields({ pageType, setPageType }){
             }
             return (
                 <>
-                    <form onSubmit={handleForgotPassword}>
-                        <OneInputComponent inputName="UTORid" inputType="text" required={true} onChange={(e) => setInputUtorid(e.target.value)}/>
+                    <form onSubmit={handleForgotPassword} noValidate>
+                        <OneInputComponent inputName="Email" inputType="email" required={true} onChange={(e) => setInputEmail(e.target.value)} hasError={Boolean(fieldErrors.email)}/>
+                        {fieldErrors.email && <div className={styles.fieldError}>{fieldErrors.email}</div>}
                         {error && Error(error)}
                         <PrimaryButtonComponent type="submit">Get Code</PrimaryButtonComponent>
+                        <p style={{ marginTop: "12px", textAlign: "center" }}>
+                            <a href="#" onClick={() => setPageType("defaultLogin")}>Back to Login</a>
+                        </p>
                     </form>
                 </>
             );
@@ -103,7 +119,7 @@ export default function InputFields({ pageType, setPageType }){
 
             return (
                 <>
-                    <form onSubmit={handleSetPassword}>
+                    <form onSubmit={handleSetPassword} noValidate>
                         <OneInputComponent inputName="New password" inputType="password" required={true} onChange={(e) => setInputPassword(e.target.value)} />
                         <PasswordRequirements className={styles.passreq}/>
                         <OneInputComponent inputName="Confirm new password" inputType="password" required={true} onChange={(e) => setInputConfPassword(e.target.value)}/>
@@ -118,7 +134,7 @@ export default function InputFields({ pageType, setPageType }){
                     <form onSubmit={(e) => {
                         e.preventDefault();
                         setPageType("defaultLogin");
-                    }}>
+                    }} noValidate>
                         <PrimaryButtonComponent type="submit">Login Now</PrimaryButtonComponent>
                     </form>
                 </>
@@ -129,7 +145,7 @@ export default function InputFields({ pageType, setPageType }){
                     <form onSubmit={(e) => {
                         e.preventDefault();
                         setPageType("defaultLogin");
-                    }}>
+                    }} noValidate>
                         <PrimaryButtonComponent type="submit">Back to Login</PrimaryButtonComponent>
                     </form>
                 </>
@@ -138,6 +154,12 @@ export default function InputFields({ pageType, setPageType }){
 
             const handleCreateAccount = (e) => {
                 e.preventDefault();
+                const errs = {};
+                if (!inputName) errs.name = "Name is required";
+                if (!inputUtorid) errs.utorid = "UTORid is required";
+                if (!inputEmail) errs.email = "Email is required";
+                setFieldErrors(errs);
+                if (Object.keys(errs).length) return;
                 createAccount(inputUtorid, inputName, inputEmail)
                 .then(message => {
                     if (message) {
@@ -151,10 +173,13 @@ export default function InputFields({ pageType, setPageType }){
 
             return (
                 <>
-                    <form onSubmit={handleCreateAccount}>
-                        <OneInputComponent inputName="Name" inputType="text" required={true} onChange={(e) => setInputName(e.target.value)}/>
-                        <OneInputComponent inputName="UTORid" inputType="text" required={true} onChange={(e) => setInputUtorid(e.target.value)}/>
-                        <OneInputComponent inputName="Email" inputType="email" required={true} onChange={(e) => setInputEmail(e.target.value)}/>
+                    <form onSubmit={handleCreateAccount} noValidate>
+                        <OneInputComponent inputName="Name" inputType="text" required={true} onChange={(e) => setInputName(e.target.value)} hasError={Boolean(fieldErrors.name)}/>
+                        {fieldErrors.name && <div className={styles.fieldError}>{fieldErrors.name}</div>}
+                        <OneInputComponent inputName="UTORid" inputType="text" required={true} onChange={(e) => setInputUtorid(e.target.value)} hasError={Boolean(fieldErrors.utorid)}/>
+                        {fieldErrors.utorid && <div className={styles.fieldError}>{fieldErrors.utorid}</div>}
+                        <OneInputComponent inputName="Email" inputType="email" required={true} onChange={(e) => setInputEmail(e.target.value)} hasError={Boolean(fieldErrors.email)}/>
+                        {fieldErrors.email && <div className={styles.fieldError}>{fieldErrors.email}</div>}
                         {error && Error(error)}
                         <PrimaryButtonComponent type="submit">Create Account</PrimaryButtonComponent>
                         <p>Already have an account?{" "} <a href="#" onClick={() => setPageType("defaultLogin")}>Login</a></p>

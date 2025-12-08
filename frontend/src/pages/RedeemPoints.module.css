@@ -40,12 +40,11 @@ body {
     background-color: #F2F2F7;
     width: 100%;
     height: 100%;
-    max-width: 100vw;
-    max-height: 100vh;
-    padding: 20px 30px;
+    padding: 20px 24px;
     gap: 20px;
     overflow-y: auto;
-    align-items: center;
+    align-items: flex-start;
+    box-sizing: border-box;
 }
 
 .redeemPointsTableTopContainer {
@@ -69,11 +68,10 @@ body {
 
 .redeemPointsTableBottomContainer {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
     width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
+    align-items: stretch;
 }

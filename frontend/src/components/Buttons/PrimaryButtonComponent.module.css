@@ -1,5 +1,31 @@
 .primaryButton {
-    background-color: #2A73B7;
+    background: linear-gradient(120deg, #2A73B7, #1f5a90);
     color: #ffffff;
-    font-weight: bold;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.2px;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    width: 100%;
+    box-shadow: 0 10px 20px rgba(42, 115, 183, 0.18);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.15s ease;
+}
+
+.primaryButton:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 24px rgba(42, 115, 183, 0.22);
+    filter: brightness(1.04);
+}
+
+.primaryButton:active {
+    transform: translateY(0);
+    box-shadow: 0 10px 20px rgba(42, 115, 183, 0.18);
+}
+
+.primaryButton:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    box-shadow: none;
 }

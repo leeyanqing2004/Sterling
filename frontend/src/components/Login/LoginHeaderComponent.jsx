@@ -16,7 +16,7 @@ export default function LoginHeader({ pageType }) {
                 <>
                     <div className={styles.container}>
                         <h1>Forgot your password?</h1>
-                        <p>Please enter your utorid below.</p>
+                        <p>Please enter your email below.</p>
                     </div>
                 </>
             );

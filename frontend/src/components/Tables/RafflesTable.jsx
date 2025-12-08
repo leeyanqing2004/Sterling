@@ -368,6 +368,10 @@ export default function RafflesTable({
                                                     >
                                                         {drawingRaffle === raffle.id ? "Drawing..." : "Draw Winner"}
                                                     </button>
+                                                ) : isEnded ? (
+                                                    <button className={styles.raffleEndedBtn} disabled>
+                                                        Raffle Ended
+                                                    </button>
                                                 ) : (
                                                     <>
                                                         {isJoined && !raffle.drawn ? (
@@ -386,8 +390,6 @@ export default function RafflesTable({
                                                             >
                                                                 {isLoading
                                                                     ? "Loading..."
-                                                                    : isEnded
-                                                                    ? "Raffle Ended"
                                                                     : notStarted
                                                                     ? "Not Started"
                                                                     : raffle.drawn

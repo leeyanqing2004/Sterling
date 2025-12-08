@@ -26,8 +26,8 @@ export default function UserSearchTable() {
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [nameFilter, setNameFilter] = useState("");
     const [purchaseForUtorid, setPurchaseForUtorid] = useState(null);
+    const [redeemUser, setRedeemUser] = useState(null);
     const [promotionsOptions, setPromotionsOptions] = useState([]);
-    const [showRedemption, setShowRedemption] = useState(false);
     const [successModal, setSuccessModal] = useState(null);
     const countForPagination = totalCount || rows.length;
     const rangeStart = countForPagination === 0 ? 0 : page * rowsPerPage + 1;
@@ -123,7 +123,7 @@ export default function UserSearchTable() {
                                     <TableCell>
                                         <button
                                             className={styles.actionBtn}
-                                            onClick={() => setShowRedemption(true)}
+                                            onClick={() => setRedeemUser(row)}
                                             title={`Redeem points for ${row.name} (${row.utorid})`}
                                         >
                                             {`Redeem for ${row.utorid}`}
@@ -184,9 +184,11 @@ export default function UserSearchTable() {
                 />
             )}
 
-            {showRedemption && (
+            {redeemUser && (
                 <ProcessRedemptionPopup
-                    onClose={() => setShowRedemption(false)}
+                    utorid={redeemUser.utorid}
+                    userName={redeemUser.name}
+                    onClose={() => setRedeemUser(null)}
                     onSuccess={(payload) => setSuccessModal(payload)}
                 />
             )}

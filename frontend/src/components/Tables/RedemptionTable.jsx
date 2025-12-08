@@ -39,8 +39,8 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
                     }
                 });
                 const list = response.data.results || [];
-                const filtered = list.filter(r => Boolean(r.processed) === Boolean(processedBool));
-                setRows(filtered);
+        const filtered = list.filter(r => Boolean(r.processed) === Boolean(processedBool));
+        setRows(filtered);
             } catch (err) {
                 console.error(err);
                 setRows([]);
@@ -60,24 +60,23 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
 
     const processedRows = rows
         // FILTER
-        .filter((row) =>
-            (row.utorid || "").toLowerCase().includes(filter.toLowerCase())
-        )
+        .filter((row) => {
+            const term = filter.toLowerCase();
+            const idMatch = String(row.id ?? "").toLowerCase().includes(term);
+            const remarkMatch = (row.remark || "").toLowerCase().includes(term);
+            return idMatch || remarkMatch;
+        })
         // SORT
         .sort((a, b) => {
-            if (!sortBy) {
-                return 0;
-            } else if (sortBy === "id") {
-                return a.id - b.id;
-            } else if (sortBy === "earned") {
-                return a.earned - b.earned;
-            } else if (sortBy === "spent") {
-                return a.spent - b.spent;
-            } else if (sortBy === "utorid") {
-                return a.utorid.localeCompare(b.utorid);
-            } else {
-                return 0;
+            if (!sortBy) return 0;
+            if (sortBy === "id") return (a.id ?? 0) - (b.id ?? 0);
+            if (sortBy === "points") {
+                const aPts = processedBool ? (a.redeemed ?? 0) : (a.amount ?? 0);
+                const bPts = processedBool ? (b.redeemed ?? 0) : (b.amount ?? 0);
+                return aPts - bPts;
             }
+            if (sortBy === "remark") return (a.remark || "").localeCompare(b.remark || "");
+            return 0;
         });
     const countForPagination = processedRows.length;
     const rangeStart = countForPagination === 0 ? 0 : page * rowsPerPage + 1;
@@ -89,11 +88,12 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
             <Box display="flex" gap={2} mb={2}>
                 {/* Filter Input */}
                 <TextField
-                    label=""
+                    label="Filter"
                     variant="outlined"
                     size="small"
                     value={filter}
                     onChange={(e) => setFilter(e.target.value)}
+                    placeholder="Search ID or remark"
                 />
 
                 {/* Sort Dropdown */}
@@ -107,8 +107,8 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
                     >
                         <MenuItem value="">None</MenuItem>
                         <MenuItem value="id">ID</MenuItem>
-                        <MenuItem value="earned">Points Earned</MenuItem>
-                        <MenuItem value="spent">Points Spent</MenuItem>
+                        <MenuItem value="points">{processedBool ? "Points Redeemed" : "Points to Redeem"}</MenuItem>
+                        <MenuItem value="remark">Remark</MenuItem>
                     </Select>
                 </FormControl>
             </Box>
@@ -162,7 +162,7 @@ export default function RedemptionTable({ redempTableTitle, processedBool }) {
                         {countForPagination === 0 ? "0 of 0" : `${rangeStart}-${rangeEnd} of ${countForPagination}`}
                     </div>
                     <Pagination
-                        count={Math.max(1, Math.ceil(rows.length / rowsPerPage))}
+                        count={Math.max(1, Math.ceil(processedRows.length / rowsPerPage))}
                         page={page + 1}
                         onChange={(_, val) => handleChangePage(null, val - 1)}
                         siblingCount={1}

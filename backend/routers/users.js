@@ -183,8 +183,8 @@ router.get('/', clearanceRequired('cashier'), async (req, res) => {
         }
 
         filters.OR = [
-            { name: { contains: name } },
-            { utorid: { contains: name } }
+            { name: { contains: name, mode: 'insensitive' } },
+            { utorid: { contains: name, mode: 'insensitive' } }
         ];
     }
 

@@ -15,8 +15,8 @@ function MyRaffles() {
         try {
             const response = await api.get("/raffles", {
                 params: {
-                    page: page + 1,
-                    limit: rowsPerPage
+                    page: 1,
+                    limit: 1000
                 }
             });
             // Filter to only show raffles the user has entered
@@ -35,7 +35,7 @@ function MyRaffles() {
 
     useEffect(() => {
         loadRaffles();
-    }, [page, rowsPerPage]);
+    }, []);
 
     const handlePageChange = (newPage) => {
         setPage(newPage);

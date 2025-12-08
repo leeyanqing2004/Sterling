@@ -15,7 +15,7 @@ function AllPromotions() {
     const [promotions, setPromotions] = useState([]);
     const [count, setCount] = useState(0);
     const [loading, setLoading] = useState(false);
-    const [page, setPage] = useState(0); // 0-based for UI
+    const [page, setPage] = useState(0); // 0-based for UI (client-side)
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [showNewPromo, setShowNewPromo] = useState(false);
     const [refreshKey, setRefreshKey] = useState(0);
@@ -25,16 +25,18 @@ function AllPromotions() {
             setLoading(true);
             try {
                 if (user?.role === "manager" || user?.role === "superuser") {
-                    const data = await getPromotions({ limit: rowsPerPage, page: page + 1 });
-                    setPromotions(data?.results || []);
-                    setCount(data?.count || 0);
+                    // load a large page once; client-side filters/pagination handle the rest
+                    const data = await getPromotions({ limit: 1000, page: 1 });
+                    const list = data?.results || [];
+                    setPromotions(list);
+                    setCount(list.length);
                 }
             } finally {
                 setLoading(false);
             }
         };
         load();
-    }, [page, rowsPerPage, user, refreshKey]);
+    }, [user, refreshKey]);
 
     useEffect(() => {
         if (!user) return;
@@ -62,7 +64,7 @@ function AllPromotions() {
                     promoTableTitle={"All Promotions"}
                     availableOnlyBool={false}
                     promotions={promotions}
-                    serverPaging
+                    serverPaging={false}
                     page={page}
                     rowsPerPage={rowsPerPage}
                     onPageChange={setPage}

@@ -22,7 +22,15 @@ export default function TransactionTable({
     onRowsPerPageChange,
     totalCount,
     loading = false,
-    onTransactionUpdate: onTransactionUpdateProp
+    onTransactionUpdate: onTransactionUpdateProp,
+    idFilter: controlledIdFilter,
+    onIdFilterChange,
+    createdByFilter: controlledCreatedByFilter,
+    onCreatedByFilterChange,
+    utoridFilter: controlledUtoridFilter,
+    onUtoridFilterChange,
+    typeFilter: controlledTypeFilter,
+    onTypeFilterChange,
 }) {
     // dummy data
     // const rows = Array.from({ length: 50 }, (_, i) => ({
@@ -48,10 +56,10 @@ export default function TransactionTable({
     const [rowsPerPage, setRowsPerPage] = useState(controlledRowsPerPage ?? 10);
 
 
-    const [createdByFilter, setCreatedByFilter] = useState("");
-    const [idFilter, setIdFilter] = useState("");
-    const [transactionTypeFilter, setTransactionTypeFilter] = useState("");
-    const [utoridFilter, setUtoridFilter] = useState("");
+    const [createdByFilter, setCreatedByFilter] = useState(controlledCreatedByFilter ?? "");
+    const [idFilter, setIdFilter] = useState(controlledIdFilter ?? "");
+    const [transactionTypeFilter, setTransactionTypeFilter] = useState(controlledTypeFilter ?? "");
+    const [utoridFilter, setUtoridFilter] = useState(controlledUtoridFilter ?? "");
 
     const [sortBy, setSortBy] = useState("");
     const [activeTransaction, setActiveTransaction] = useState(null);
@@ -83,14 +91,47 @@ export default function TransactionTable({
         }
     }, [serverPaging, controlledRowsPerPage]);
 
-    const processedRows = rows
-    .filter((row) =>
-        (idFilter === "" || row.id === Number(idFilter)) &&
-        (row.createdBy || "").toLowerCase().includes(createdByFilter.toLowerCase()) &&
-        (row.type || "").toLowerCase().includes(transactionTypeFilter.toLowerCase()) &&
-        (row.utorid || "").toLowerCase().includes(utoridFilter.toLowerCase())
-    )
-    .sort((a, b) => {
+    useEffect(() => {
+        if (controlledIdFilter !== undefined) {
+            setIdFilter(controlledIdFilter);
+        }
+    }, [controlledIdFilter]);
+
+    useEffect(() => {
+        if (controlledCreatedByFilter !== undefined) {
+            setCreatedByFilter(controlledCreatedByFilter);
+        }
+    }, [controlledCreatedByFilter]);
+
+    useEffect(() => {
+        if (controlledUtoridFilter !== undefined) {
+            setUtoridFilter(controlledUtoridFilter);
+        }
+    }, [controlledUtoridFilter]);
+
+    useEffect(() => {
+        if (controlledTypeFilter !== undefined) {
+            setTransactionTypeFilter(controlledTypeFilter);
+        }
+    }, [controlledTypeFilter]);
+
+    // reset to first page when local filters change (client-side filtering)
+    useEffect(() => {
+        if (!serverPaging) {
+            setPage(0);
+        }
+    }, [idFilter, createdByFilter, transactionTypeFilter, utoridFilter, serverPaging]);
+
+    const filteredRows = serverPaging
+        ? rows // server already applied filters; avoid double-filtering
+        : rows.filter((row) =>
+            (idFilter === "" || row.id === Number(idFilter)) &&
+            (row.createdBy || "").toLowerCase().includes(createdByFilter.toLowerCase()) &&
+            (row.type || "").toLowerCase().includes(transactionTypeFilter.toLowerCase()) &&
+            (row.utorid || "").toLowerCase().includes(utoridFilter.toLowerCase())
+        );
+
+    const processedRows = filteredRows.sort((a, b) => {
         if (!sortBy) return 0;
         if (sortBy === "id") return a.id - b.id;
         if (sortBy === "amount") return Number(a.amount) - Number(b.amount);
@@ -98,7 +139,7 @@ export default function TransactionTable({
     });
 
     const countForPagination = serverPaging
-        ? (typeof totalCount === "number" ? totalCount : rows.length)
+        ? (typeof totalCount === "number" ? totalCount : processedRows.length)
         : processedRows.length;
     const rangeStart = countForPagination === 0 ? 0 : page * rowsPerPage + 1;
     const rangeEnd = countForPagination === 0 ? 0 : Math.min(countForPagination, page * rowsPerPage + rowsPerPage);
@@ -137,7 +178,11 @@ export default function TransactionTable({
                             variant="outlined"
                             size="small"
                             value={idFilter}
-                            onChange={(e) => setIdFilter(e.target.value)}
+                            onChange={(e) => {
+                                const val = e.target.value;
+                                setIdFilter(val);
+                                if (onIdFilterChange) onIdFilterChange(val);
+                            }}
                         />
                         
                         <TextField
@@ -145,7 +190,11 @@ export default function TransactionTable({
                             variant="outlined"
                             size="small"
                             value={createdByFilter}
-                            onChange={(e) => setCreatedByFilter(e.target.value)}
+                            onChange={(e) => {
+                                const val = e.target.value;
+                                setCreatedByFilter(val);
+                                if (onCreatedByFilterChange) onCreatedByFilterChange(val);
+                            }}
                         />
 
                         {includeManageButton && 
@@ -154,7 +203,11 @@ export default function TransactionTable({
                                 variant="outlined"
                                 size="small"
                                 value={utoridFilter}
-                                onChange={(e) => setUtoridFilter(e.target.value)}
+                                onChange={(e) => {
+                                    const val = e.target.value;
+                                    setUtoridFilter(val);
+                                    if (onUtoridFilterChange) onUtoridFilterChange(val);
+                                }}
                             />
                         }
 
@@ -178,7 +231,11 @@ export default function TransactionTable({
                             <Select
                                 value={transactionTypeFilter}
                                 label="Transaction Type"
-                                onChange={(e) => setTransactionTypeFilter(e.target.value)}
+                                onChange={(e) => {
+                                    const val = e.target.value;
+                                    setTransactionTypeFilter(val);
+                                    if (onTypeFilterChange) onTypeFilterChange(val);
+                                }}
                                 style={{ minWidth: 150 }}
                             >
                                 <MenuItem value="">All</MenuItem>

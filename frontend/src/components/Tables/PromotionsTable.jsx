@@ -57,39 +57,47 @@ export default function PromotionsTable({
         }
     }, [serverPaging, controlledRowsPerPage]);
 
-    const processedRows = rows
-    // Filter for available promotions only, if applicable
-    .filter((row) => {
-        const now = new Date();
+    // reset pagination when filters change
+    useEffect(() => {
+        setPage(0);
+    }, [nameFilter, idFilter, spentFilter, promotionTypeFilter, showAvailableOnly]);
 
-        if (!availableOnlyBool || !showAvailableOnly) return true;
-    
-        const start = new Date(row.startTime);
-        const end = new Date(row.endTime);
-    
-        return start <= now && now <= end;
-    })
-    // FILTER
-    .filter((row) =>
-        (idFilter === "" || row.id === Number(idFilter)) &&
-        (spentFilter === "" || row.minSpending <= Number(spentFilter)) &&
-        row.name.toLowerCase().includes(nameFilter.toLowerCase()) && 
-        row.type.toLowerCase().includes(promotionTypeFilter.toLowerCase())
-    )
-    // SORT
-    .sort((a, b) => {
-        if (!sortBy) return 0;
-        if (sortBy === "id") return a.id - b.id;
-        if (sortBy === "minSpending") return a.minSpending - b.minSpending;
-        if (sortBy === "rate") return a.rate - b.rate;
-        if (sortBy === "points") return a.points - b.points;
-        if (sortBy === "type") return a.type.localeCompare(b.type);
-        if (sortBy === "name") return a.name.localeCompare(b.name);
-        return 0;
-    });
+    const filteredRows = rows
+        // Filter for available promotions only, if applicable
+        .filter((row) => {
+            const now = new Date();
+            if (!availableOnlyBool || !showAvailableOnly) return true;
+            const start = new Date(row.startTime);
+            const end = new Date(row.endTime);
+            return start <= now && now <= end;
+        })
+        // FILTER
+        .filter((row) => {
+            const termName = nameFilter.toLowerCase();
+            const termType = promotionTypeFilter.toLowerCase();
+            const matchesId = idFilter === "" || row.id === Number(idFilter);
+            const matchesSpend = spentFilter === "" || row.minSpending <= Number(spentFilter);
+            const matchesName = (row.name || "").toLowerCase().includes(termName);
+            const matchesType = (row.type || "").toLowerCase().includes(termType);
+            return matchesId && matchesSpend && matchesName && matchesType;
+        });
 
+    const processedRows = filteredRows
+        // SORT
+        .sort((a, b) => {
+            if (!sortBy) return 0;
+            if (sortBy === "id") return a.id - b.id;
+            if (sortBy === "minSpending") return a.minSpending - b.minSpending;
+            if (sortBy === "rate") return a.rate - b.rate;
+            if (sortBy === "points") return a.points - b.points;
+            if (sortBy === "type") return (a.type || "").localeCompare(b.type || "");
+            if (sortBy === "name") return (a.name || "").localeCompare(b.name || "");
+            return 0;
+        });
+
+    const hasLocalFilter = Boolean(nameFilter || idFilter || spentFilter || promotionTypeFilter || (availableOnlyBool && showAvailableOnly));
     const countForPagination = serverPaging
-        ? (typeof totalCount === "number" ? totalCount : rows.length)
+        ? (hasLocalFilter ? processedRows.length : (typeof totalCount === "number" ? totalCount : rows.length))
         : processedRows.length;
     const rangeStart = countForPagination === 0 ? 0 : page * rowsPerPage + 1;
     const rangeEnd = countForPagination === 0 ? 0 : Math.min(countForPagination, page * rowsPerPage + rowsPerPage);

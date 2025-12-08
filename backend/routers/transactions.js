@@ -509,13 +509,13 @@ router.all("/", async (req, res) => {
         const source = Object.keys(req.query).length ? req.query : req.body;
         const keys = Object.keys(source);
 
-        const allowedKeys = ['name', 'createdBy', 'suspicious', 'promotionId', 'type', 'relatedId', 'amount', 'operator', 'page', 'limit', 'utorid', 'processed'];
+        const allowedKeys = ['name', 'createdBy', 'suspicious', 'promotionId', 'type', 'relatedId', 'amount', 'operator', 'page', 'limit', 'utorid', 'processed', 'id'];
         const unknownKeys = keys.filter(key => !allowedKeys.includes(key));
         if (unknownKeys.length > 0) {
             return res.status(400).json({ error: `Unknown field(s): ${unknownKeys.join(', ')}` });
         }
 
-        let { name, createdBy, suspicious , promotionId, type, relatedId, amount, operator, page, limit, utorid, processed } = source;
+        let { name, createdBy, suspicious , promotionId, type, relatedId, amount, operator, page, limit, utorid, processed, id } = source;
 
         // Coerce primitive types from query-string values where necessary
         if (typeof suspicious === 'string') {
@@ -540,10 +540,13 @@ router.all("/", async (req, res) => {
         if (typeof processed === 'string') {
             processed = processed.toLowerCase() === 'true';
         }
+        if (typeof id === 'string') {
+            id = id.length ? Number(id) : undefined;
+        }
 
-        if (!checkTypes([name, createdBy, suspicious , promotionId, type, relatedId, amount, operator, page, limit, utorid, processed], 
-                    ['string', 'string', 'boolean', 'number', 'string', 'number', 'number', 'string', 'number', 'number', 'string', 'boolean'],
-                    [false, false, false, false, false, false, false, false, false, false, false, false])) {
+        if (!checkTypes([name, createdBy, suspicious , promotionId, type, relatedId, amount, operator, page, limit, utorid, processed, id], 
+                    ['string', 'string', 'boolean', 'number', 'string', 'number', 'number', 'string', 'number', 'number', 'string', 'boolean', 'number'],
+                    [false, false, false, false, false, false, false, false, false, false, false, false, false])) {
                         return res.status(400).json({ error: "Faulty payload field type." });
         }
         
@@ -554,11 +557,11 @@ router.all("/", async (req, res) => {
         const where = {};
 
         if (name) {
-            where.utorid = { contains: name };
+            where.utorid = { contains: name, mode: 'insensitive' };
         }
 
         if (createdBy) {
-            where.createdBy = { utorid: createdBy };
+            where.createdBy = { utorid: { contains: createdBy, mode: 'insensitive' } };
         }
 
         if (suspicious) {
@@ -587,6 +590,10 @@ router.all("/", async (req, res) => {
 
         if (processed !== undefined) {
             where.processed = processed;
+        }
+
+        if (id) {
+            where.id = id;
         }
 
         if (relatedId) {

@@ -36,7 +36,6 @@ function ManageUserPopup({ show = true, onClose, user, onUserUpdate }) {
         setEmailValue(user.email || "");
         setShowEmailEditPopup(false);
         setHasChanges(false);
-        setToast(null);
     }, [user]);
 
     useEffect(() => {
@@ -47,7 +46,7 @@ function ManageUserPopup({ show = true, onClose, user, onUserUpdate }) {
 
     useEffect(() => {
         if (!toast) return;
-        const t = setTimeout(() => setToast(null), 2000);
+        const t = setTimeout(() => setToast(null), 3000);
         return () => clearTimeout(t);
     }, [toast]);
 

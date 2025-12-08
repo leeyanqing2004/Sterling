@@ -56,13 +56,12 @@ function ManageTransactionPopup({ show = true, onClose, transaction, onTransacti
         setStep("view");
         setCreatedTx(null);
         setError("");
-        setToast(null);
         setPromoFormatError("");
     }, [transaction]);
 
     useEffect(() => {
         if (!toast) return;
-        const t = setTimeout(() => setToast(null), 2000);
+        const t = setTimeout(() => setToast(null), 3000);
         return () => clearTimeout(t);
     }, [toast]);
 
@@ -83,7 +82,13 @@ function ManageTransactionPopup({ show = true, onClose, transaction, onTransacti
             await api.patch(`/transactions/${transaction.id}/suspicious`, {
                 suspicious: !suspicious,
             });
-            setSuspicious(!suspicious);
+            const next = !suspicious;
+            setSuspicious(next);
+            const updatedTx = { ...currentTransaction, suspicious: next };
+            setCurrentTransaction(updatedTx);
+            if (onTransactionUpdate) {
+                onTransactionUpdate(updatedTx);
+            }
             setToast({ type: "success", message: "Suspicious flag updated" });
         } catch (err) {
             setToast({ type: "error", message: err?.response?.data?.error || "Failed to update flag" });

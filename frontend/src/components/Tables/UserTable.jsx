@@ -176,7 +176,7 @@ export default function UserTable({ userTableTitle }) {
                     <TableBody>
                     {(loading ? [] : processedRows)
                         .map((row) => (
-                        <TableRow key={row.id}>
+                        <TableRow key={row.id} className={row.suspicious ? styles.suspiciousRow : undefined}>
                             <TableCell>{row.id}</TableCell>
                             <TableCell>{Capitalize(row.role)}</TableCell>
                             <TableCell>{row.utorid}</TableCell>
@@ -251,8 +251,10 @@ export default function UserTable({ userTableTitle }) {
                 user={activeUser}
                 onClose={() => setActiveUser(null)}
                 onUserUpdate={(updatedUser) => {
-                    setActiveUser(updatedUser);
-                    setRows(rows.map(r => r.id === updatedUser.id ? updatedUser : r));
+                    if (updatedUser) {
+                        setActiveUser(updatedUser);
+                        setRows(rows.map(r => r.id === updatedUser.id ? updatedUser : r));
+                    }
                 }}
             />
         )}

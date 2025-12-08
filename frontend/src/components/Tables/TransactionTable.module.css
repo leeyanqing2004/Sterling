@@ -91,3 +91,12 @@
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
+
+.suspiciousRow {
+    background: #ffe8e8;
+    border-left: 4px solid #e26a6a;
+}
+
+.suspiciousRow :global(.MuiTableCell-root) {
+    background: #ffe8e8 !important;
+}

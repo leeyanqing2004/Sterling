@@ -290,7 +290,7 @@ export default function TransactionTable({
                                     serverPaging ? undefined : page * rowsPerPage + rowsPerPage
                                 )
                                 .map((row) => (
-                                    <TableRow key={row.id}>
+                                    <TableRow key={row.id} className={row.suspicious ? styles.suspiciousRow : undefined}>
                                         <TableCell>{row.id}</TableCell>
                                         {includeManageButton && <TableCell>{row.utorid}</TableCell>}
                                         <TableCell>{Capitalize(row.type)}</TableCell>

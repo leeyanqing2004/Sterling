@@ -50,8 +50,6 @@ function AllTransactions() {
                 prev.map(tx => tx.id === updatedTransaction.id ? updatedTransaction : tx)
             );
         }
-        // Also reload from server to ensure we have the latest data
-        loadTransactions();
     };
 
     return (

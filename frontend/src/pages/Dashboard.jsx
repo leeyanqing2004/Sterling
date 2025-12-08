@@ -179,13 +179,16 @@ function Dashboard() {
                             <div className={styles.sparkline} aria-label="Weekly point trend">
                                 {pointsRecap.recentTrend.map((v, idx) => {
                                     const clamped = Math.max(Math.min(v, 100), -100);
-                                    const height = 30 + (clamped / 100) * 20; // 30-50px
+                                    // 0 should be essentially flat; map -100..100 to 4..50 px
+                                    const baseHeight = 4; // minimum bar height for visibility
+                                    const maxHeight = 50;
+                                    const height = baseHeight + ((Math.abs(clamped) / 100) * (maxHeight - baseHeight));
                                     const isNegative = v < 0;
                                     return (
                                         <div
                                             key={idx}
                                             className={`${styles.sparkBar} ${isNegative ? styles.sparkBarNeg : ""}`}
-                                            style={{ height: `${Math.max(height, 8)}px` }}
+                                            style={{ height: `${height.toFixed(1)}px` }}
                                             title={`Day ${idx + 1}: ${v}`}
                                         />
                                     );

@@ -1,14 +1,24 @@
 import { useAuth } from "../../contexts/AuthContext.jsx";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Nav from "./Nav.jsx";
 import LeftNav from "./LeftNav.jsx";
 import "./ProfileShell.css";
 
+const NAV_STATE_KEY = "sterling-nav-open";
+
 function ProfileShell({ children }) {
     const { user, authLoading } = useAuth();
     const location = useLocation();
-    const [navOpen, setNavOpen] = useState(true);
+    const [navOpen, setNavOpen] = useState(() => {
+        if (typeof window === "undefined") return true;
+        const stored = localStorage.getItem(NAV_STATE_KEY);
+        return stored === null ? true : stored === "true";
+    });
+    useEffect(() => {
+        if (typeof window === "undefined") return;
+        localStorage.setItem(NAV_STATE_KEY, String(navOpen));
+    }, [navOpen]);
     const hasChildren = !!children;
 
     if (authLoading) {

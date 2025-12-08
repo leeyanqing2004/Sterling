@@ -192,12 +192,27 @@
     border: none;
     background: none;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 22px;
     color: #444;
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.mtp-flag:hover {
+    transform: translateY(-1px);
+}
+
+.mtp-flag:focus-visible {
+    outline: 2px solid #2a73b7;
+    outline-offset: 2px;
 }
 
 .mtp-flag.active {
-    color: #d22b2b;
+    color: #b91c1c;
 }
 
 .mtp-details {

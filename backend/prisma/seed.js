@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 function rand(arr) {
@@ -14,25 +14,25 @@ async function main() {
   // -----------------------------------------------------
   // USERS (20)
   // -----------------------------------------------------
-  const roles = ["regular", "regular", "regular", "regular", "regular"]; // Weighted
+  const roles = ["regular", "cashier", "manager", "superuser"]; // Weighted
 
   const userData = [
-    { utorid: "cashier01", name: "Cashier One", email: "cashier@example.com", role: "cashier" },
-    { utorid: "manager01", name: "Manager One", email: "manager@example.com", role: "manager" },
-    { utorid: "super01", name: "Super User", email: "super@example.com", role: "superuser" },
+    { utorid: "cashier01", name: "Cashier One", email: "cashier@mail.utoronto.ca", role: "cashier" },
+    { utorid: "manager01", name: "Manager One", email: "manager@mail.utoronto.ca", role: "manager" },
+    { utorid: "super01", name: "Super User", email: "super@mail.utoronto.ca", role: "superuser" },
   ];
 
   for (let i = 1; i <= 17; i++) {
     userData.push({
       utorid: `user${i}`,
       name: `User ${i}`,
-      email: `user${i}@example.com`,
+      email: `user${i}@mail.utoronto.ca`,
       role: rand(roles),
       points: Math.floor(Math.random() * 2000),
     });
   }
 
-  await prisma.user.createMany({ data: userData });
+  await prisma.user.createMany({ data: userData, skipDuplicates: true });
   const users = await prisma.user.findMany();
 
   // Helper: get random user
@@ -58,7 +58,7 @@ async function main() {
     });
   }
 
-  await prisma.event.createMany({ data: eventData });
+  await prisma.event.createMany({ data: eventData, skipDuplicates: true });
   const events = await prisma.event.findMany();
 
   // -----------------------------------------------------
@@ -69,7 +69,7 @@ async function main() {
     promotionData.push({
       name: `Promo ${i}`,
       description: `Promo description ${i}`,
-      type: rand(["discount", "bonus", "multiplier"]),
+      type: rand(["one-time", "automatic"]),
       startTime: daysAgo(40 - i),
       endTime: daysAgo(10 - i),
       minSpending: Math.random() > 0.5 ? Math.random() * 150 : null,
@@ -78,7 +78,7 @@ async function main() {
     });
   }
 
-  await prisma.promotion.createMany({ data: promotionData });
+  await prisma.promotion.createMany({ data: promotionData, skipDuplicates: true });
   const promotions = await prisma.promotion.findMany();
 
   // -----------------------------------------------------
@@ -86,7 +86,7 @@ async function main() {
   // Each requires: createdById
   // Optional: senderId, recipientId, processedById
   // -----------------------------------------------------
-  const types = ["purchase", "redeem", "transfer", "award"];
+  const types = ["purchase", "redeem", "transfer", "event"];
   const transactionData = [];
 
   for (let i = 1; i <= 20; i++) {
@@ -112,7 +112,7 @@ async function main() {
     });
   }
 
-  await prisma.transaction.createMany({ data: transactionData });
+  await prisma.transaction.createMany({ data: transactionData, skipDuplicates: true });
   const transactions = await prisma.transaction.findMany();
 
   // -----------------------------------------------------
@@ -126,7 +126,7 @@ async function main() {
     });
   }
 
-  await prisma.eventOrganizer.createMany({ data: organizerData });
+  await prisma.eventOrganizer.createMany({ data: organizerData, skipDuplicates: true });
 
   // -----------------------------------------------------
   // EVENT GUESTS (20)
@@ -139,7 +139,7 @@ async function main() {
     });
   }
 
-  await prisma.eventGuest.createMany({ data: guestData });
+  await prisma.eventGuest.createMany({ data: guestData, skipDuplicates: true });
 
   // -----------------------------------------------------
   // RAFFLES (20)
@@ -159,7 +159,7 @@ async function main() {
     });
   }
 
-  await prisma.raffle.createMany({ data: raffleData });
+  await prisma.raffle.createMany({ data: raffleData, skipDuplicates: true });
   const raffles = await prisma.raffle.findMany();
 
   // -----------------------------------------------------
@@ -174,7 +174,7 @@ async function main() {
     });
   }
 
-  await prisma.raffleEntry.createMany({ data: raffleEntryData });
+  await prisma.raffleEntry.createMany({ data: raffleEntryData, skipDuplicates: true });
 
   console.log("Seed completed successfully!");
 }

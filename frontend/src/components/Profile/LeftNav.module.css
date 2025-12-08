@@ -48,10 +48,27 @@
 }
 
 .leftNavLogoutButton {
-    color: #2A73B7;
-    background: none;
+    color: white;
+    background: linear-gradient(120deg, #2A73B7, #1f5a90);
     border: none;
     cursor: pointer;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.15s ease;
+}
+
+.leftNavLogoutButton:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.12);
+    filter: brightness(1.05);
+}
+
+.leftNavLogoutButton:active {
+    transform: translateY(0);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
 }
 
 .leftNav {

@@ -62,6 +62,7 @@ function App() {
             <Route path="/my-events" element={<MyEvents />} />
             <Route path="/all-raffles" element={<AllRaffles />} />
             <Route path="/my-raffles" element={<MyRaffles />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>
       </AuthProvider>

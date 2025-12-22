@@ -23,3 +23,8 @@
     border-radius: 0.5em;
     transition: background-color 0.3s ease;
 }
+
+.pageButtonActive:hover {
+    background-color: var(--accent-hover);
+    color: white;
+}

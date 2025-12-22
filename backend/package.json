@@ -4,7 +4,8 @@
   "description": "CSSU Reward System",
   "main": "index.js",
   "scripts": {
-    "build": "prisma generate",
+    "build": "npm install && npx prisma generate",
+    "postinstall": "npx prisma generate",
     "start": "node index.js",
     "dev": "nodemon index.js",
     "createsuperuser": "node prisma/createsu.js",

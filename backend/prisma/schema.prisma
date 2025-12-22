@@ -22,6 +22,7 @@ model User {
   lastLogin             DateTime?
   verified              Boolean          @default(false)
   avatarUrl             String?
+  darkMode              Boolean          @default(false)
   resetToken            String?          @unique
   expiresAt             DateTime?
   guest                 EventGuest[]

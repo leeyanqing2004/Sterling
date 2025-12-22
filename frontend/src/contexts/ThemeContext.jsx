@@ -1,14 +1,22 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useRef } from 'react';
+import { useAuth } from './AuthContext';
+import api from '../api/api';
 
 const ThemeContext = createContext(null);
 
 const THEME_STORAGE_KEY = 'sterling-theme';
 
 export const ThemeProvider = ({ children }) => {
+    const { user, updateUser } = useAuth();
+    const isUpdatingDb = useRef(false);
     const [isDarkMode, setIsDarkMode] = useState(() => {
         if (typeof window === "undefined") return false;
-        const stored = localStorage.getItem(THEME_STORAGE_KEY);
+        
+        // Priority: 1. User's database preference, 2. localStorage, 3. system preference
         let theme = false;
+        
+        // Check localStorage first (for immediate load)
+        const stored = localStorage.getItem(THEME_STORAGE_KEY);
         if (stored !== null) {
             theme = stored === 'dark';
         } else {
@@ -134,11 +142,47 @@ export const ThemeProvider = ({ children }) => {
         return theme;
     });
 
+    // Sync theme with user's database preference when user changes
+    useEffect(() => {
+        if (typeof window === "undefined" || !user) return;
+        
+        // Check if darkMode exists and is a boolean
+        if (user.darkMode !== undefined && user.darkMode !== null && typeof user.darkMode === 'boolean') {
+            // User has a database preference, use it
+            setIsDarkMode(user.darkMode);
+            // Also update localStorage to keep them in sync
+            localStorage.setItem(THEME_STORAGE_KEY, user.darkMode ? 'dark' : 'light');
+        }
+        // If user.darkMode is null/undefined, keep current theme (from localStorage or system)
+    }, [user?.id, user?.darkMode]);
+
     useEffect(() => {
         if (typeof window === "undefined") return;
         
         // Update localStorage
         localStorage.setItem(THEME_STORAGE_KEY, isDarkMode ? 'dark' : 'light');
+        
+        // Save to database if user is logged in
+        if (user?.id && !isUpdatingDb.current) {
+            // Only update if it's different from current database value
+            if (user?.darkMode !== isDarkMode) {
+                isUpdatingDb.current = true;
+                api.patch('/users/me', { darkMode: isDarkMode })
+                    .then(() => {
+                        // Update user context immediately
+                        if (updateUser) {
+                            updateUser({ darkMode: isDarkMode });
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Failed to save theme preference to database:', error);
+                        // Continue with localStorage fallback
+                    })
+                    .finally(() => {
+                        isUpdatingDb.current = false;
+                    });
+            }
+        }
         
         // Apply theme to document root
         const root = document.documentElement;

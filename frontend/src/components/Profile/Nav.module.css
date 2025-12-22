@@ -88,11 +88,18 @@
 
 .navListItemLink:hover {
     background-color: var(--bg-tertiary);
+    text-decoration: none;
 }
 
-.active {
+.navListItemLink.active {
     background-color: var(--accent-color);
     color: white;
+}
+
+.navListItemLink.active:hover {
+    background-color: var(--accent-color);
+    color: white;
+    text-decoration: none;
 }
 
 .navLogo {

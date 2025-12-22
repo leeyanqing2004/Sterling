@@ -258,12 +258,20 @@ router.patch('/me', clearanceRequired('regular'), upload.single('avatar'), async
     }
 
     const userId = req.auth.id;
-    const { name, email, birthday, avatarUrl } = req.body;
+    const { name, email, birthday, avatarUrl, darkMode } = req.body;
     const updateData = {};
 
     // Allow setting avatarUrl including null (to clear avatar)
     if (Object.prototype.hasOwnProperty.call(req.body, 'avatarUrl')) {
         updateData.avatarUrl = avatarUrl === null ? null : avatarUrl;
+    }
+
+    // Handle darkMode (must be a boolean)
+    if (Object.prototype.hasOwnProperty.call(req.body, 'darkMode')) {
+        if (typeof darkMode !== 'boolean') {
+            return res.status(400).json({ error: "darkMode must be a boolean" });
+        }
+        updateData.darkMode = darkMode;
     }
 
     // Build updateData for other fields; avatarUrl may legitimately be null
@@ -328,7 +336,8 @@ router.patch('/me', clearanceRequired('regular'), upload.single('avatar'), async
         createdAt: updatedUser.createdAt,
         lastLogin: updatedUser.lastLogin,
         verified: updatedUser.verified,
-        avatarUrl: updatedUser.avatarUrl
+        avatarUrl: updatedUser.avatarUrl,
+        darkMode: updatedUser.darkMode ?? false // Default to false if column doesn't exist yet
     });
 
     // Do I have to check for duplicate email here????????
@@ -363,6 +372,7 @@ router.get('/me', clearanceRequired('regular'), async (req, res) => {
         lastLogin: user.lastLogin,
         verified: user.verified,
         avatarUrl: user.avatarUrl,
+        darkMode: user.darkMode ?? false,
         promotions: Array.isArray(user.promotions) ? user.promotions : [] // Might need to call api method from promotions depending on implementation !!!!!!!!!!!!!!
         // promotions is not in the json body when testing. needs to be empty list
     });

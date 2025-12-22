@@ -4,7 +4,6 @@
   "description": "CSSU Reward System",
   "main": "index.js",
   "scripts": {
-"scripts": {
     "postinstall": "chmod +x node_modules/.bin/prisma && prisma generate", 
     "build": "npm install && prisma generate",
     "start": "node index.js",

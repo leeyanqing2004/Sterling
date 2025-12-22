@@ -37,7 +37,8 @@ body {
 .availPromoTableContainer {
     display: flex;
     flex-direction: column;
-    background-color: #F2F2F7;
+    background-color: var(--bg-secondary);
+    transition: background-color 0.3s ease;
     width: 100%;
     min-height: 100%;
     padding: 20px;

@@ -1,6 +1,7 @@
 import { useMatch, useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext.jsx";
+import { useTheme } from "../../contexts/ThemeContext.jsx";
 import { supabase } from "../../api/supabaseClient";
 import ProfileAvatar from "./ProfileAvatar.jsx";
 import api from "../../api/api";
@@ -51,18 +52,6 @@ function ProfileField({ type, label, field, setField, error }) {
     </div>;
 }
 
-function getEditingFields(locked, setLocked, onCancel, onSave) {
-    let content;
-    if (locked) {
-        content = <button className={styles.profileSectionEditButton} onClick={() => setLocked(false)}>Edit</button>
-    } else {
-        content = <div className={styles.profileSectionEditingButtons}>
-            <button className={styles.profileSectionDiscardChangesButton} onClick={onCancel}>Cancel</button>
-            <button className={styles.profileSectionSaveChangesButton} onClick={onSave}>Save Changes</button>
-        </div>
-    }
-    return <div className={styles.profileSectionEditingFields}>{content}</div>;
-}
 
 function ProfileSection({ id, className }) {
     const [name, setName] = useState("");
@@ -83,9 +72,19 @@ function ProfileSection({ id, className }) {
     const navigate = useNavigate();
     const { utorid } = useParams();
     const { user, updateUser } = useAuth();
+    const { isDarkMode, toggleTheme } = useTheme();
     
     const isRedeemRoute = Boolean(useMatch("/redeem-points"));
     const isTransferRoute = Boolean(useMatch("/transfer-points"));
+
+    // Load existing user data when component mounts or user changes
+    useEffect(() => {
+        if (user) {
+            setName(user.name || "");
+            setBirthday(user.birthday || "");
+            setEmail(user.email || "");
+        }
+    }, [user]);
 
     const profileSectionSettingsStyle = locked ? styles.profileSectionSettingsLocked : styles.profileSectionSettingsUnlocked;
     const profileSectionNewImageButtonStyle = locked ? "" : styles.profileSectionNewImageButtonUnlocked;
@@ -93,9 +92,10 @@ function ProfileSection({ id, className }) {
     const profileSectionChangePasswordButtonStyle = locked ? "" : styles.profileSectionChangePasswordButtonUnlocked;
 
     const handleCancelChanges = () => {
-        setName("");
-        setBirthday("");
-        setEmail("");
+        // Reset to original user data
+        setName(user?.name || "");
+        setBirthday(user?.birthday || "");
+        setEmail(user?.email || "");
         setOldPassword("");
         setNewPassword("");
         setLocked(true);
@@ -172,9 +172,25 @@ function ProfileSection({ id, className }) {
             if (Object.keys(update).length > 0) {
                 await api.patch('/users/me', update);
                 setToast({ message: "Profile updated successfully.", type: "success" });
+                
+                // Update user context with all saved values
+                const userUpdates = {};
+                if (update.name !== undefined) {
+                    userUpdates.name = update.name;
+                }
+                if (update.birthday !== undefined) {
+                    userUpdates.birthday = update.birthday;
+                }
+                if (update.email !== undefined) {
+                    userUpdates.email = update.email;
+                }
                 if (pendingAvatarUrl !== undefined) {
-                    updateUser({ avatarUrl: pendingAvatarUrl });
+                    userUpdates.avatarUrl = pendingAvatarUrl;
                     setPendingAvatarUrl(undefined);
+                }
+                
+                if (Object.keys(userUpdates).length > 0) {
+                    updateUser(userUpdates);
                 }
             }
 
@@ -257,8 +273,42 @@ function ProfileSection({ id, className }) {
 
     return <div id={id} className={`${styles.profileSection} ${className || ''}`}>
         <div className={styles.profileSectionDetails}>
-            <div className={`${styles.profileSectionSettings} ${profileSectionSettingsStyle}`}>
+            <div className={styles.profileSectionHeader}>
                 <h2 className={styles.profileSectionTitle}>My Profile</h2>
+                <div className={styles.profileSectionHeaderActions}>
+                    <button
+                        type="button"
+                        className={styles.themeToggle}
+                        onClick={toggleTheme}
+                        aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+                        title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+                    >
+                        {isDarkMode ? (
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <circle cx="12" cy="12" r="5"/>
+                                <line x1="12" y1="1" x2="12" y2="3"/>
+                                <line x1="12" y1="21" x2="12" y2="23"/>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                                <line x1="1" y1="12" x2="3" y2="12"/>
+                                <line x1="21" y1="12" x2="23" y2="12"/>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                            </svg>
+                        ) : (
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                            </svg>
+                        )}
+                    </button>
+                    {locked && (
+                        <button className={styles.profileSectionEditButton} onClick={() => setLocked(false)}>
+                            Edit
+                        </button>
+                    )}
+                </div>
+            </div>
+            <div className={`${styles.profileSectionSettings} ${profileSectionSettingsStyle}`}>
                 <div className={styles.profileSectionImageSettings}>
                     <ProfileAvatar
                             src={(pendingAvatarUrl !== undefined ? pendingAvatarUrl : user?.avatarUrl) || "/default-pfp.jpg"}
@@ -310,7 +360,14 @@ function ProfileSection({ id, className }) {
                     </div>
                 </div>
             </div>
-            {getEditingFields(locked, setLocked, handleCancelChanges, handleSaveChanges)}
+            {!locked && (
+                <div className={styles.profileSectionEditingFields}>
+                    <div className={styles.profileSectionEditingButtons}>
+                        <button className={styles.profileSectionDiscardChangesButton} onClick={handleCancelChanges}>Cancel</button>
+                        <button className={styles.profileSectionSaveChangesButton} onClick={handleSaveChanges}>Save Changes</button>
+                    </div>
+                </div>
+            )}
             {isRedeemRoute && <RedeemPointsPopup onClose={handleCloseRedeem} />}
             {isTransferRoute && <TransferPointsPopup onClose={handleCloseTransfer} />}
         </div>

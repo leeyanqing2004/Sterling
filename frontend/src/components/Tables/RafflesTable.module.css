@@ -1,7 +1,7 @@
 .raffleTableContainer {
     display: flex;
     flex-direction: column;
-    background-color: #ffff;
+    background-color: var(--bg-primary);
     padding: 30px;
     gap: 20px;
     border-radius: 10px;
@@ -9,6 +9,7 @@
     box-sizing: border-box;
     max-width: 100%;
     overflow-x: auto;
+    transition: background-color 0.3s ease;
 }
 
 .raffleTableContainer :global(.MuiTableContainer-root) {
@@ -18,12 +19,13 @@
 
 .raffleTableTitle {
     font-size: 20px;
-    color: #000000;
+    color: var(--text-primary);
     align-self: flex-start;
+    transition: color 0.3s ease;
 }
 
 :global(.MuiTableCell-head) {
-    color: #2A73B7 !important;
+    color: var(--accent-color) !important;
     font-weight: 700 !important;
     text-align: center !important;
 }
@@ -54,11 +56,12 @@
 
 .rangeInfo {
     font-weight: 600;
-    color: #333;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
 }
 
 :global(.MuiPaginationItem-root.Mui-selected) {
-    background-color: #2A73B7 !important;
+    background-color: var(--accent-color) !important;
     color: white !important;
 }
 
@@ -68,17 +71,19 @@
     justify-content: center;
     gap: 10px;
     font-weight: 600;
-    color: #2A73B7;
+    color: var(--accent-color);
     padding: 8px 0;
+    transition: color 0.3s ease;
 }
 
 .spinner {
     width: 18px;
     height: 18px;
-    border: 3px solid #d8e6f5;
-    border-top-color: #2A73B7;
+    border: 3px solid var(--border-color);
+    border-top-color: var(--accent-color);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
+    transition: border-color 0.3s ease;
 }
 
 @keyframes spin {
@@ -87,38 +92,38 @@
 
 .joinRaffleBtn {
     color: white;
-    background: #2A73B7;
+    background: var(--accent-color);
     border: none;
     cursor: pointer;
     padding: 10px 16px;
     border-radius: 14px;
     font-weight: 600;
     min-width: 120px;
-    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+    transition: transform 120ms ease, box-shadow 120ms ease, background 0.3s ease;
 }
 
 .joinRaffleBtn:hover:not(:disabled) {
     transform: translateY(-1px);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
-    background: #1f5a90;
+    box-shadow: 0 6px 14px var(--shadow);
+    background: var(--accent-hover);
 }
 
 .joinRaffleBtnSecondary {
-    color: #2A73B7;
-    background: #e8f0fe;
+    color: var(--accent-color);
+    background: var(--button-secondary-bg);
     border: none;
     cursor: pointer;
     padding: 10px 16px;
     border-radius: 14px;
     font-weight: 600;
     min-width: 120px;
-    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+    transition: transform 120ms ease, box-shadow 120ms ease, background 0.3s ease, color 0.3s ease;
 }
 
 .joinRaffleBtnSecondary:hover:not(:disabled) {
     transform: translateY(-1px);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
-    background: #d9e8ff;
+    box-shadow: 0 6px 14px var(--shadow);
+    background: var(--button-secondary-hover);
 }
 
 .joinRaffleBtn:disabled,
@@ -136,7 +141,7 @@
 
 .drawWinnerBtn {
     color: #ffffff;
-    background: #2A73B7;
+    background: var(--accent-color);
     border: none;
     cursor: pointer;
     padding: 10px 16px;
@@ -145,13 +150,13 @@
     font-size: 14px;
     min-width: 140px;
     margin-left: 8px;
-    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+    transition: transform 120ms ease, box-shadow 120ms ease, background 0.3s ease;
 }
 
 .drawWinnerBtn:hover:not(:disabled) {
     transform: translateY(-1px);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
-    background: #1f5a90;
+    box-shadow: 0 6px 14px var(--shadow);
+    background: var(--accent-hover);
 }
 
 .drawWinnerBtn:disabled {
@@ -162,8 +167,8 @@
 }
 
 .raffleEndedBtn {
-    color: #2A73B7;
-    background: #e8f0fe;
+    color: var(--accent-color);
+    background: var(--button-secondary-bg);
     border: none;
     cursor: default;
     pointer-events: none;
@@ -178,14 +183,15 @@
 }
 
 .drawnStatus {
-    color: #2A73B7;
-    background: #e8f0fe;
+    color: var(--accent-color);
+    background: var(--button-secondary-bg);
     border: none;
     padding: 6px 12px;
     border-radius: 14px;
     font-weight: 600;
     display: inline-block;
     font-size: 0.875rem;
+    transition: color 0.3s ease, background-color 0.3s ease;
 }
 
 .toast {

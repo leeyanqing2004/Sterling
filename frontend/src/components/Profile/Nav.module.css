@@ -3,8 +3,9 @@
     align-items: center;
     gap: 12px;
     padding: 12px 20px;
-    background-color: white;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    background-color: var(--bg-primary);
+    box-shadow: 0 2px 6px var(--shadow);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .navToggle {
@@ -26,7 +27,7 @@
     display: block;
     width: 18px;
     height: 2px;
-    background: #2A73B7;
+    background: var(--accent-color);
     border-radius: 2px;
     transition: background 150ms ease;
 }
@@ -38,7 +39,7 @@
     left: 0;
     width: 18px;
     height: 2px;
-    background: #2A73B7;
+    background: var(--accent-color);
     border-radius: 2px;
     transition: transform 180ms ease, opacity 150ms ease;
 }
@@ -77,20 +78,59 @@
 }
 
 .navListItemLink {
-    color: black;
+    color: var(--text-primary);
     text-decoration: none;
     font-weight: 600;
     padding: 0.75em 1.25em;
     border-radius: 0.5em;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.navListItemLink:hover {
+    background-color: var(--bg-tertiary);
 }
 
 .active {
-    background-color: #2A73B7;
+    background-color: var(--accent-color);
     color: white;
 }
 
 .navLogo {
     padding: 0;
+}
+
+.navBottom {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.themeToggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    color: var(--text-primary);
+    transition: background-color 0.2s ease, color 0.3s ease;
+}
+
+.themeToggle:hover {
+    background-color: var(--bg-tertiary);
+}
+
+.themeToggle:active {
+    transform: scale(0.95);
+}
+
+.themeToggle svg {
+    width: 20px;
+    height: 20px;
 }
 
 .logoImg {

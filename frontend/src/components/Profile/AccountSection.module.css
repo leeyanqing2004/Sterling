@@ -5,10 +5,11 @@
 
 .accountSectionDetails {
     /* Decorations */
-    background-color: white;
+    background-color: var(--bg-primary);
     
     /* Spacing */
     padding: 30px;
+    transition: background-color 0.3s ease;
 }
 
 .accountSectionSettings {
@@ -36,10 +37,12 @@
 
 .accountSectionAccountInfoLabel {
     /* Decorations */
-    color: gray;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
 }
 
 .accountSectionAccountInfoValue {
     /* Decorations */
-    color: black;
+    color: var(--text-primary);
+    transition: color 0.3s ease;
 }

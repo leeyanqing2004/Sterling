@@ -1,7 +1,7 @@
 .redempTableContainer {
     display: flex;
     flex-direction: column;
-    background-color: #ffff;
+    background-color: var(--bg-primary);
     padding: 20px;
     gap: 16px;
     flex: 1 1 auto;
@@ -9,14 +9,16 @@
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    border: 1px solid #f1f1f4;
+    box-shadow: 0 2px 8px var(--shadow);
+    border: 1px solid var(--border-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .redempTableTitle {
     font-size: 20px;
-    color: #000000;
+    color: var(--text-primary);
     align-self: flex-start;
+    transition: color 0.3s ease;
 }
 
 :global(.MuiTableContainer-root) {
@@ -25,7 +27,7 @@
 }
 
 :global(.MuiTableCell-head) {
-    color: #2A73B7 !important;
+    color: var(--accent-color) !important;
     font-weight: 700 !important;
     text-align: center !important;
 }
@@ -56,11 +58,12 @@
 
 .rangeInfo {
     font-weight: 600;
-    color: #333;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
 }
 
 :global(.MuiPaginationItem-root.Mui-selected) {
-    background-color: #2A73B7 !important;
+    background-color: var(--accent-color) !important;
     color: white !important;
 }
 
@@ -70,17 +73,19 @@
     justify-content: center;
     gap: 10px;
     font-weight: 600;
-    color: #2A73B7;
+    color: var(--accent-color);
     padding: 8px 0;
+    transition: color 0.3s ease;
 }
 
 .spinner {
     width: 18px;
     height: 18px;
-    border: 3px solid #d8e6f5;
-    border-top-color: #2A73B7;
+    border: 3px solid var(--border-color);
+    border-top-color: var(--accent-color);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
+    transition: border-color 0.3s ease;
 }
 
 @keyframes spin {
@@ -92,6 +97,7 @@
     align-items: center;
     justify-content: center;
     font-weight: 600;
-    color: #2A73B7;
+    color: var(--accent-color);
     padding: 8px 0;
+    transition: color 0.3s ease;
 }

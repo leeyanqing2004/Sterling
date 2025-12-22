@@ -11,13 +11,15 @@ button {
 }
 
 a {
-    color: #2A73B7;
+    color: var(--accent-color);
     font-weight: bold;
+    transition: color 0.3s ease;
 }
 
 #forgotpass {
     align-self: flex-end;
-    color: #8E8E93;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
 }
 
 #passreq {
@@ -25,9 +27,10 @@ a {
 }
 
 .fieldError {
-    color: #b3261e;
+    color: var(--error-color);
     font-size: 12px;
     margin-top: -4px;
     margin-bottom: -8px;
     align-self: flex-start;
+    transition: color 0.3s ease;
 }

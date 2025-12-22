@@ -59,8 +59,10 @@ function Nav({ id, onToggleNav, navOpen = true, className = "" }) {
                     <Link className={`${styles.navListItemLink} ${isProfile ? styles.active : ""}`} to={profilePath}>Profile</Link>
                 </li>
             </ul>
-            <div className={`${styles.navListItem} ${styles.navLogo}`} >
-                <img src="/logo.svg" className={styles.logoImg} />
+            <div className={styles.navBottom}>
+                <div className={`${styles.navListItem} ${styles.navLogo}`} >
+                    <img src="/logo.svg" className={styles.logoImg} />
+                </div>
             </div>
         </nav>
     );

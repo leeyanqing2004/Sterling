@@ -8,10 +8,18 @@
 
     text-align: center;
     width: 100%;
+    color: var(--text-primary);
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.pageButton:hover {
+    background-color: var(--bg-tertiary);
+    border-radius: 0.5em;
 }
 
 .pageButtonActive {
-    background-color: #2A73B7;
+    background-color: var(--accent-color);
     color: white;
     border-radius: 0.5em;
+    transition: background-color 0.3s ease;
 }

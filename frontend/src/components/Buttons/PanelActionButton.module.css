@@ -1,6 +1,6 @@
 .panelActionButton {
-    background-color: #ffffff;
-    color: #2A73B7;
+    background-color: var(--bg-primary);
+    color: var(--accent-color);
     font-weight: 600;
     border: none;
     border-radius: 12px;
@@ -11,13 +11,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform 0.15s ease, color 0.15s ease;
+    transition: transform 0.15s ease, color 0.15s ease, background-color 0.3s ease;
     width: 100%;
+}
+
+.panelActionButton:hover {
+    background-color: var(--bg-tertiary);
 }
 
 .panelActionButton:disabled {
     cursor: not-allowed;
-    color: #9aa5b1;
+    color: var(--text-tertiary);
     box-shadow: none;
 }
 
@@ -28,7 +32,7 @@
 }
 
 .accent {
-    color: #1F4F82;
+    color: var(--accent-hover);
 }
 
 

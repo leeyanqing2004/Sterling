@@ -1,26 +1,28 @@
 .userTableContainer {
     display: flex;
     flex-direction: column;
-    background-color: #ffff;
+    background-color: var(--bg-primary);
     padding: 30px;
     gap: 20px;
     border-radius: 10px;
+    transition: background-color 0.3s ease;
 }
 
 .userTableTitle {
     font-size: 20px;
-    color: #000000;
+    color: var(--text-primary);
     align-self: flex-start;
+    transition: color 0.3s ease;
 }
 
 :global(.MuiTableCell-head) {
-    color: #2A73B7 !important;
+    color: var(--accent-color) !important;
     font-weight: 700 !important;
     text-align: center !important;
 }
 
 .manageBtn {
-    color: #2A73B7;
+    color: var(--accent-color);
     background: none;
     border: none;
     cursor: pointer;
@@ -28,7 +30,7 @@
     border-radius: 0;
     font-weight: 600;
     min-width: 0;
-    transition: transform 120ms ease;
+    transition: transform 120ms ease, color 0.3s ease;
 }
 
 .manageBtn:hover {
@@ -38,10 +40,11 @@
 .userTableEmpty {
     text-align: center !important;
     padding: 20px !important;
-    color: #777;
+    color: var(--text-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: color 0.3s ease;
 }
 
 :global(.MuiTableCell-body) {
@@ -50,36 +53,36 @@
 
 .actionBtn {
     color: white;
-    background: #2A73B7;
+    background: var(--accent-color);
     border: none;
     cursor: pointer;
     padding: 10px 16px;
     border-radius: 14px;
     font-weight: 600;
     min-width: 120px;
-    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+    transition: transform 120ms ease, box-shadow 120ms ease, background 0.3s ease;
 }
 
 .actionBtn:hover {
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
-    background: #1f5a90;
+    box-shadow: 0 6px 14px var(--shadow);
+    background: var(--accent-hover);
 }
 
 .actionBtnSecondary {
-    color: #2A73B7;
-    background: #e8f0fe;
+    color: var(--accent-color);
+    background: var(--button-secondary-bg);
     border: none;
     cursor: pointer;
     padding: 10px 16px;
     border-radius: 14px;
     font-weight: 600;
     min-width: 120px;
-    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+    transition: transform 120ms ease, box-shadow 120ms ease, background 0.3s ease, color 0.3s ease;
 }
 
 .actionBtnSecondary:hover {
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
-    background: #d9e8ff;
+    box-shadow: 0 6px 14px var(--shadow);
+    background: var(--button-secondary-hover);
 }
 
 .actionBtn:disabled,
@@ -117,11 +120,12 @@
 
 .rangeInfo {
     font-weight: 600;
-    color: #333;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
 }
 
 :global(.MuiPaginationItem-root.Mui-selected) {
-    background-color: #2A73B7 !important;
+    background-color: var(--accent-color) !important;
     color: white !important;
 }
 
@@ -131,17 +135,19 @@
     justify-content: center;
     gap: 10px;
     font-weight: 600;
-    color: #2A73B7;
+    color: var(--accent-color);
     padding: 8px 0;
+    transition: color 0.3s ease;
 }
 
 .spinner {
     width: 18px;
     height: 18px;
-    border: 3px solid #d8e6f5;
-    border-top-color: #2A73B7;
+    border: 3px solid var(--border-color);
+    border-top-color: var(--accent-color);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
+    transition: border-color 0.3s ease;
 }
 
 @keyframes spin {
@@ -149,10 +155,11 @@
 }
 
 .suspiciousRow {
-    background: #ffe8e8;
-    border-left: 4px solid #e26a6a;
+    background: var(--suspicious-row-bg);
+    border-left: 4px solid var(--suspicious-row-border);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .suspiciousRow :global(.MuiTableCell-root) {
-    background: #ffe8e8 !important;
+    background: var(--suspicious-row-bg) !important;
 }

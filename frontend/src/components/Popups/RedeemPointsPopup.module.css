@@ -33,8 +33,9 @@
     padding: 1.5em 1.5em 2.5em 1.5em;
 
     /* Decorations */
-    background-color: white;
+    background-color: var(--bg-primary);
     border-radius: 1em;
+    transition: background-color 0.3s ease;
 }
 
 .redeemPointsPopupCloseButton {
@@ -53,16 +54,16 @@
     line-height: 1em;
     
     /* Decorations */
-    color: black;
+    color: var(--text-primary);
     background: none;
     border: none;
     border-radius: 50%;
-    transition: background 0.15s ease;
+    transition: background 0.15s ease, color 0.3s ease;
     font-size: 16px;
 }
 
 .redeemPointsPopupCloseButton:hover {
-    background: rgba(15, 23, 42, 0.06);
+    background: var(--bg-tertiary);
 }
 
 .redeemPointsPopupTitle {
@@ -70,7 +71,8 @@
     margin: 10px 0px;
 
     /* Decorations */
-    color: black;
+    color: var(--text-primary);
+    transition: color 0.3s ease;
 }
 
 .redeemPointsPopupAmountOfPoints {
@@ -83,7 +85,8 @@
 .redeemPointsPopupAmountOfPointsLabel {
     /* Layout */
     display: block;
-    color: black;
+    color: var(--text-primary);
+    transition: color 0.3s ease;
     
     /* Spacing */
     margin: 8px 0px 6px 0px;
@@ -100,9 +103,12 @@
     padding: 0.85em;
 
     /* Decorations */
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 1em !important;
     font-family: inherit;
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
 }
 
 .redeemPointsPopupError {
@@ -123,7 +129,8 @@
 .redeemPointsPopupRemarksLabel { 
     /* Layout */
     display: block;
-    color: black;
+    color: var(--text-primary);
+    transition: color 0.3s ease;
 
     /* Spacing */
     margin: 8px 0px 6px 0px;
@@ -135,12 +142,15 @@
     padding: 0.85em;
 
     /* Decorations */
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 1em !important;
     width: 100%;
     box-sizing: border-box;
     resize: none;
     font-family: inherit;
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
 }
 
 .redeemPointsPopupSubmitButton {

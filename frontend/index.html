@@ -5,6 +5,22 @@
     <link rel="icon" type="image/svg+xml" href="/sterling_logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sterling</title>
+    <script>
+      // Apply theme immediately to prevent flash of unstyled content
+      (function() {
+        const stored = localStorage.getItem('sterling-theme');
+        let theme = 'light';
+        if (stored !== null) {
+          theme = stored;
+        } else {
+          // Check system preference
+          if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            theme = 'dark';
+          }
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

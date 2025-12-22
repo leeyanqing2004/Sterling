@@ -10,8 +10,9 @@
 .leftNavMenuBar {
     width: 16px;
     height: 2px;
-    background: #7d7d7d;
+    background: var(--text-secondary);
     border-radius: 3px;
+    transition: background 0.3s ease;
 }
 
 .leftNav {
@@ -20,9 +21,10 @@
     height: 100vh;
     min-height: 100vh;
     width: 250px;
-    background-color: white;
-    border-right: 1px solid #e5e7eb;
+    background-color: var(--bg-primary);
+    border-right: 1px solid var(--border-color);
     position: relative;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .leftNavLeftTop {
@@ -61,22 +63,23 @@
     justify-content: center;
     align-items: center;
     padding: 16px 20px 24px;
-    background-color: white;
+    background-color: var(--bg-primary);
     width: 100%;
     position: sticky;
     bottom: 0;
     left: 0;
     box-sizing: border-box;
+    transition: background-color 0.3s ease;
 }
 
 .leftNavLogoutButton {
-    background: #ffffff;
-    border: 1px solid #d9e2ec;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
     cursor: pointer;
     width: 40px;
     height: 40px;
     border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 6px var(--shadow);
     transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.15s ease, border-color 0.15s ease;
     display: inline-flex;
     align-items: center;
@@ -86,9 +89,9 @@
 
 .leftNavLogoutButton:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
-    background: #f3f6ff;
-    border-color: #c7d4e6;
+    box-shadow: 0 4px 10px var(--shadow);
+    background: var(--bg-tertiary);
+    border-color: var(--border-color);
 }
 
 .leftNavLogoutButton:active {
@@ -99,12 +102,12 @@
 .leftNavLogoutIcon {
     width: 22px;
     height: 22px;
-    fill: #2A73B7;
+    fill: var(--accent-color);
     transition: fill 0.15s ease;
 }
 
 .leftNavLogoutButton:hover .leftNavLogoutIcon {
-    fill: #1f5a90;
+    fill: var(--accent-hover);
 }
 
 .left-nav-left-top img {
@@ -125,6 +128,8 @@
     margin: 0;
     font-size: 18px;
     font-weight: 700;
+    color: var(--text-primary);
+    transition: color 0.3s ease;
 }
 
 :global(.left-nav-user-details) {
@@ -139,13 +144,13 @@
 }
 
 :global(.left-nav-UTORid) {
-    color: #374151;
+    color: var(--text-secondary);
     font-size: 13px;
     font-weight: 600;
 }
 
 :global(.left-nav-user-role) {
-    color: #374151;
+    color: var(--text-secondary);
     font-size: 13.5px;
     font-weight: 600;
     letter-spacing: 0.1px;

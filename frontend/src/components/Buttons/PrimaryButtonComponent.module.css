@@ -1,5 +1,5 @@
 .primaryButton {
-    background: linear-gradient(120deg, #2A73B7, #1f5a90);
+    background: linear-gradient(120deg, var(--accent-color), var(--accent-hover));
     color: #ffffff;
     font-weight: 700;
     font-size: 15px;
@@ -9,8 +9,8 @@
     border-radius: 12px;
     cursor: pointer;
     width: 100%;
-    box-shadow: 0 10px 20px rgba(42, 115, 183, 0.18);
-    transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.15s ease;
+    box-shadow: 0 10px 20px var(--shadow);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.15s ease, background 0.3s ease;
 }
 
 .primaryButton:hover {

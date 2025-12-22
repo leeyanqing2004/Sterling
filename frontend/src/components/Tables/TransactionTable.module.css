@@ -1,26 +1,28 @@
 .transactionTableContainer {
     display: flex;
     flex-direction: column;
-    background-color: #ffff;
+    background-color: var(--bg-primary);
     padding: 30px;
     gap: 20px;
     border-radius: 10px;
+    transition: background-color 0.3s ease;
 }
 
 .transactionTableTitle {
     font-size: 20px;
-    color: #000000;
+    color: var(--text-primary);
     align-self: flex-start;
+    transition: color 0.3s ease;
 }
 
 :global(.MuiTableCell-head) {
-    color: #2A73B7 !important;
+    color: var(--accent-color) !important;
     font-weight: 700 !important;
     text-align: center !important;
 }
 
 .manageBtn {
-    color: #2A73B7;
+    color: var(--accent-color);
     background: none;
     border: none;
     cursor: pointer;
@@ -28,7 +30,7 @@
     border-radius: 0;
     font-weight: 600;
     min-width: 0;
-    transition: transform 120ms ease;
+    transition: transform 120ms ease, color 0.3s ease;
 }
 
 .manageBtn:hover {
@@ -61,11 +63,12 @@
 
 .rangeInfo {
     font-weight: 600;
-    color: #333;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
 }
 
 :global(.MuiPaginationItem-root.Mui-selected) {
-    background-color: #2A73B7 !important;
+    background-color: var(--accent-color) !important;
     color: white !important;
 }
 
@@ -75,17 +78,19 @@
     justify-content: center;
     gap: 10px;
     font-weight: 600;
-    color: #2A73B7;
+    color: var(--accent-color);
     padding: 8px 0;
+    transition: color 0.3s ease;
 }
 
 .spinner {
     width: 18px;
     height: 18px;
-    border: 3px solid #d8e6f5;
-    border-top-color: #2A73B7;
+    border: 3px solid var(--border-color);
+    border-top-color: var(--accent-color);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
+    transition: border-color 0.3s ease;
 }
 
 @keyframes spin {
@@ -93,10 +98,11 @@
 }
 
 .suspiciousRow {
-    background: #ffe8e8;
-    border-left: 4px solid #e26a6a;
+    background: var(--suspicious-row-bg);
+    border-left: 4px solid var(--suspicious-row-border);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .suspiciousRow :global(.MuiTableCell-root) {
-    background: #ffe8e8 !important;
+    background: var(--suspicious-row-bg) !important;
 }

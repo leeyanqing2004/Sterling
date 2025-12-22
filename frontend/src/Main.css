@@ -1,9 +1,388 @@
+:root {
+    /* Light theme colors */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f2f2f7;
+    --bg-tertiary: #f9f9f9;
+    --text-primary: #000000;
+    --text-secondary: #666666;
+    --text-tertiary: #999999;
+    --border-color: #e5e7eb;
+    --accent-color: #2A73B7;
+    --accent-hover: #1e5a8f;
+    --error-color: #d9534f;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --table-bg: #ffffff;
+    --table-row-hover: #f5f5f5;
+    --table-border: #e5e7eb;
+    --button-secondary-bg: #e8f0fe;
+    --button-secondary-hover: #d9e8ff;
+    --suspicious-row-bg: #ffe8e8;
+    --suspicious-row-border: #e26a6a;
+}
+
+[data-theme="dark"] {
+    /* Dark theme colors */
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --bg-tertiary: #252525;
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+    --text-tertiary: #808080;
+    --border-color: #404040;
+    --accent-color: #4a9eff;
+    --accent-hover: #6bb3ff;
+    --error-color: #ff6b6b;
+    --shadow: rgba(0, 0, 0, 0.3);
+    --table-bg: #1f1f1f;
+    --table-row-hover: #2a2a2a;
+    --table-border: #333333;
+    --button-secondary-bg: #2a3a4a;
+    --button-secondary-hover: #344a5f;
+    --suspicious-row-bg: #3a1f1f;
+    --suspicious-row-border: #5a2a2a;
+}
+
 body {
     font-family: system-ui;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, p {
     margin: 0;
+    color: var(--text-primary);
+}
+
+/* Global Material-UI table styles for dark mode */
+[data-theme="dark"] :global(.MuiTable-root) {
+    background-color: var(--table-bg) !important;
+}
+
+[data-theme="dark"] :global(.MuiTableContainer-root) {
+    background-color: var(--table-bg) !important;
+}
+
+[data-theme="dark"] :global(.MuiTableHead-root) {
+    background-color: var(--table-bg) !important;
+}
+
+[data-theme="dark"] :global(.MuiTableBody-root) {
+    background-color: var(--table-bg) !important;
+}
+
+[data-theme="dark"] :global(.MuiTableCell-root) {
+    color: var(--text-primary) !important;
+    border-color: var(--table-border) !important;
+    background-color: transparent !important;
+}
+
+[data-theme="light"] :global(.MuiTableCell-root) {
+    color: var(--text-primary) !important;
+    border-color: var(--table-border) !important;
+    background-color: transparent !important;
+}
+
+[data-theme="dark"] :global(.MuiTableRow-root) {
+    background-color: var(--table-bg) !important;
+}
+
+[data-theme="dark"] :global(.MuiTableRow-root:hover),
+[data-theme="light"] :global(.MuiTableRow-root:hover) {
+    background-color: var(--table-row-hover) !important;
+}
+
+[data-theme="dark"] :global(.MuiTableRow-root:hover .MuiTableCell-root) {
+    background-color: var(--table-row-hover) !important;
+}
+
+/* Force all Paper components to use dark background */
+[data-theme="dark"] :global(.MuiPaper-root) {
+    background-color: var(--table-bg) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] :global(.MuiPaper-elevation),
+[data-theme="dark"] :global(.MuiPaper-elevation0),
+[data-theme="dark"] :global(.MuiPaper-elevation1),
+[data-theme="dark"] :global(.MuiPaper-elevation2),
+[data-theme="dark"] :global(.MuiPaper-elevation3),
+[data-theme="dark"] :global(.MuiPaper-elevation4),
+[data-theme="dark"] :global(.MuiPaper-elevation5),
+[data-theme="dark"] :global(.MuiPaper-elevation6),
+[data-theme="dark"] :global(.MuiPaper-elevation7),
+[data-theme="dark"] :global(.MuiPaper-elevation8),
+[data-theme="dark"] :global(.MuiPaper-elevation9),
+[data-theme="dark"] :global(.MuiPaper-elevation10),
+[data-theme="dark"] :global(.MuiPaper-elevation11),
+[data-theme="dark"] :global(.MuiPaper-elevation12),
+[data-theme="dark"] :global(.MuiPaper-elevation13),
+[data-theme="dark"] :global(.MuiPaper-elevation14),
+[data-theme="dark"] :global(.MuiPaper-elevation15),
+[data-theme="dark"] :global(.MuiPaper-elevation16),
+[data-theme="dark"] :global(.MuiPaper-elevation17),
+[data-theme="dark"] :global(.MuiPaper-elevation18),
+[data-theme="dark"] :global(.MuiPaper-elevation19),
+[data-theme="dark"] :global(.MuiPaper-elevation20),
+[data-theme="dark"] :global(.MuiPaper-elevation21),
+[data-theme="dark"] :global(.MuiPaper-elevation22),
+[data-theme="dark"] :global(.MuiPaper-elevation23),
+[data-theme="dark"] :global(.MuiPaper-elevation24) {
+    background-color: var(--table-bg) !important;
+}
+
+[data-theme="dark"] :global(.MuiTableContainer-root) {
+    background-color: transparent !important;
+}
+
+/* Ensure Paper components inside table containers are dark */
+[data-theme="dark"] :global(.MuiTableContainer-root .MuiPaper-root),
+[data-theme="dark"] :global(.MuiPaper-root .MuiTableContainer-root),
+[data-theme="dark"] :global(.MuiPaper-root .MuiTable-root) {
+    background-color: var(--table-bg) !important;
+}
+
+/* Force table backgrounds for both themes */
+[data-theme="dark"] :global(.MuiTable-root),
+[data-theme="light"] :global(.MuiTable-root) {
+    background-color: var(--table-bg) !important;
+}
+
+[data-theme="light"] :global(.MuiPaper-root) {
+    background-color: var(--table-bg) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="light"] :global(.MuiTableContainer-root) {
+    background-color: transparent !important;
+}
+
+[data-theme="light"] :global(.MuiTableContainer-root .MuiPaper-root),
+[data-theme="light"] :global(.MuiPaper-root .MuiTableContainer-root),
+[data-theme="light"] :global(.MuiPaper-root .MuiTable-root) {
+    background-color: var(--table-bg) !important;
+}
+
+/* Very specific selectors to override Material-UI defaults */
+[data-theme="dark"] :global(div.MuiPaper-root),
+[data-theme="dark"] :global(.MuiPaper-root[class*="MuiPaper"]),
+[data-theme="dark"] :global(.MuiPaper-root[class*="elevation"]) {
+    background-color: var(--table-bg) !important;
+    background: var(--table-bg) !important;
+}
+
+/* Target Paper components that contain tables */
+[data-theme="dark"] :global(.MuiPaper-root:has(.MuiTable-root)),
+[data-theme="dark"] :global(.MuiPaper-root:has(.MuiTableContainer-root)) {
+    background-color: var(--table-bg) !important;
+    background: var(--table-bg) !important;
+}
+
+/* Force all elements inside Paper to inherit dark background */
+[data-theme="dark"] :global(.MuiPaper-root .MuiTable-root),
+[data-theme="dark"] :global(.MuiPaper-root .MuiTableContainer-root),
+[data-theme="dark"] :global(.MuiPaper-root .MuiTableBody-root),
+[data-theme="dark"] :global(.MuiPaper-root .MuiTableHead-root) {
+    background-color: var(--table-bg) !important;
+}
+
+/* Override any inline styles Material-UI might apply */
+[data-theme="dark"] :global(.MuiPaper-root[style*="background-color"]),
+[data-theme="dark"] :global(.MuiPaper-root[style*="background"]) {
+    background-color: var(--table-bg) !important;
+    background: var(--table-bg) !important;
+}
+
+/* Ensure all table cells have proper background and text color */
+[data-theme="dark"] :global(.MuiTableCell-head),
+[data-theme="dark"] :global(.MuiTableCell-body) {
+    background-color: transparent !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="light"] :global(.MuiTableCell-head),
+[data-theme="light"] :global(.MuiTableCell-body) {
+    background-color: transparent !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] :global(.MuiTableRow-root .MuiTableCell-root) {
+    background-color: transparent !important;
+}
+
+[data-theme="dark"] :global(.MuiTableRow-root:hover .MuiTableCell-root) {
+    background-color: var(--table-row-hover) !important;
+}
+
+/* Menu items in selects for both themes */
+[data-theme="dark"] :global(.MuiMenuItem-root),
+[data-theme="light"] :global(.MuiMenuItem-root) {
+    color: var(--text-primary) !important;
+    background-color: var(--bg-primary) !important;
+}
+
+[data-theme="dark"] :global(.MuiMenuItem-root:hover),
+[data-theme="light"] :global(.MuiMenuItem-root:hover) {
+    background-color: var(--bg-tertiary) !important;
+}
+
+[data-theme="dark"] :global(.MuiMenuItem-root.Mui-selected),
+[data-theme="light"] :global(.MuiMenuItem-root.Mui-selected) {
+    background-color: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] :global(.MuiMenuItem-root.Mui-selected:hover),
+[data-theme="light"] :global(.MuiMenuItem-root.Mui-selected:hover) {
+    background-color: var(--bg-tertiary) !important;
+}
+
+[data-theme="dark"] :global(.MuiMenu-paper),
+[data-theme="light"] :global(.MuiMenu-paper) {
+    background-color: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] :global(.MuiPopover-paper),
+[data-theme="light"] :global(.MuiPopover-paper) {
+    background-color: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Pagination styling for both themes */
+[data-theme="dark"] :global(.MuiPagination-root),
+[data-theme="light"] :global(.MuiPagination-root) {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] :global(.MuiPaginationItem-root),
+[data-theme="light"] :global(.MuiPaginationItem-root) {
+    color: var(--text-primary) !important;
+    background-color: transparent !important;
+}
+
+[data-theme="dark"] :global(.MuiPaginationItem-root:hover),
+[data-theme="light"] :global(.MuiPaginationItem-root:hover) {
+    background-color: var(--bg-tertiary) !important;
+}
+
+[data-theme="dark"] :global(.MuiPaginationItem-root.Mui-selected),
+[data-theme="light"] :global(.MuiPaginationItem-root.Mui-selected) {
+    background-color: var(--accent-color) !important;
+    color: white !important;
+}
+
+[data-theme="dark"] :global(.MuiPaginationItem-root.Mui-selected:hover),
+[data-theme="light"] :global(.MuiPaginationItem-root.Mui-selected:hover) {
+    background-color: var(--accent-hover) !important;
+}
+
+[data-theme="dark"] :global(.MuiPaginationItem-icon),
+[data-theme="light"] :global(.MuiPaginationItem-icon) {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] :global(.MuiPaginationItem-ellipsis),
+[data-theme="light"] :global(.MuiPaginationItem-ellipsis) {
+    color: var(--text-secondary) !important;
+}
+
+/* Force pagination text color - more specific selectors */
+[data-theme="dark"] :global(.MuiPaginationItem-root),
+[data-theme="dark"] :global(.MuiPaginationItem-root *),
+[data-theme="dark"] :global(.MuiPaginationItem-root span),
+[data-theme="light"] :global(.MuiPaginationItem-root),
+[data-theme="light"] :global(.MuiPaginationItem-root *),
+[data-theme="light"] :global(.MuiPaginationItem-root span) {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] :global(.MuiPaginationItem-root.Mui-selected),
+[data-theme="dark"] :global(.MuiPaginationItem-root.Mui-selected *),
+[data-theme="dark"] :global(.MuiPaginationItem-root.Mui-selected span),
+[data-theme="light"] :global(.MuiPaginationItem-root.Mui-selected),
+[data-theme="light"] :global(.MuiPaginationItem-root.Mui-selected *),
+[data-theme="light"] :global(.MuiPaginationItem-root.Mui-selected span) {
+    color: white !important;
+}
+
+[data-theme="dark"] :global(.MuiList-root),
+[data-theme="light"] :global(.MuiList-root) {
+    background-color: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] :global(.MuiPaper-root .MuiList-root),
+[data-theme="light"] :global(.MuiPaper-root .MuiList-root) {
+    background-color: var(--bg-primary) !important;
+}
+
+/* Input fields for both themes */
+[data-theme="dark"] :global(.MuiInputBase-root),
+[data-theme="light"] :global(.MuiInputBase-root) {
+    color: var(--text-primary) !important;
+    background-color: var(--bg-tertiary) !important;
+}
+
+[data-theme="dark"] :global(.MuiInputBase-input),
+[data-theme="light"] :global(.MuiInputBase-input) {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] :global(.MuiInputBase-input::placeholder),
+[data-theme="light"] :global(.MuiInputBase-input::placeholder) {
+    color: var(--text-secondary) !important;
+    opacity: 0.7;
+}
+
+[data-theme="dark"] :global(.MuiSelect-select),
+[data-theme="light"] :global(.MuiSelect-select) {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] :global(.MuiOutlinedInput-root),
+[data-theme="light"] :global(.MuiOutlinedInput-root) {
+    background-color: var(--bg-tertiary) !important;
+}
+
+[data-theme="dark"] :global(.MuiOutlinedInput-notchedOutline),
+[data-theme="light"] :global(.MuiOutlinedInput-notchedOutline) {
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] :global(.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline),
+[data-theme="light"] :global(.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline) {
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] :global(.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline),
+[data-theme="light"] :global(.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline) {
+    border-color: var(--accent-color) !important;
+}
+
+[data-theme="dark"] :global(.MuiFormLabel-root),
+[data-theme="light"] :global(.MuiFormLabel-root) {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] :global(.MuiFormLabel-root.Mui-focused),
+[data-theme="light"] :global(.MuiFormLabel-root.Mui-focused) {
+    color: var(--accent-color) !important;
+}
+
+[data-theme="dark"] :global(.MuiFormLabel-root.MuiInputLabel-shrink),
+[data-theme="light"] :global(.MuiFormLabel-root.MuiInputLabel-shrink) {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] :global(.MuiIconButton-root),
+[data-theme="light"] :global(.MuiIconButton-root) {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] :global(.MuiInputAdornment-root),
+[data-theme="light"] :global(.MuiInputAdornment-root) {
+    color: var(--text-secondary) !important;
 }
 
 /* :root {

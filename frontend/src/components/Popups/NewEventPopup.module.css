@@ -11,14 +11,15 @@
 }
 
 .modal {
-    background: #fff;
+    background: var(--bg-primary);
     border-radius: 12px;
     padding: 28px 28px 26px;
     width: 620px;
     max-width: 95vw;
     position: relative;
-    box-shadow: 0 16px 42px rgba(0,0,0,0.18);
+    box-shadow: 0 16px 42px var(--shadow);
     box-sizing: border-box;
+    transition: background-color 0.3s ease;
 }
 
 .closeBtn {
@@ -29,7 +30,7 @@
     border: none;
     font-size: 16px;
     cursor: pointer;
-    color: #444;
+    color: var(--text-primary);
     line-height: 1;
     padding: 0;
     width: 32px;
@@ -38,17 +39,18 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    transition: background 0.15s ease;
+    transition: background 0.15s ease, color 0.3s ease;
 }
 
 .closeBtn:hover {
-    background: rgba(15, 23, 42, 0.06);
+    background: var(--bg-tertiary);
 }
 .title {
     margin: 0 0 16px 0;
     font-size: 20px;
     font-weight: 700;
-    color: #0f172a;
+    color: var(--text-primary);
+    transition: color 0.3s ease;
 }
 
 .formError {
@@ -77,26 +79,29 @@
 .field label {
     font-size: 13px;
     font-weight: 700;
-    color: #111;
+    color: var(--text-primary);
+    transition: color 0.3s ease;
 }
 
 .field input,
 .field select {
     width: 100%;
     padding: 12px 13px;
-    border: 1px solid #d6d8dd;
+    border: 1px solid var(--border-color);
     border-radius: 10px;
     font-size: 14px;
     font-family: inherit;
     box-sizing: border-box;
-    background: #fff;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
 }
 
 .field input:focus,
 .field select:focus {
     outline: none;
-    border-color: #2A73B7;
-    box-shadow: 0 0 0 2px rgba(42, 115, 183, 0.12);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px var(--shadow);
 }
 
 .error {

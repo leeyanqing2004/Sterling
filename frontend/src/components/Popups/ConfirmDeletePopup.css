@@ -13,23 +13,27 @@
 
 .confirm-delete-content {
     position: relative;
-    background: #fff;
+    background: var(--bg-primary);
     border-radius: 10px;
     padding: 1.75em;
     width: 95%;
     max-width: 360px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+    box-shadow: 0 8px 20px var(--shadow);
+    transition: background-color 0.3s ease;
 }
 
 .confirm-delete-content h2 {
     margin: 0 0 0.5em 0;
     font-size: 20px;
+    color: var(--text-primary);
+    transition: color 0.3s ease;
 }
 
 .confirm-delete-content p {
     margin: 0 0 1.25em 0;
-    color: #444;
+    color: var(--text-secondary);
     font-size: 15px;
+    transition: color 0.3s ease;
 }
 
 .confirm-delete-actions {

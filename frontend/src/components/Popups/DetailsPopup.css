@@ -1,14 +1,18 @@
 :root {
     --color-backdrop: rgba(0, 0, 0, 0.5);
-    --color-popup-bg: #fff;
-    --color-primary: #2A73B7;
-    --color-muted: #888;
-    --color-title: #111;
-    --color-info: #333;
-    --color-unrsvp-bg: #E6EEF8;
+    --color-popup-bg: var(--bg-primary);
+    --color-primary: var(--accent-color);
+    --color-muted: var(--text-secondary);
+    --color-title: var(--text-primary);
+    --color-info: var(--text-primary);
+    --color-unrsvp-bg: var(--button-secondary-bg);
     --border-radius: 1em;
     --space-md: 1em;
     --space-lg: 2em;
+}
+
+[data-theme="dark"] {
+    --color-backdrop: rgba(0, 0, 0, 0.7);
 }
 
 .popup-overlay {
@@ -26,12 +30,13 @@
     background: var(--color-popup-bg);
     border-radius: var(--border-radius);
     padding: var(--space-lg);
-    box-shadow: 0 6px 32px rgba(0, 0, 0, 0.16);
+    box-shadow: 0 6px 32px var(--shadow);
     min-width: 320px;
     max-width: 95vw;
     display: flex;
     flex-direction: column;
     gap: var(--space-md);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .confirm-popup-content {
@@ -56,13 +61,18 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    transition: background 0.15s ease;
+    transition: background 0.15s ease, color 0.3s ease;
+}
+
+.close-btn:hover {
+    background: var(--bg-tertiary);
 }
 
 .popup-title {
     color: var(--color-title);
     margin: 0 0 1rem 0;
     font-size: 1.5em;
+    transition: color 0.3s ease;
 }
 
 .info-list {
@@ -83,6 +93,7 @@
     color: var(--color-muted);
     min-width: 120px;
     flex-shrink: 0;
+    transition: color 0.3s ease;
 }
 
 .info-value {
@@ -90,12 +101,14 @@
     color: var(--color-info);
     word-break: break-word;
     flex: 1;
+    transition: color 0.3s ease;
 }
 /* Shared error styling for popups */
 .popup-error {
-    color: #2A73B7;
+    color: var(--accent-color);
     margin-top: 0.25rem;
     font-size: 0.95rem;
+    transition: color 0.3s ease;
 }
 
 .popup-form {
@@ -114,33 +127,38 @@
     font-size: 0.95rem;
     color: var(--color-info);
     font-weight: 500;
+    transition: color 0.3s ease;
 }
 
 .field-input {
     border-radius: 12px;
-    border: 1px solid #d7dce3;
+    border: 1px solid var(--border-color);
     padding: 0.9rem 1rem;
     font-size: 1rem;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.3s ease, color 0.3s ease;
 }
 
 .field-input:focus {
     outline: none;
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(42, 115, 183, 0.1);
+    box-shadow: 0 0 0 3px var(--shadow);
 }
 
 .field-input.has-error {
-    border-color: #d94646;
+    border-color: var(--error-color);
 }
 
 .field-helper {
     font-size: 0.85rem;
     color: var(--color-muted);
+    transition: color 0.3s ease;
 }
 
 .error-text {
-    color: #d94646;
+    color: var(--error-color);
+    transition: color 0.3s ease;
 }
 
 .form-status {

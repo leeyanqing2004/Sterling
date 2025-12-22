@@ -16,9 +16,10 @@
 	width: auto;
 	max-width: 560px;
 	padding: 2em;
-	background-color: #fff;
+	background-color: var(--bg-primary);
 	border-radius: 1em;
-	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 6px 18px var(--shadow);
+	transition: background-color 0.3s ease;
 }
 
 .closeButton {
@@ -30,18 +31,18 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	color: black;
+	color: var(--text-primary);
 	background: none;
 	border: none;
 	border-radius: 50%;
-	transition: background 0.15s ease;
+	transition: background 0.15s ease, color 0.3s ease;
 }
 
-.closeButton:hover { background: rgba(15, 23, 42, 0.06); }
+.closeButton:hover { background: var(--bg-tertiary); }
 
-.title { margin: 10px 0; color: black; }
-.label { margin: 10px 0; color: black; display: block; }
-.input { margin: 10px 0; padding: 1em; border: 1px solid #ccc; border-radius: 1em; width: 100%; }
+.title { margin: 10px 0; color: var(--text-primary); transition: color 0.3s ease; }
+.label { margin: 10px 0; color: var(--text-primary); display: block; transition: color 0.3s ease; }
+.input { margin: 10px 0; padding: 1em; border: 1px solid var(--border-color); border-radius: 1em; width: 100%; background-color: var(--bg-tertiary); color: var(--text-primary); transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease; }
 
 .pointsRow { margin-bottom: 8px; font-weight: 600; }
 .toggleRow { display: flex; gap: 16px; margin: 8px 0; align-items: center; }
@@ -57,7 +58,7 @@
   margin: 0; /* remove default offset */
 }
 
-.error { color: #2A73B7; margin-top: 8px; }
+.error { color: var(--accent-color); margin-top: 8px; transition: color 0.3s ease; }
 .actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
-.saveButton { background: #2A73B7; color: #fff; border: none; border-radius: 0.5em; padding: 1em; cursor: pointer; }
-.cancelBtn { background: #eee; color: #333; border: none; border-radius: 0.5em; padding: 1em; cursor: pointer; }
+.saveButton { background: var(--accent-color); color: #fff; border: none; border-radius: 0.5em; padding: 1em; cursor: pointer; transition: background-color 0.3s ease; }
+.cancelBtn { background: var(--bg-tertiary); color: var(--text-primary); border: none; border-radius: 0.5em; padding: 1em; cursor: pointer; transition: background-color 0.3s ease, color 0.3s ease; }

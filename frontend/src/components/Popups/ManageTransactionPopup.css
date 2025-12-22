@@ -31,8 +31,9 @@
     padding: 1.75em 1.75em 3em 1.75em;
 
     /* Decorations */
-    background-color: white;
+    background-color: var(--bg-primary);
     border-radius: 1em;
+    transition: background-color 0.3s ease;
 }
 
 .manage-transaction-popup-close-button {
@@ -51,17 +52,17 @@
     line-height: 1em;
     
     /* Decorations */
-    color: black;
+    color: var(--text-primary);
     background: none;
     border: none;
     font-size: 16px;
     border-radius: 50%;
-    transition: background 0.15s ease;
+    transition: background 0.15s ease, color 0.3s ease;
     cursor: pointer;
 }
 
 .manage-transaction-popup-close-button:hover {
-    background: rgba(15, 23, 42, 0.06);
+    background: var(--bg-tertiary);
 }
 
 .manage-transaction-popup-title {
@@ -69,7 +70,8 @@
     margin: 6px 0px 12px 0px;
 
     /* Decorations */
-    color: black;
+    color: var(--text-primary);
+    transition: color 0.3s ease;
 }
 
 .manage-transaction-popup-field {
@@ -83,7 +85,8 @@
     /* Layout */
     display: block;
     width: 100%;
-    color: black;
+    color: var(--text-primary);
+    transition: color 0.3s ease;
     
     /* Spacing */
     margin: 10px 0px;
@@ -99,8 +102,11 @@
     padding: 1em;
 
     /* Decorations */
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 1em !important;
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
 }
 
 .mtp-field {
@@ -113,17 +119,20 @@
 .mtp-field textarea {
     width: 100%;
     padding: 8px 12px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     font-size: 14px;
     font-family: inherit;
     resize: vertical;
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
 }
 
 .mtp-field textarea:focus {
     outline: none;
-    border-color: #1976d2;
-    box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px var(--shadow);
 }
 
 .mtp-remark-field {
@@ -143,8 +152,11 @@
     padding: 1em;
 
     /* Decorations */
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 1em !important;
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
 }
 
 .manage-transaction-popup-error {
@@ -181,6 +193,8 @@
 .mtp-title {
     font-size: 18px;
     font-weight: 700;
+    color: var(--text-primary);
+    transition: color 0.3s ease;
 }
 
 .mtp-actions {
@@ -193,13 +207,13 @@
     background: none;
     cursor: pointer;
     font-size: 22px;
-    color: #444;
+    color: var(--text-secondary);
     width: 44px;
     height: 44px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.15s ease, transform 0.1s ease;
+    transition: background-color 0.15s ease, transform 0.1s ease, color 0.3s ease;
 }
 
 .mtp-flag:hover {
@@ -227,13 +241,15 @@
 }
 
 .mtp-detail-label {
-    color: #777;
+    color: var(--text-secondary);
     margin-bottom: 2px;
+    transition: color 0.3s ease;
 }
 
 .mtp-detail-value {
-    color: #000;
+    color: var(--text-primary);
     font-weight: 600;
+    transition: color 0.3s ease;
 }
 
 .mtp-primary {
@@ -253,7 +269,8 @@
 }
 
 .mtp-readonly {
-    background: #f6f6f6;
+    background: var(--bg-tertiary);
+    transition: background-color 0.3s ease;
 }
 
 .mtp-error {
@@ -322,8 +339,11 @@
     padding: 0.75em 0.85em;
 
     /* Decorations */
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 1em !important;
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
 }
 
 .mtp-success-container {
@@ -333,28 +353,31 @@
 }
 
 .mtp-success-card {
-    background: #fff;
+    background: var(--bg-primary);
     border-radius: 12px;
     padding: 1.5em 1.75em;
     min-width: 320px;
     max-width: 420px;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+    box-shadow: 0 12px 30px var(--shadow);
     position: relative;
+    transition: background-color 0.3s ease;
 }
 
 .mtp-success-title {
     text-align: center;
     font-weight: 700;
     margin-bottom: 1em;
-    color: #000;
+    color: var(--text-primary);
     line-height: 1.4;
+    transition: color 0.3s ease;
 }
 
 .mtp-success-details {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    color: #111;
+    color: var(--text-primary);
+    transition: color 0.3s ease;
 }
 
 .mtp-success-row {
@@ -364,27 +387,31 @@
 }
 
 .mtp-success-label {
-    color: #666;
+    color: var(--text-secondary);
     font-size: 0.95em;
+    transition: color 0.3s ease;
 }
 
 .mtp-success-value {
     font-weight: 600;
-    color: #000;
+    color: var(--text-primary);
     text-align: right;
+    transition: color 0.3s ease;
 }
 
 .mtp-success-updated {
     margin-top: 1.25em;
     padding-top: 1em;
-    border-top: 1px solid #e5e7eb;
+    border-top: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
     gap: 8px;
+    transition: border-color 0.3s ease;
 }
 
 .mtp-success-updated-title {
     font-weight: 700;
-    color: #2a73b7;
+    color: var(--accent-color);
     margin-bottom: 4px;
+    transition: color 0.3s ease;
 }

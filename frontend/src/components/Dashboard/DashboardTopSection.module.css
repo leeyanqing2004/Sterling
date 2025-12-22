@@ -21,21 +21,20 @@
     padding: 12px 14px;
     border: none;
     border-radius: 10px;
-    background: #2A73B7;
+    background: var(--accent-color);
     color: #fff;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 120ms ease, box-shadow 120ms ease;
+    transition: transform 120ms ease, box-shadow 120ms ease, background 0.3s ease;
 }
 
 .dashboardPointsActions button.secondary {
-    background: #2A73B7;
-
+    background: var(--accent-color);
 }
 
 .dashboardPointsActions button:hover {
     transform: translateY(-1px);
-    box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+    box-shadow: 0 6px 14px var(--shadow);
 }
 
 .dashboardRaffleAction {
@@ -49,16 +48,16 @@
     padding: 12px 14px;
     border: none;
     border-radius: 10px;
-    background: #2A73B7;
+    background: var(--accent-color);
     color: #fff;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 120ms ease, box-shadow 120ms ease;
+    transition: transform 120ms ease, box-shadow 120ms ease, background 0.3s ease;
 }
 
 .dashboardRaffleAction .raffleButton:hover {
     transform: translateY(-1px);
-    box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+    box-shadow: 0 6px 14px var(--shadow);
 }
 
 .dashboardRaffleAction .raffleButton:disabled {
@@ -76,14 +75,16 @@
 
 .dashboardAvailPointsTitle {
     font-size: 20px;
-    color: #000000;
+    color: var(--text-primary);
     text-align: left;
+    transition: color 0.3s ease;
 }
 
 .dashboardAvailPointsAmount {
     font-size: 48px;
     font-weight: bold;
-    color: #000000;
+    color: var(--text-primary);
+    transition: color 0.3s ease;
 }
 
 .dashboardPointsAmountRow {
@@ -95,10 +96,11 @@
 .pointsSpinner {
     width: 32px;
     height: 32px;
-    border: 4px solid #d8e6f5;
-    border-top-color: #2A73B7;
+    border: 4px solid var(--border-color);
+    border-top-color: var(--accent-color);
     border-radius: 50%;
     animation: spin 0.9s linear infinite;
+    transition: border-color 0.3s ease;
 }
 
 @keyframes spin {
@@ -107,11 +109,13 @@
 
 .dashboardStartTransQRTitle {
     font-size: 20px;
-    color: #000000;
+    color: var(--text-primary);
+    transition: color 0.3s ease;
 }
 
 .dashboardStartTransQRImg {
     font-size: 48px;
     font-weight: bold;
-    color: #000000;
+    color: var(--text-primary);
+    transition: color 0.3s ease;
 }

@@ -1,24 +1,145 @@
 .fullscreen {
     width: 100vw;
     height: 100vh;
+    min-height: 100vh;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
     box-sizing: border-box;
+    padding: 20px;
+    position: relative;
 
     background: var(--bg-secondary);
     transition: background-color 0.3s ease;
+    
+    /* Sterling-themed coin pattern */
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(42, 115, 183, 0.12) 0%, transparent 25%),
+        radial-gradient(circle at 80% 70%, rgba(42, 115, 183, 0.12) 0%, transparent 25%),
+        radial-gradient(circle at 50% 50%, rgba(42, 115, 183, 0.08) 0%, transparent 30%),
+        repeating-radial-gradient(
+            circle at 0 0,
+            transparent 0,
+            rgba(42, 115, 183, 0.06) 1px,
+            transparent 2px,
+            transparent 60px
+        );
+    background-size: 100% 100%, 100% 100%, 100% 100%, 120px 120px;
+    background-position: 0% 0%, 100% 100%, 50% 50%, 0 0;
+}
+
+[data-theme="dark"] .fullscreen {
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(74, 158, 255, 0.15) 0%, transparent 25%),
+        radial-gradient(circle at 80% 70%, rgba(74, 158, 255, 0.15) 0%, transparent 25%),
+        radial-gradient(circle at 50% 50%, rgba(74, 158, 255, 0.1) 0%, transparent 30%),
+        repeating-radial-gradient(
+            circle at 0 0,
+            transparent 0,
+            rgba(74, 158, 255, 0.08) 1px,
+            transparent 2px,
+            transparent 60px
+        );
+    background-size: 100% 100%, 100% 100%, 100% 100%, 120px 120px;
+    background-position: 0% 0%, 100% 100%, 50% 50%, 0 0;
+}
+
+.themeToggle {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: none;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    outline: none;
+    box-shadow: 0 2px 8px var(--shadow);
+    z-index: 10;
+}
+
+.themeToggle:hover {
+    background: var(--bg-tertiary);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px var(--shadow);
+}
+
+.themeToggle:focus,
+.themeToggle:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+.themeToggle svg {
+    width: 20px;
+    height: 20px;
+}
+
+@media (max-width: 640px) {
+    .themeToggle {
+        top: 16px;
+        right: 16px;
+        width: 40px;
+        height: 40px;
+    }
+    
+    .themeToggle svg {
+        width: 18px;
+        height: 18px;
+    }
 }
 
 .container {
-    width: 40%;
+    width: 100%;
+    max-width: 480px;
+    background: var(--bg-primary);
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 48px 40px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+[data-theme="dark"] .container {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .loginLogo {
     display: block;
-    margin: 0 auto;
-    height: 48px;
+    margin: 0 auto 32px auto;
+    height: 56px;
     object-fit: contain;
+    transition: filter 0.3s ease;
+}
+
+@media (max-width: 640px) {
+    .container {
+        padding: 32px 24px;
+        border-radius: 12px;
+    }
+    
+    .loginLogo {
+        height: 48px;
+        margin-bottom: 24px;
+    }
 }

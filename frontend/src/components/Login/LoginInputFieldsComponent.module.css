@@ -1,25 +1,45 @@
 form {
     display: flex;
     flex-direction: column;
-    gap: 19px;
+    gap: 20px;
     width: 100%;
     text-align: left;
 }
 
 button {
     width: 100%;
+    margin-top: 4px;
 }
 
 a {
     color: var(--accent-color);
-    font-weight: bold;
-    transition: color 0.3s ease;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease, opacity 0.2s ease;
+    cursor: pointer;
+}
+
+a:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+a:active {
+    opacity: 0.6;
 }
 
 #forgotpass {
     align-self: flex-end;
     color: var(--text-secondary);
-    transition: color 0.3s ease;
+    font-weight: 500;
+    font-size: 14px;
+    transition: color 0.3s ease, opacity 0.2s ease;
+    margin-top: -8px;
+}
+
+#forgotpass:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
 }
 
 #passreq {
@@ -28,9 +48,22 @@ a {
 
 .fieldError {
     color: var(--error-color);
-    font-size: 12px;
-    margin-top: -4px;
-    margin-bottom: -8px;
+    font-size: 13px;
+    margin-top: -12px;
+    margin-bottom: -4px;
     align-self: flex-start;
     transition: color 0.3s ease;
+    font-weight: 500;
+}
+
+form p {
+    text-align: center;
+    margin-top: 8px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+}
+
+form p a {
+    font-weight: 600;
 }

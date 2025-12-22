@@ -1,31 +1,40 @@
 .primaryButton {
-    background: linear-gradient(120deg, var(--accent-color), var(--accent-hover));
+    background: var(--accent-color);
     color: #ffffff;
-    font-weight: 700;
-    font-size: 15px;
-    letter-spacing: 0.2px;
-    padding: 12px 18px;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 0.1px;
+    padding: 14px 24px;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     cursor: pointer;
     width: 100%;
-    box-shadow: 0 10px 20px var(--shadow);
-    transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.15s ease, background 0.3s ease;
+    box-shadow: 0 4px 12px var(--shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, filter 0.2s ease;
+    outline: none;
+    min-height: 48px;
 }
 
 .primaryButton:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 14px 24px rgba(42, 115, 183, 0.22);
-    filter: brightness(1.04);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px var(--shadow);
+    background-color: var(--accent-hover);
+    filter: brightness(1.05);
 }
 
 .primaryButton:active {
     transform: translateY(0);
-    box-shadow: 0 10px 20px rgba(42, 115, 183, 0.18);
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+.primaryButton:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
 }
 
 .primaryButton:disabled {
-    opacity: 0.65;
+    opacity: 0.6;
     cursor: not-allowed;
     box-shadow: none;
+    transform: none;
 }

@@ -24,10 +24,17 @@ import MyRedemptions from "./pages/MyRedemptions.jsx";
 import UserSearch from './pages/UserSearch';
 import AllRaffles from './pages/Raffles';
 import MyRaffles from './pages/MyRaffles';
+import NotFound from './components/NotFound';
+import { useAuth } from './contexts/AuthContext';
 
 function RootRedirect() {
-  const token = localStorage.getItem("token");
-  return token ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />;
+  const { user, authLoading } = useAuth();
+  
+  if (authLoading) {
+    return null; // Show nothing while checking auth
+  }
+  
+  return user ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />;
 }
 
 function App() {
@@ -64,8 +71,9 @@ function App() {
             <Route path="/my-events" element={<MyEvents />} />
             <Route path="/all-raffles" element={<AllRaffles />} />
             <Route path="/my-raffles" element={<MyRaffles />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
+          <Route path="*" element={<NotFound />} />
           </Routes>
         </ThemeProvider>
       </AuthProvider>
